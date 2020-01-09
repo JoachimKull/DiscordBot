@@ -1,0 +1,11 @@
+{
+  "name": "legendbot",
+  "version": "1.0.0",
+  "description": "This Bot will will do various stuff on the fruity discord server.",
+  "main": "bot.js",
+  "author": "JoachimK",
+  "dependencies": {
+    "discord.io": "https://github.com/woor/discord.io/tarball/gateway_v6",
+    "discord.js": "^11.5.1"
+  }
+}
