@@ -5,7 +5,6 @@
 
 // load your credentials stored in a seperate file
 var loginCreds = require('./credentials.json');
-//<script src="/credentials.js"></script>
 
 // Import the discord.js module
 const Discord = require('discord.js');
