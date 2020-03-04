@@ -115,14 +115,26 @@ client.on('message', message => {
     }
   }
 
-  // Commands for MP3 Snippets
+  // Commands for MP3 Snippets //
+  // ------------------------- //
+  // NICE NICE NICE
   if (message.content.toLowerCase() === '/nice') {
     // Voice only works in guilds
     if (!message.guild) return;
 
     message.member.voiceChannel.join().then(connection => {
       // You can play a file or a stream here:
-      const dispatcher = connection.playFile('./SoundSnippets/NICENICENICENICE.mp3', { volume: 1 });
+      const dispatcher = connection.playFile('./SoundSnippets/NICENICENICENICE.mp3', { volume: 0.75 });
+      dispatcher.on("end", end => {message.member.voiceChannel.leave();})
+    }).catch(err => console.log(err));
+  }
+
+  // KEKW
+  if (message.content.toLowerCase() === '/kekw') {
+    if (!message.guild) return;
+
+    message.member.voiceChannel.join().then(connection => {
+      const dispatcher = connection.playFile('./SoundSnippets/KEKW.mp3', { volume: 0.75 });
       dispatcher.on("end", end => {message.member.voiceChannel.leave();})
     }).catch(err => console.log(err));
   }
