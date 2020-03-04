@@ -31,7 +31,7 @@ client.on('message', message => {
 
   if (message.content.toLowerCase() === '!cmds' || message.content.toLowerCase() === '!help') {
     // Print all existing commands
-    message.channel.send('Hey you! \nI only understand certain commands. Here is a list of them: \n"!ping" - you´ll see,\n "!cmds" - shows you a list of all commands,\n "!roles" - shows a List of all available roles,\n "!addRole:apex", "!addRole:cs" and "!addRole:rl" - those will add you the specific role \n').catch((e) => { console.log(e); });
+    message.channel.send('Hey you! \nI only understand certain commands. Here is a list of them: \n"!ping" - you´ll see,\n "!cmds" - shows you a list of all commands,\n "!roles" - shows a List of all available roles,\n "!addRole:apex", "!addRole:cs" and "!addRole:rl" - those will add you the specific role \n\n *Of course you can remove those roles yourself using the following pattern:* "**!rmRole:apex**"').catch((e) => { console.log(e); });
   }
 
   if (message.content.toLowerCase() === '!roles') {
@@ -56,16 +56,16 @@ client.on('message', message => {
   // Commands for getting roles //
   // -------------------------- //
   // APEX LEGENDS
-  if (message.content.toLowerCase() === '!addrole:apex'){
+  if (message.content.toLowerCase() === '!addrole:apex') {
     var role = message.guild.roles.find(role => role.name === "ApexPlayers");
-    if(role === null){
+    if (role === null) {
       console.log(message.member.user.username + " tried to get a non existing role - atleast on this server");
       message.channel.send("Hm...it seems that I know this role but this server does not...").catch((e) => { console.log(e); });
       return;
     }
     var strpd_role = role.toString().replace(/\D/g, "");
     message.channel.send('You requested to be an ApexPlayer...').catch((e) => { console.log(e); });
-    if(message.member.roles.has(strpd_role)){ // Check if member has role
+    if (message.member.roles.has(strpd_role)) { // Check if member has role
       console.log(message.member.user.username + " already has the role: " + role.name);
       message.channel.send("NANI?!... you already are an ApexPlayer").catch((e) => { console.log(e); });
     } else {
@@ -76,16 +76,16 @@ client.on('message', message => {
   }
 
   // CS:GO
-  if (message.content.toLowerCase() === '!addrole:cs'){
+  if (message.content.toLowerCase() === '!addrole:cs') {
     var role = message.guild.roles.find(role => role.name === "CS:GOPlayers");
-    if(role === null){
+    if (role === null) {
       console.log(message.member.user.username + " tried to get a non existing role - atleast on this server");
       message.channel.send("Hm...it seems that I know this role but this server does not...").catch((e) => { console.log(e); });
       return;
     }
     var strpd_role = role.toString().replace(/\D/g, "");
     message.channel.send('You requested to be a CS:GOPlayers...').catch((e) => { console.log(e); });
-    if(message.member.roles.has(strpd_role)){ // Check if member has role
+    if (message.member.roles.has(strpd_role)) { // Check if member has role
       console.log(message.member.user.username + " already has the role: " + role.name);
       message.channel.send("NANI?!... you already are a CS:GOPlayers").catch((e) => { console.log(e); });
     } else {
@@ -96,16 +96,16 @@ client.on('message', message => {
   }
 
   // ROCKET LEAGUE
-  if (message.content.toLowerCase() === '!addrole:rl'){
+  if (message.content.toLowerCase() === '!addrole:rl') {
     var role = message.guild.roles.find(role => role.name === "RocketLeague");
-    if(role === null){
+    if (role === null) {
       console.log(message.member.user.username + " tried to get a non existing role - atleast on this server");
       message.channel.send("Hm...it seems that I know this role but this server does not...").catch((e) => { console.log(e); });
       return;
     }
     var strpd_role = role.toString().replace(/\D/g, "");
     message.channel.send('You requested RocketLeague role...').catch((e) => { console.log(e); });
-    if(message.member.roles.has(strpd_role)){ // Check if member has role
+    if (message.member.roles.has(strpd_role)) { // Check if member has role
       console.log(message.member.user.username + " already has the role: " + role.name);
       message.channel.send("NANI?!... you already have the RocketLeague role").catch((e) => { console.log(e); });
     } else {
@@ -114,6 +114,67 @@ client.on('message', message => {
       message.channel.send("Have fun with your new Role: " + message.member.user.username).catch((e) => { console.log(e); });
     }
   }
+
+
+  // Removing Roles //
+  // -------------- //
+  if (message.content.toLowerCase() === '!rmrole:apex') {
+    var role = message.guild.roles.find(role => role.name === "ApexPlayers");
+    if (role === null) {
+      console.log(message.member.user.username + " tried to remove the role ApexPlayers but failed somehow!");
+      message.channel.send("This server doesn't know this role...").catch((e) => { console.log(e); });
+      return;
+    }
+    var strpd_role = role.toString().replace(/\D/g, "");
+    message.channel.send('Removing role...').catch((e) => { console.log(e); });
+    if (message.member.roles.has(strpd_role)) { // Check if member has role
+      message.member.removeRole(role);
+      console.log(message.member.user.username + " removed himself the role: " + role.name);
+      message.channel.send("Removed the role 'ApexPlayer' from you.\n*...sad bot noises...*").catch((e) => { console.log(e); });
+    } else {
+      console.log(message.member.user.username + " tried to remove a role he doesn't own: " + role.name);
+      message.channel.send("You can't remove a role you don't own!").catch((e) => { console.log(e); });
+    }
+  }
+
+  if (message.content.toLowerCase() === '!rmrole:cs') {
+    var role = message.guild.roles.find(role => role.name === "CS:GOPlayers");
+    if (role === null) {
+      console.log(message.member.user.username + " tried to remove the role CS:GOPlayers but failed somehow!");
+      message.channel.send("This server doesn't know this role...").catch((e) => { console.log(e); });
+      return;
+    }
+    var strpd_role = role.toString().replace(/\D/g, "");
+    message.channel.send('Removing role...').catch((e) => { console.log(e); });
+    if (message.member.roles.has(strpd_role)) { // Check if member has role
+      message.member.removeRole(role);
+      console.log(message.member.user.username + " removed himself the role: " + role.name);
+      message.channel.send("Removed the role 'CS:GOPlayers' from you.\n*...sad bot noises...*").catch((e) => { console.log(e); });
+    } else {
+      console.log(message.member.user.username + " tried to remove a role he doesn't own: " + role.name);
+      message.channel.send("You can't remove a role you don't own!").catch((e) => { console.log(e); });
+    }
+  }
+
+  if (message.content.toLowerCase() === '!rmrole:rl') {
+    var role = message.guild.roles.find(role => role.name === "RocketLeague");
+    if (role === null) {
+      console.log(message.member.user.username + " tried to remove the role RocketLeague but failed somehow!");
+      message.channel.send("This server doesn't know this role...").catch((e) => { console.log(e); });
+      return;
+    }
+    var strpd_role = role.toString().replace(/\D/g, "");
+    message.channel.send('Removing role...').catch((e) => { console.log(e); });
+    if (message.member.roles.has(strpd_role)) { // Check if member has role
+      message.member.removeRole(role);
+      console.log(message.member.user.username + " removed himself the role: " + role.name);
+      message.channel.send("Removed the role 'RocketLeague' from you.\n*...sad bot noises...*").catch((e) => { console.log(e); });
+    } else {
+      console.log(message.member.user.username + " tried to remove a role he doesn't own: " + role.name);
+      message.channel.send("You can't remove a role you don't own!").catch((e) => { console.log(e); });
+    }
+  }
+
 
   // Commands for MP3 Snippets //
   // ------------------------- //
@@ -125,7 +186,7 @@ client.on('message', message => {
     message.member.voiceChannel.join().then(connection => {
       // You can play a file or a stream here:
       const dispatcher = connection.playFile('./SoundSnippets/NICENICENICENICE.mp3', { volume: 0.75 });
-      dispatcher.on("end", end => {message.member.voiceChannel.leave();})
+      dispatcher.on("end", end => { message.member.voiceChannel.leave(); })
     }).catch(err => console.log(err));
   }
 
@@ -135,7 +196,7 @@ client.on('message', message => {
 
     message.member.voiceChannel.join().then(connection => {
       const dispatcher = connection.playFile('./SoundSnippets/KEKW.mp3', { volume: 0.75 });
-      dispatcher.on("end", end => {message.member.voiceChannel.leave();})
+      dispatcher.on("end", end => { message.member.voiceChannel.leave(); })
     }).catch(err => console.log(err));
   }
 
@@ -145,28 +206,29 @@ client.on('message', message => {
 
     message.member.voiceChannel.join().then(connection => {
       const dispatcher = connection.playFile('./SoundSnippets/OMAE.mp3', { volume: 0.75 });
-      dispatcher.on("end", end => {message.member.voiceChannel.leave();})
+      dispatcher.on("end", end => { message.member.voiceChannel.leave(); })
     }).catch(err => console.log(err));
   }
 });
 
-client.on("guildMemberAdd", (member) => {
-    let guild = member.guild; 
-    let memberTag = member.user.tag;
-    let name = member.user.username;
-    let id = member.user.id;
 
-    if(guild.systemChannel){
-      /* guild.systemChannel.send(new Discord.RichEmbed() // Creating instance of Discord.RichEmbed
-      .setTitle("A new user joined") // Calling method setTitle on constructor. 
-      .setDescription(memberTag + " has joined the guild") // Setting embed description
-      .setThumbnail(member.user.displayAvatarURL) // The image on the top right; method requires an url, not a path to file!
-      .addField("Members now", member.guild.memberCount) // Adds a field; First parameter is the title and the second is the value.
-      .setTimestamp() // Sets a timestamp at the end of the embed
-      ); */
-      guild.systemChannel.send("Hello <@" + id + ">, nice to meet you! \nCheck out the Commands I understand with '!cmds'. \nIf you want a Game-Specific-Role you can add it yourself. :) \nIf you need any help or if you have suggestions for improvement contact our Admin-Team. \n\nIn closing: When you enjoy your time here on the server, feel free to invite your friends!").catch((e) => { console.log(e); });
-    }
-  });
+client.on("guildMemberAdd", (member) => {
+  let guild = member.guild;
+  let memberTag = member.user.tag;
+  let name = member.user.username;
+  let id = member.user.id;
+
+  if (guild.systemChannel) {
+    /* guild.systemChannel.send(new Discord.RichEmbed() // Creating instance of Discord.RichEmbed
+    .setTitle("A new user joined") // Calling method setTitle on constructor. 
+    .setDescription(memberTag + " has joined the guild") // Setting embed description
+    .setThumbnail(member.user.displayAvatarURL) // The image on the top right; method requires an url, not a path to file!
+    .addField("Members now", member.guild.memberCount) // Adds a field; First parameter is the title and the second is the value.
+    .setTimestamp() // Sets a timestamp at the end of the embed
+    ); */
+    guild.systemChannel.send("Hello <@" + id + ">, nice to meet you! \nCheck out the Commands I understand with '!cmds'. \nIf you want a Game-Specific-Role you can add it yourself. :) \nIf you need any help or if you have suggestions for improvement contact our Admin-Team. \n\nIn closing: When you enjoy your time here on the server, feel free to invite your friends!").catch((e) => { console.log(e); });
+  }
+});
 
 // Log our bot in using the token from https://discordapp.com/developers/applications/me
 client.login(loginCreds.token);
