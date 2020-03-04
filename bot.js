@@ -138,6 +138,16 @@ client.on('message', message => {
       dispatcher.on("end", end => {message.member.voiceChannel.leave();})
     }).catch(err => console.log(err));
   }
+
+  // OMAE
+  if (message.content.toLowerCase() === '/omae') {
+    if (!message.guild) return;
+
+    message.member.voiceChannel.join().then(connection => {
+      const dispatcher = connection.playFile('./SoundSnippets/OMAE.mp3', { volume: 0.75 });
+      dispatcher.on("end", end => {message.member.voiceChannel.leave();})
+    }).catch(err => console.log(err));
+  }
 });
 
 client.on("guildMemberAdd", (member) => {
