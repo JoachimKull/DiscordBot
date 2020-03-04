@@ -7,6 +7,6 @@ For the easier use the 'discord.js' library is used.
 
 ### TODO
 
-- [ ] !nice: On command - Bot joins voice channel, in wich the user who commanded, and plays a mp3-snippet.
+- [X] !nice: On command - Bot joins voice channel, in wich the user who commanded, and plays a mp3-snippet.
 
 - [ ] !music: On command - Bot joins the voice channel of the calling user and plays the requested song/playlist.
