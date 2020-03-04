@@ -31,12 +31,12 @@ client.on('message', message => {
 
   if (message.content.toLowerCase() === '!cmds' || message.content.toLowerCase() === '!help') {
     // Print all existing commands
-    message.channel.send('Hey you! \nI only understand certain commands. Here is a list of them: \n"!ping" - you´ll see,\n "!cmds" - shows you a list of all commands,\n "!roles" - shows a List of all available roles,\n "!addRole:apex" and "!addRole:cs" - those will add you the specific role \n').catch((e) => { console.log(e); });
+    message.channel.send('Hey you! \nI only understand certain commands. Here is a list of them: \n"!ping" - you´ll see,\n "!cmds" - shows you a list of all commands,\n "!roles" - shows a List of all available roles,\n "!addRole:apex", "!addRole:cs" and "!addRole:rl" - those will add you the specific role \n').catch((e) => { console.log(e); });
   }
 
   if (message.content.toLowerCase() === '!roles') {
     // Print all existing roles
-    message.channel.send('These are the available roles: \n- ApexPlayers \n- CS:GOPlayers \n').catch((e) => { console.log(e); });
+    message.channel.send('These are the available roles: \n- ApexPlayers \n- CS:GOPlayers \n- RocketLeague \n').catch((e) => { console.log(e); });
     //message.guild.roles.findAll
   }
 
@@ -113,6 +113,18 @@ client.on('message', message => {
       console.log(message.member.user.username + " added himself the role: " + role.name);
       message.channel.send("Have fun with your new Role: " + message.member.user.username).catch((e) => { console.log(e); });
     }
+  }
+
+  // Commands for MP3 Snippets
+  if (message.content.toLowerCase() === '/nice') {
+    // Voice only works in guilds
+    if (!message.guild) return;
+
+    message.member.voiceChannel.join().then(connection => {
+      // You can play a file or a stream here:
+      const dispatcher = connection.playFile('./SoundSnippets/NICENICENICENICE.mp3', { volume: 1 });
+      dispatcher.on("end", end => {message.member.voiceChannel.leave();})
+    }).catch(err => console.log(err));
   }
 });
 
