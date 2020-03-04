@@ -9,7 +9,7 @@ For the easier use the 'discord.js' library is used.
 
 - [X] !nice: On command - Bot joins voice channel, in which the user who commanded, and plays a mp3-snippet
 
-- [ ] !rmRole: On command - Bot removes specific role
+- [X] !rmRole: On command - Bot removes specific role
 
 - [ ] regex for auto answer if no known command was send
 
