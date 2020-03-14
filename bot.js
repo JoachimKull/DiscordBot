@@ -114,7 +114,26 @@ client.on('message', message => {
       message.channel.send("Have fun with your new Role: " + message.member.user.username).catch((e) => { console.log(e); });
     }
   }
-
+  // Call of Duty Warzone
+  if (message.content.toLowerCase() === '!addrole:warzone') {
+    var role = message.guild.roles.find(role => role.name === "CoD:Warzone");
+    if (role === null) {
+      console.log(message.member.user.username + " tried to get a non existing role - atleast on this server");
+      message.channel.send("Hm...it seems that I know this role but this server does not...").catch((e) => { console.log(e); });
+      return;
+    }
+    var strpd_role = role.toString().replace(/\D/g, "");
+    message.channel.send('You requested to be an WarzonePlayer...').catch((e) => { console.log(e); });
+    if (message.member.roles.has(strpd_role)) { // Check if member has role
+      console.log(message.member.user.username + " already has the role: " + role.name);
+      message.channel.send("NANI?!... you already are an WarzonePlayer").catch((e) => { console.log(e); });
+    } else {
+      message.member.addRole(role);
+      console.log(message.member.user.username + " added himself the role: " + role.name);
+      message.channel.send("Have fun with your new role: " + message.member.user.username).catch((e) => { console.log(e); });
+    }
+  }
+  
 
   // Removing Roles //
   // -------------- //
