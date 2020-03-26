@@ -4,10 +4,15 @@
   "description": "This Bot will will do various stuff on the fruity discord server.",
   "main": "bot.js",
   "author": "JoachimK",
+  "license": "",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/JoachimKull/DiscordBot"
+  },
   "dependencies": {
     "@discordjs/opus": "^0.1.0",
     "discord.io": "https://github.com/woor/discord.io/tarball/gateway_v6",
-    "discord.js": "^11.5.1",
+    "discord.js": "^11.6.3",
     "ffmpeg-static": "^4.0.1",
     "opusscript": "0.0.7"
   }
