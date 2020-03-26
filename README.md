@@ -13,6 +13,4 @@ For the easier use the 'discord.js' library is used.
 
 - [ ] regex for auto answer if no known command was send
 
-- [ ] !music: On command - Bot joins the voice channel of the calling user and plays the requested song/playlist
-
 - [ ] !casino: Let Members earn points

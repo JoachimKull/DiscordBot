@@ -31,12 +31,12 @@ client.on('message', message => {
 
   if (message.content.toLowerCase() === '!cmds' || message.content.toLowerCase() === '!help') {
     // Print all existing commands
-    message.channel.send('Hey you! \nI only understand certain commands. Here is a list of them: \n"!ping" - you´ll see,\n "!cmds" - shows you a list of all commands,\n "!roles" - shows a List of all available roles,\n "!addRole:apex", "!addRole:cs" and "!addRole:rl" - those will add you the specific role \n\n *Of course you can remove those roles yourself using the following pattern:* "**!rmRole:apex**"').catch((e) => { console.log(e); });
+    message.channel.send('Hey you! \nI only understand certain commands. Here is a list of them: \n"!ping" - you´ll see,\n "!cmds" - shows you a list of all commands,\n "!roles" - shows a List of all available roles,\n "!addRole:apex", "!addRole:cs", "!addRole:rl" and "!addRole:warzone" - those will add you the specific role \n\n *Of course you can remove those roles yourself using the following pattern:* "**!rmRole:apex**"').catch((e) => { console.log(e); });
   }
 
   if (message.content.toLowerCase() === '!roles') {
     // Print all existing roles
-    message.channel.send('These are the available roles: \n- ApexPlayers \n- CS:GOPlayers \n- RocketLeague \n').catch((e) => { console.log(e); });
+    message.channel.send('These are the available roles: \n- ApexPlayers \n- CS:GOPlayers \n- RocketLeague \n- WarzonePlayers \n').catch((e) => { console.log(e); });
     //message.guild.roles.findAll
   }
 
@@ -115,6 +115,25 @@ client.on('message', message => {
     }
   }
 
+  // Call of Duty Warzone
+  if (message.content.toLowerCase() === '!addrole:warzone') {
+    var role = message.guild.roles.find(role => role.name === "WarzonePlayers");
+    if (role === null) {
+      console.log(message.member.user.username + " tried to get a non existing role - atleast on this server");
+      message.channel.send("Hm...it seems that I know this role but this server does not...").catch((e) => { console.log(e); });
+      return;
+    }
+    var strpd_role = role.toString().replace(/\D/g, "");
+    message.channel.send('You requested to be an WarzonePlayer...').catch((e) => { console.log(e); });
+    if (message.member.roles.has(strpd_role)) { // Check if member has role
+      console.log(message.member.user.username + " already has the role: " + role.name);
+      message.channel.send("NANI?!... you already are a WarzonePlayer").catch((e) => { console.log(e); });
+    } else {
+      message.member.addRole(role);
+      console.log(message.member.user.username + " added himself the role: " + role.name);
+      message.channel.send("Have fun with your new role: " + message.member.user.username).catch((e) => { console.log(e); });
+    }
+  }
 
   // Removing Roles //
   // -------------- //
@@ -175,6 +194,24 @@ client.on('message', message => {
     }
   }
 
+  if (message.content.toLowerCase() === '!rmrole:warzone') {
+    var role = message.guild.roles.find(role => role.name === "WarzonePlayers");
+    if (role === null) {
+      console.log(message.member.user.username + " tried to remove the role WarzonePlayer but failed somehow!");
+      message.channel.send("This server doesn't know this role...").catch((e) => { console.log(e); });
+      return;
+    }
+    var strpd_role = role.toString().replace(/\D/g, "");
+    message.channel.send('Removing role...').catch((e) => { console.log(e); });
+    if (message.member.roles.has(strpd_role)) { // Check if member has role
+      message.member.removeRole(role);
+      console.log(message.member.user.username + " removed himself the role: " + role.name);
+      message.channel.send("Removed the role 'WarzonePlayers' from you.\n*...sad bot noises...*").catch((e) => { console.log(e); });
+    } else {
+      console.log(message.member.user.username + " tried to remove a role he doesn't own: " + role.name);
+      message.channel.send("You can't remove a role you don't own!").catch((e) => { console.log(e); });
+    }
+  }
 
   // Commands for MP3 Snippets //
   // ------------------------- //
