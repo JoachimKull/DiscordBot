@@ -227,6 +227,18 @@ client.on('message', message => {
     }).catch(err => console.log(err));
   }
 
+  // CLICK
+  if (message.content.toLowerCase() === '/click') {
+    // Voice only works in guilds
+    if (!message.guild) return;
+
+    message.member.voiceChannel.join().then(connection => {
+      // You can play a file or a stream here:
+      const dispatcher = connection.playFile('./SoundSnippets/CLICK.mp3', { volume: 0.75 });
+      dispatcher.on("end", end => { message.member.voiceChannel.leave(); })
+    }).catch(err => console.log(err));
+  }
+
   // KEKW
   if (message.content.toLowerCase() === '/kekw') {
     if (!message.guild) return;
