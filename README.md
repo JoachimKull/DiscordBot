@@ -14,3 +14,11 @@ For the easier use the 'discord.js' library is used.
 - [ ] regex for auto answer if no known command was send
 
 - [ ] !casino: Let Members earn points
+
+- [ ] refactor code into separate files for better overview
+
+- [ ] add info cmds for all sections (sound and roles)
+
+- [ ] add function for mentioning the bot
+
+- [ ] add mw2 sound snippets as well as (https://www.youtube.com/watch?v=_483t4_ucNs)
