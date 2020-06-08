@@ -31,7 +31,7 @@ client.on('message', message => {
 
   if (message.content.toLowerCase() === '!cmds' || message.content.toLowerCase() === '!help') {
     // Print all existing commands
-    message.channel.send('Hey you! \nI only understand certain commands. Here is a list of them: \n"!ping" - you´ll see,\n "!cmds" - shows you a list of all commands,\n "!roles" - shows a List of all available roles,\n "!addRole:apex", "!addRole:cs", "!addRole:rl" and "!addRole:warzone" - those will add you the specific role \nGo ahead and try it yourself under the channel #bot-commands \n\n *Of course you can remove those roles yourself using the following pattern:* "**!rmRole:apex**"').catch((e) => { console.log(e); });
+    message.channel.send('Hey you! \nI only understand certain commands. Here is a list of them: \n"!ping" - you´ll see,\n "!cmds" - shows you a list of all commands,\n "!roles" - shows a List of all available roles,\n "!addRole:apex", "!addRole:valorant", "!addRole:cs", "!addRole:rl" and "!addRole:warzone" - those will add you the specific role \nGo ahead and try it yourself under the channel <#" + "bot-commands" + "\n\n *Of course you can remove those roles yourself using the following pattern:* "**!rmRole:apex**"').catch((e) => { console.log(e); });
   }
 
   if (message.content.toLowerCase() === '!roles') {
@@ -314,7 +314,7 @@ client.on("guildMemberAdd", (member) => {
     .addField("Members now", member.guild.memberCount) // Adds a field; First parameter is the title and the second is the value.
     .setTimestamp() // Sets a timestamp at the end of the embed
     ); */
-    guild.systemChannel.send("Hello <@" + id + ">, nice to meet you! \nCheck out the Commands I understand with '!cmds'. \nIf you want a Game-Specific-Role you can add it yourself. :) \nGo ahead and try it out under the channel #bot-commands \nIf you need any help or if you have suggestions for improvement contact our Admin-Team. \n\nIn closing: When you enjoy your time here on the server, feel free to invite your friends!").catch((e) => { console.log(e); });
+    guild.systemChannel.send("Hello <@" + id + ">, nice to meet you! \nCheck out the Commands I understand with '!cmds'. \nIf you want a Game-Specific-Role you can add it yourself. :) \nGo ahead and try it out under the channel <#" + "bot-commands" + "\nIf you need any help or if you have suggestions for improvement contact our Admin-Team. \n\nIn closing: When you enjoy your time here on the server, feel free to invite your friends!").catch((e) => { console.log(e); });
   }
 });
 
