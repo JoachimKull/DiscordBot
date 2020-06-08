@@ -12,8 +12,10 @@
   "dependencies": {
     "@discordjs/opus": "^0.1.0",
     "discord.io": "^2.5.3",
-    "discord.js": "^11.6.4",
     "ffmpeg-static": "^4.1.0",
     "opusscript": "0.0.7"
+  },
+  "devDependencies": {
+    "discord.js": "^11.6.4"
   }
 }

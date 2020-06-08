@@ -135,6 +135,26 @@ client.on('message', message => {
     }
   }
 
+  // Valorant
+  if (message.content.toLowerCase() === '!addrole:valorant') {
+    var role = message.guild.roles.find(role => role.name === "ValorantPlayers");
+    if (role === null) {
+      console.log(message.member.user.username + " tried to get a non existing role - atleast on this server");
+      message.channel.send("Hm...it seems that I know this role but this server does not...").catch((e) => { console.log(e); });
+      return;
+    }
+    var strpd_role = role.toString().replace(/\D/g, "");
+    message.channel.send('You requested to be an ValorantPlayer...').catch((e) => { console.log(e); });
+    if (message.member.roles.has(strpd_role)) { // Check if member has role
+      console.log(message.member.user.username + " already has the role: " + role.name);
+      message.channel.send("NANI?!... you already are a ValorantPlayer").catch((e) => { console.log(e); });
+    } else {
+      message.member.addRole(role);
+      console.log(message.member.user.username + " added himself the role: " + role.name);
+      message.channel.send("Have fun with your new role: " + message.member.user.username).catch((e) => { console.log(e); });
+    }
+  }
+
   // Removing Roles //
   // -------------- //
   if (message.content.toLowerCase() === '!rmrole:apex') {
@@ -207,6 +227,25 @@ client.on('message', message => {
       message.member.removeRole(role);
       console.log(message.member.user.username + " removed himself the role: " + role.name);
       message.channel.send("Removed the role 'WarzonePlayers' from you.\n*...sad bot noises...*").catch((e) => { console.log(e); });
+    } else {
+      console.log(message.member.user.username + " tried to remove a role he doesn't own: " + role.name);
+      message.channel.send("You can't remove a role you don't own!").catch((e) => { console.log(e); });
+    }
+  }
+
+  if (message.content.toLowerCase() === '!rmrole:valorant') {
+    var role = message.guild.roles.find(role => role.name === "ValorantPlayers");
+    if (role === null) {
+      console.log(message.member.user.username + " tried to remove the role ValorantPlayer but failed somehow!");
+      message.channel.send("This server doesn't know this role...").catch((e) => { console.log(e); });
+      return;
+    }
+    var strpd_role = role.toString().replace(/\D/g, "");
+    message.channel.send('Removing role...').catch((e) => { console.log(e); });
+    if (message.member.roles.has(strpd_role)) { // Check if member has role
+      message.member.removeRole(role);
+      console.log(message.member.user.username + " removed himself the role: " + role.name);
+      message.channel.send("Removed the role 'ValorantPlayers' from you.\n*...sad bot noises...*").catch((e) => { console.log(e); });
     } else {
       console.log(message.member.user.username + " tried to remove a role he doesn't own: " + role.name);
       message.channel.send("You can't remove a role you don't own!").catch((e) => { console.log(e); });
