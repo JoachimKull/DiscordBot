@@ -31,7 +31,7 @@ client.on('message', message => {
 
   if (message.content.toLowerCase() === '!cmds' || message.content.toLowerCase() === '!help') {
     // Print all existing commands
-    message.channel.send('Hey you! \nI only understand certain commands. Here is a list of them: \n"!ping" - you´ll see,\n "!cmds" - shows you a list of all commands,\n "!roles" - shows a List of all available roles,\n "!addRole:apex", "!addRole:valorant", "!addRole:cs", "!addRole:rl" and "!addRole:warzone" - those will add you the specific role \nGo ahead and try it yourself under the channel <' + "#" + 'bot-commands + \n\n *Of course you can remove those roles yourself using the following pattern:* "**!rmRole:apex**"').catch((e) => { console.log(e); });
+    message.channel.send('Hey you! \nI only understand certain commands. Here is a list of them: \n"!ping" - you´ll see,\n "!cmds" - shows you a list of all commands,\n "!roles" - shows a List of all available roles,\n "!addRole:apex", "!addRole:valorant", "!addRole:cs", "!addRole:rl" and "!addRole:warzone" - those will add you the specific role \nGo ahead and try it yourself under the channel "<#"+"bot-commands"\n\n *Of course you can remove those roles yourself using the following pattern:* "**!rmRole:apex**"').catch((e) => { console.log(e); });
   }
 
   if (message.content.toLowerCase() === '!roles') {
