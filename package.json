@@ -1,10 +1,10 @@
 {
   "name": "legendbot",
-  "version": "1.0.1",
-  "description": "This Bot will will do various stuff on the fruity discord server.",
-  "main": "bot.js",
-  "author": "JoachimK",
-  "license": "",
+  "version": "1.1.0",
+  "description": "This Bot will will do various stuff on the FruitCommunity discord server.",
+  "main": "main.js",
+  "author": "Joachim Kull",
+  "license": "MIT",
   "repository": {
     "type": "git",
     "url": "https://github.com/JoachimKull/DiscordBot"
