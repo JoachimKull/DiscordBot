@@ -18,6 +18,8 @@ const client = new Discord.Client();
  */
 client.on('ready', () => {
   console.log('LegendBot is ready!');
+  // Set a game activity for the bot
+  client.user.setActivity("LegendBot | !help");
 });
 
 // Create an event listener for messages
@@ -36,7 +38,7 @@ client.on('message', message => {
 
   if (message.content.toLowerCase() === '!roles') {
     // Print all existing roles
-    message.channel.send('These are the available roles: \n- ApexPlayers \n- CS:GOPlayers \n- RocketLeague \n- WarzonePlayers \n').catch((e) => { console.log(e); });
+    message.channel.send('These are the available roles: \n- ApexPlayers \n- ValorantPlayers \n- CS:GOPlayers \n- RocketLeague \n- WarzonePlayers \n').catch((e) => { console.log(e); });
     //message.guild.roles.findAll
   }
 
@@ -252,59 +254,43 @@ client.on('message', message => {
     }
   }
 
-  // Commands for MP3 Snippets //
+  // Routine for MP3 Snippets //
   // ------------------------- //
-  // NICE NICE NICE
-  if (message.content.toLowerCase() === '/nice') {
+  const soundsFolder = './SoundSnippets/';
+  const fs = require('fs');
+  if (message.content.startsWith('/')) {
     // Voice only works in guilds
     if (!message.guild) return;
+    try {
+      // Remove the / from the message and add the .mp3 ending
+      var msg = message.content.toLowerCase().concat('.mp3').slice(1);
+      var pathToFile = soundsFolder.concat(msg);
+      var vc = message.member.voiceChannel;
 
-    message.member.voiceChannel.join().then(connection => {
-      // You can play a file or a stream here:
-      const dispatcher = connection.playFile('./SoundSnippets/NICENICENICENICE.mp3', { volume: 0.5 });
-      dispatcher.on("end", end => { message.member.voiceChannel.leave(); })
-    }).catch(err => console.log(err));
-  }
-
-  // CLICK
-  if (message.content.toLowerCase() === '/click') {
-    // Voice only works in guilds
-    if (!message.guild) return;
-
-    message.member.voiceChannel.join().then(connection => {
-      // You can play a file or a stream here:
-      const dispatcher = connection.playFile('./SoundSnippets/CLICK.mp3', { volume: 0.5 });
-      dispatcher.on("end", end => { message.member.voiceChannel.leave(); })
-    }).catch(err => console.log(err));
-  }
-
-  // KEKW
-  if (message.content.toLowerCase() === '/kekw') {
-    if (!message.guild) return;
-
-    message.member.voiceChannel.join().then(connection => {
-      const dispatcher = connection.playFile('./SoundSnippets/KEKW.mp3', { volume: 0.5 });
-      dispatcher.on("end", end => { message.member.voiceChannel.leave(); })
-    }).catch(err => console.log(err));
-  }
-
-  // OMAE
-  if (message.content.toLowerCase() === '/omae') {
-    if (!message.guild) return;
-
-    message.member.voiceChannel.join().then(connection => {
-      const dispatcher = connection.playFile('./SoundSnippets/OMAE.mp3', { volume: 0.5 });
-      dispatcher.on("end", end => { message.member.voiceChannel.leave(); })
-    }).catch(err => console.log(err));
+      // Iterate over snippets
+      fs.readdir(soundsFolder, (err, files) => {
+        files.forEach(file => {
+          if (file === msg) {
+            vc.join().then(connection => {
+              const dispatcher = connection.playFile(pathToFile, { volume: 0.5 });
+              dispatcher.on('end', end => { vc.leave(); })
+            }).catch(err => console.log(err));
+          }
+        });
+      });
+    } catch (error) {
+      console.log('Unknown input for sound snippets: ' + message);
+    }
   }
 });
 
 
-client.on("guildMemberAdd", (member) => {
-  let guild = member.guild;
-  let memberTag = member.user.tag;
-  let name = member.user.username;
-  let id = member.user.id;
+
+client.on('guildMemberAdd', (member) => {
+  var guild = member.guild;
+  var memberTag = member.user.tag;
+  var name = member.user.username;
+  var id = member.user.id;
 
   if (guild.systemChannel) {
     /* guild.systemChannel.send(new Discord.RichEmbed() // Creating instance of Discord.RichEmbed
@@ -314,7 +300,9 @@ client.on("guildMemberAdd", (member) => {
     .addField("Members now", member.guild.memberCount) // Adds a field; First parameter is the title and the second is the value.
     .setTimestamp() // Sets a timestamp at the end of the embed
     ); */
-    guild.systemChannel.send("Hello <@" + id + ">, nice to meet you! \nCheck out the Commands I understand with '!cmds'. \nIf you want a Game-Specific-Role you can add it yourself. :) \nGo ahead and try it out under the channel #bot-commands \nIf you need any help or if you have suggestions for improvement contact our Admin-Team. \n\nIn closing: When you enjoy your time here on the server, feel free to invite your friends!").catch((e) => { console.log(e); });
+
+    // #bot-command channel link with mask? \ <--
+    guild.systemChannel.send('Hello <@' + id + '>, nice to meet you! \nCheck out the Commands I understand with "!cmds". \nIf you want a Game-Specific-Role you can add it yourself. :) \nGo ahead and try it out under the channel #bot-commands \nIf you need any help or if you have suggestions for improvement contact our Admin-Team. \n\nIn closing: When you enjoy your time here on the server, feel free to invite your friends!').catch((e) => { console.log(e); });
   }
 });
 
