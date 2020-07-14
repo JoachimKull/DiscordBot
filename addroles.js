@@ -1,4 +1,4 @@
-// Commands for adding roles //
+// Routine for adding roles //
 // ------------------------- //
 
 export function addRole(roleName) {
