@@ -7,17 +7,13 @@ For the easier use the 'discord.js' library is used.
 
 ### TODO
 
-- [X] !nice: On command - Bot joins voice channel, in which the user who commanded, and plays a mp3-snippet
-
-- [X] !rmRole: On command - Bot removes specific role
-
 - [ ] regex for auto answer if no known command was send
 
 - [ ] !casino: Let Members earn points
 
-- [ ] refactor code into separate files for better overview
+- [ ] refactor code into functions
 
-- [ ] add info cmds for all sections (sound and roles)
+- [ ] add info cmds for all sections (sound & roles)
 
 - [ ] add function for mentioning the bot
 
