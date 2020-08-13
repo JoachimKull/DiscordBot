@@ -301,8 +301,9 @@ client.on('guildMemberAdd', (member) => {
     .setTimestamp() // Sets a timestamp at the end of the embed
     ); */
 
-    // #bot-command channel link with mask? \ <--
-    guild.systemChannel.send('Hello <@' + id + '>, nice to meet you! \nCheck out the Commands I understand with "!cmds". \nIf you want a Game-Specific-Role you can add it yourself. :) \nGo ahead and try it out under the channel #bot-commands \nIf you need any help or if you have suggestions for improvement contact our Admin-Team. \n\nIn closing: When you enjoy your time here on the server, feel free to invite your friends!').catch((e) => { console.log(e); });
+    var channelLink = guild.channels.find(channel => channel.name === 'bot-commands');
+    var roleLink = guild.roles.find(channel => channel.name === 'Admin');
+    guild.systemChannel.send('Hello <@' + id + '>, nice to meet you! \nCheck out the Commands I understand with "!cmds". \nIf you want a Game-Specific-Role you can add it yourself. :) \nGo ahead and try it out under the channel ' + channelLink + '\nIf you need any help or if you have suggestions for improvement contact our ' + roleLink + '-Team. \n\nIn closing: When you enjoy your time here on the server, feel free to invite your friends!').catch((e) => { console.log(e); });
   }
 });
 
