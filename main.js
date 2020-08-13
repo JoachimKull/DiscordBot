@@ -256,6 +256,7 @@ client.on('message', message => {
 
   // Routine for MP3 Snippets //
   // ------------------------- //
+  // REMEMBER adding 1s of silence at the end of each file, because the bot is leaving the channel to early
   const soundsFolder = './SoundSnippets/';
   const fs = require('fs');
   if (message.content.startsWith('/')) {
