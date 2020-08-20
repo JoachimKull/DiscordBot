@@ -13,8 +13,8 @@ For the easier use the 'discord.js' library is used.
 
 - [ ] refactor code into functions
 
-- [ ] add info cmds for all sections (sound & roles)
+- [x] add info cmds for all sections (sound & roles)
 
 - [ ] add function for mentioning the bot
 
-- [ ] add mw2 sound snippets as well as (https://www.youtube.com/watch?v=_483t4_ucNs)
+- [x] add mw2 sound snippets as well as (https://www.youtube.com/watch?v=_483t4_ucNs)

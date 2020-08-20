@@ -17,7 +17,8 @@ const client = new Discord.Client();
  * received from Discord
  */
 client.on('ready', () => {
-  console.log('LegendBot is ready!');
+  var date = new Date().toLocaleString();
+  console.log('LegendBot is ready! - ' + date);
   // Set a game activity for the bot
   client.user.setActivity("LegendBot | !help");
 });
@@ -32,13 +33,15 @@ client.on('message', message => {
   }
 
   if (message.content.toLowerCase() === '!cmds' || message.content.toLowerCase() === '!help') {
+    var channelLink = message.member.guild.channels.find(channel => channel.name === 'bot-commands');
     // Print all existing commands
-    message.channel.send('Hey you! \nI only understand certain commands. Here is a list of them: \n"!ping" - you´ll see,\n "!cmds" - shows you a list of all commands,\n "!roles" - shows a List of all available roles,\n "!addRole:apex", "!addRole:valorant", "!addRole:cs", "!addRole:rl" and "!addRole:warzone" - those will add you the specific role \nGo ahead and try it yourself under the channel #bot-commands \n\n *Of course you can remove those roles yourself using the following pattern:* "**!rmRole:apex**"').catch((e) => { console.log(e); });
+    message.channel.send('Hey you! \nI only understand certain commands. Here is a list of them: \n-> "**!ping**" - Pong? \n-> "**!roles**" - shows a list of all available roles \n-> "**!sounds**" - shows a list of all soundsnippets \nGo ahead and try it yourself under the channel ' + channelLink + ' \n\n *Of course you can remove a role yourself using the following pattern:* "**!rmRole:apex**"').catch((e) => { console.log(e); });
   }
 
   if (message.content.toLowerCase() === '!roles') {
+    var arrayOfRoles = { ApexPlayers: '!addRole:apex', ValorantPlayers: '!addRole:valorant', MinecraftPlayers: '!addRole:minecraft', 'CS:GOPlayers': '!addRole:cs', RocketLeague: '!addRole:rl', WarzonePlayers: '!addRole:warzone' };
     // Print all existing roles
-    message.channel.send('These are the available roles: \n- ApexPlayers \n- ValorantPlayers \n- CS:GOPlayers \n- RocketLeague \n- WarzonePlayers \n').catch((e) => { console.log(e); });
+    message.channel.send('These are the available roles: \n- **ApexPlayers** | !addRole:apex \n- **ValorantPlayers** | !addRole:valorant \n- **MinecraftPlayers** | !addRole:minecraft \n- **CS:GOPlayers** | !addRole:cs \n- **RocketLeague** | !addRole:rl \n- **WarzonePlayers** | !addRole:warzone \n').catch((e) => { console.log(e); });
     //message.guild.roles.findAll
   }
 
@@ -295,7 +298,7 @@ client.on('message', message => {
 
   // Routine for MP3 Snippets //
   // ------------------------- //
-  // REMEMBER adding 1s of silence at the end of each file, because the bot is leaving the channel to early
+  // REMEMBER adding 1s of silence at the end of each file, because the bot is leaving the channel too early
   const soundsFolder = './SoundSnippets/';
   const fs = require('fs');
   if (message.content.startsWith('/')) {
@@ -322,10 +325,24 @@ client.on('message', message => {
       console.log('Unknown input for sound snippets: ' + message);
     }
   }
+
+  // Display all available sound snippets
+  if (message.content.toLowerCase() === '!sounds') {
+    message.channel.send('Try playing a snippet by typing "**/**filename" \nHere are the available sounds:\n').catch((e) => { console.log(e); });
+    var sounds = [];
+    // Iterate over snippets
+    fs.readdir(soundsFolder, (err, files) => {
+      files.forEach(file => {
+        sounds.push('- ' + file.split(".", 1));
+      });
+      message.channel.send(sounds).catch((e) => { console.log(e); });
+      message.channel.send('May I suggest you to try **/click**').catch((e) => { console.log(e); });
+    });
+  }
 });
 
 
-
+// Greet all new members
 client.on('guildMemberAdd', (member) => {
   var guild = member.guild;
   var memberTag = member.user.tag;
@@ -341,9 +358,10 @@ client.on('guildMemberAdd', (member) => {
     .setTimestamp() // Sets a timestamp at the end of the embed
     ); */
 
-    var channelLink = guild.channels.find(channel => channel.name === 'bot-commands');
+    var channelHow = guild.channels.find(channel => channel.name === 'how-to');
+    var channelBot = guild.channels.find(channel => channel.name === 'bot-commands');
     var roleLink = guild.roles.find(channel => channel.name === 'Admin');
-    guild.systemChannel.send('Hello <@' + id + '>, nice to meet you! \nCheck out the Commands I understand with "!cmds". \nIf you want a Game-Specific-Role you can add it yourself. :) \nGo ahead and try it out under the channel ' + channelLink + '\nIf you need any help or if you have suggestions for improvement contact our ' + roleLink + '-Team. \n\nIn closing: When you enjoy your time here on the server, feel free to invite your friends!').catch((e) => { console.log(e); });
+    guild.systemChannel.send('Hello <@' + id + '>, nice to meet you! \nCheck out the Commands I understand with "!help". \nIf you want **Game-Specific-Roles** you can **add them yourself**. \nTo learn more about all this futuristic stuff checkout: ' + channelHow + ' \nAs well as the **pinned messages** in each of our textchannels, these provide you with all kinds of useful informations. \nGo ahead and **try it out** under the channel: ' + channelBot + '\nIf you need any help or if you have **suggestions for improvement** contact our ' + roleLink + '-Team. \n\nIn closing: When you enjoy your time here on the server, **feel free to invite your friends**!').catch((e) => { console.log(e); });
   }
 });
 
