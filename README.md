@@ -25,6 +25,6 @@ I'm selfhosting this bot on a Raspberry Pi 3b with [noip](https://www.noip.com/)
 
 - [ ] regex for auto answer if no known command was send (maybe a _startswith_ will do the job)
 - [ ] ~~!casino: Let Members earn points~~
-- [ ] refactor code into functions
+- [x] refactor code into functions
 - [ ] play with reactions
 - [ ] update to newest discordjs lib

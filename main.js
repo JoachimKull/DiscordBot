@@ -60,16 +60,17 @@ client.on('message', message => {
         //message.guild.roles.findAll
     }
 
+
     // Function for getting roles //
     // -------------------------- //
-    function addingRole(givenRoleName) {
+    function addingRole(roleToAdd) {
         // Filter the rolename of the whole !addrole request out 
-        var roleName = givenRoleName.split(':', 2);
+        var roleName = roleToAdd.split(':', 2);
 
         // Cycle through the predefined role array
         for (var key in arrayOfRoles) {
             // If the given role name matches an entry of the predefined role array it will further execute
-            if (givenRoleName === arrayOfRoles[key].toLowerCase()) {
+            if (roleToAdd === arrayOfRoles[key].toLowerCase()) {
                 // Get role id from the discord guild
                 var role = message.guild.roles.find(role => role.name === key);
 
@@ -103,121 +104,49 @@ client.on('message', message => {
         }
     }
 
-    // Removing Roles //
-    // -------------- //
-    if (lowerCaseMessage === '!rmrole:apex') {
-        var role = message.guild.roles.find(role => role.name === "ApexPlayers");
+
+    // Function for removing roles //
+    // -------------------------- //
+    function removingRole(roleToRemove) {
+        // Filter the rolename of the whole !rmrole request out 
+        var roleName = roleToRemove.split(':', 2);
+        var role = null;
+        // Cycle through the predefined role array
+        for (var key in arrayOfRoles) {
+            // When removing a role we can also use our predefined role array. But this time we need to split the vlaue field and check for accordance.
+            var arrayKeySplit = arrayOfRoles[key].split(':', 2);
+            // If the given role name matches an entry of the predefined role array it will further execute
+            if (roleName[1] === arrayKeySplit[1].toLowerCase()) {
+                // Get role id from the discord guild
+                role = message.guild.roles.find(role => role.name === key);
+            }
+        }
         if (role === null) {
-            console.log(message.member.user.username + " tried to remove the role ApexPlayers but failed somehow!");
-            message.channel.send("This server doesn't know this role...").catch((e) => { console.log(e); });
+            console.log(message.member.user.username + ' tried to remove the role >' + roleName[1] + '< but failed somehow!');
+            message.channel.send('This server doesn\'t know this role...').catch((e) => { console.log(e); });
             return;
         }
         var strpd_role = role.toString().replace(/\D/g, "");
-        message.channel.send('Removing role...').catch((e) => { console.log(e); });
-        if (message.member.roles.has(strpd_role)) { // Check if member has role
+        // Check if member has role
+        if (message.member.roles.has(strpd_role)) {
             message.member.removeRole(role);
-            console.log(message.member.user.username + " removed himself the role: " + role.name);
-            message.channel.send("Removed the role 'ApexPlayer' from you.\n*...sad bot noises...*").catch((e) => { console.log(e); });
+            console.log(message.member.user.username + ' removed himself the role: ' + role.name);
+            message.channel.send('Removed the role ' + role.name + ' from you.\n*...sad bot noises...*').catch((e) => { console.log(e); });
         } else {
-            console.log(message.member.user.username + " tried to remove a role he doesn't own: " + role.name);
-            message.channel.send("You can't remove a role you don't own!").catch((e) => { console.log(e); });
+            console.log(message.member.user.username + ' tried to remove a role he doesn\'t own: ' + role.name);
+            message.channel.send('You can\'t remove a role you don\'t own!').catch((e) => { console.log(e); });
         }
     }
 
-    if (lowerCaseMessage === '!rmrole:cs') {
-        var role = message.guild.roles.find(role => role.name === "CS:GOPlayers");
-        if (role === null) {
-            console.log(message.member.user.username + " tried to remove the role CS:GOPlayers but failed somehow!");
-            message.channel.send("This server doesn't know this role...").catch((e) => { console.log(e); });
-            return;
-        }
-        var strpd_role = role.toString().replace(/\D/g, "");
-        message.channel.send('Removing role...').catch((e) => { console.log(e); });
-        if (message.member.roles.has(strpd_role)) { // Check if member has role
-            message.member.removeRole(role);
-            console.log(message.member.user.username + " removed himself the role: " + role.name);
-            message.channel.send("Removed the role 'CS:GOPlayers' from you.\n*...sad bot noises...*").catch((e) => { console.log(e); });
-        } else {
-            console.log(message.member.user.username + " tried to remove a role he doesn't own: " + role.name);
-            message.channel.send("You can't remove a role you don't own!").catch((e) => { console.log(e); });
+    // Listening for the rmrole command
+    if (lowerCaseMessage.startsWith('!rmrole:')) {
+        try {
+            removingRole(lowerCaseMessage);
+        } catch (error) {
+            console.log('Unknown input for removing role: ' + message);
         }
     }
 
-    if (lowerCaseMessage === '!rmrole:rl') {
-        var role = message.guild.roles.find(role => role.name === "RocketLeague");
-        if (role === null) {
-            console.log(message.member.user.username + " tried to remove the role RocketLeague but failed somehow!");
-            message.channel.send("This server doesn't know this role...").catch((e) => { console.log(e); });
-            return;
-        }
-        var strpd_role = role.toString().replace(/\D/g, "");
-        message.channel.send('Removing role...').catch((e) => { console.log(e); });
-        if (message.member.roles.has(strpd_role)) { // Check if member has role
-            message.member.removeRole(role);
-            console.log(message.member.user.username + " removed himself the role: " + role.name);
-            message.channel.send("Removed the role 'RocketLeague' from you.\n*...sad bot noises...*").catch((e) => { console.log(e); });
-        } else {
-            console.log(message.member.user.username + " tried to remove a role he doesn't own: " + role.name);
-            message.channel.send("You can't remove a role you don't own!").catch((e) => { console.log(e); });
-        }
-    }
-
-    if (lowerCaseMessage === '!rmrole:warzone') {
-        var role = message.guild.roles.find(role => role.name === "WarzonePlayers");
-        if (role === null) {
-            console.log(message.member.user.username + " tried to remove the role WarzonePlayer but failed somehow!");
-            message.channel.send("This server doesn't know this role...").catch((e) => { console.log(e); });
-            return;
-        }
-        var strpd_role = role.toString().replace(/\D/g, "");
-        message.channel.send('Removing role...').catch((e) => { console.log(e); });
-        if (message.member.roles.has(strpd_role)) { // Check if member has role
-            message.member.removeRole(role);
-            console.log(message.member.user.username + " removed himself the role: " + role.name);
-            message.channel.send("Removed the role 'WarzonePlayers' from you.\n*...sad bot noises...*").catch((e) => { console.log(e); });
-        } else {
-            console.log(message.member.user.username + " tried to remove a role he doesn't own: " + role.name);
-            message.channel.send("You can't remove a role you don't own!").catch((e) => { console.log(e); });
-        }
-    }
-
-    if (lowerCaseMessage === '!rmrole:valorant') {
-        var role = message.guild.roles.find(role => role.name === "ValorantPlayers");
-        if (role === null) {
-            console.log(message.member.user.username + " tried to remove the role ValorantPlayer but failed somehow!");
-            message.channel.send("This server doesn't know this role...").catch((e) => { console.log(e); });
-            return;
-        }
-        var strpd_role = role.toString().replace(/\D/g, "");
-        message.channel.send('Removing role...').catch((e) => { console.log(e); });
-        if (message.member.roles.has(strpd_role)) { // Check if member has role
-            message.member.removeRole(role);
-            console.log(message.member.user.username + " removed himself the role: " + role.name);
-            message.channel.send("Removed the role 'ValorantPlayers' from you.\n*...sad bot noises...*").catch((e) => { console.log(e); });
-        } else {
-            console.log(message.member.user.username + " tried to remove a role he doesn't own: " + role.name);
-            message.channel.send("You can't remove a role you don't own!").catch((e) => { console.log(e); });
-        }
-    }
-
-    if (lowerCaseMessage === '!rmrole:minecraft') {
-        var role = message.guild.roles.find(role => role.name === "MinecraftPlayers");
-        if (role === null) {
-            console.log(message.member.user.username + " tried to remove the role MinecraftPlayer but failed somehow!");
-            message.channel.send("This server doesn't know this role...").catch((e) => { console.log(e); });
-            return;
-        }
-        var strpd_role = role.toString().replace(/\D/g, "");
-        message.channel.send('Removing role...').catch((e) => { console.log(e); });
-        if (message.member.roles.has(strpd_role)) { // Check if member has role
-            message.member.removeRole(role);
-            console.log(message.member.user.username + " removed himself the role: " + role.name);
-            message.channel.send("Removed the role 'MinecraftPlayers' from you.\n*...sad bot noises...*").catch((e) => { console.log(e); });
-        } else {
-            console.log(message.member.user.username + " tried to remove a role he doesn't own: " + role.name);
-            message.channel.send("You can't remove a role you don't own!").catch((e) => { console.log(e); });
-        }
-    }
 
     // Display all available sound snippets
     if (lowerCaseMessage === '!sounds') {
