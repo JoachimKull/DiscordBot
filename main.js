@@ -28,7 +28,7 @@ client.on('message', message => {
     var lowerCaseMessage = message.content.toLowerCase();
     // TODO - Regex for all letters after '!'
     /* var letters = /^[a-zA-Z]+$/;
-    if (message.content.toLowerCase() === '!'){
+    if (lowerCaseMessage === '!'){
       console.log(message.member.user.username + " tried to get a non existing role - atleast on this server");
         
       // Used to get my own user id
@@ -40,20 +40,21 @@ client.on('message', message => {
     } */
 
     // If the message is "ping"
-    if (message.content.toLowerCase() === '!ping') {
+    if (lowerCaseMessage === '!ping') {
         // Send "pong" to the same channel
         message.channel.send('Pong!').catch((e) => { console.log(e); });
         console.log('Ping from: ' + message.member.user.username);
     }
 
-    if (message.content.toLowerCase() === '!cmds' || message.content.toLowerCase() === '!help') {
+    if (lowerCaseMessage === '!cmds' || lowerCaseMessage === '!help') {
         var channelLink = message.member.guild.channels.find(channel => channel.name === 'bot-commands');
         // Print all existing commands
         message.channel.send('Hey you! \nI only understand certain commands. Here is a list of them: \n-> "**!ping**" - Pong? \n-> "**!roles**" - shows a list of all available roles \n-> "**!sounds**" - shows a list of all soundsnippets \nGo ahead and try it yourself under the channel ' + channelLink + ' \n\n *Of course you can remove a role yourself using the following pattern:* "**!rmRole:apex**"').catch((e) => { console.log(e); });
     }
 
+    // The keys in this map represent the roles defined on your discord server
     var arrayOfRoles = { ApexPlayers: '!addRole:apex', ValorantPlayers: '!addRole:valorant', MinecraftPlayers: '!addRole:minecraft', 'CS:GOPlayers': '!addRole:cs', RocketLeague: '!addRole:rl', WarzonePlayers: '!addRole:warzone' };
-    if (message.content.toLowerCase() === '!roles') {
+    if (lowerCaseMessage === '!roles') {
         // Print all existing roles
         message.channel.send('These are the available roles: \n- **ApexPlayers** | !addRole:apex \n- **ValorantPlayers** | !addRole:valorant \n- **MinecraftPlayers** | !addRole:minecraft \n- **CS:GOPlayers** | !addRole:cs \n- **RocketLeague** | !addRole:rl \n- **WarzonePlayers** | !addRole:warzone \n').catch((e) => { console.log(e); });
         //message.guild.roles.findAll
@@ -94,9 +95,9 @@ client.on('message', message => {
         }
     }
     // Listening for the addrole command
-    if (message.content.toLowerCase().startsWith('!addrole:')) {
+    if (lowerCaseMessage.startsWith('!addrole:')) {
         try {
-            addingRole(message.content.toLowerCase());
+            addingRole(lowerCaseMessage);
         } catch (error) {
             console.log('Unknown input for adding role: ' + message);
         }
@@ -104,7 +105,7 @@ client.on('message', message => {
 
     // Removing Roles //
     // -------------- //
-    if (message.content.toLowerCase() === '!rmrole:apex') {
+    if (lowerCaseMessage === '!rmrole:apex') {
         var role = message.guild.roles.find(role => role.name === "ApexPlayers");
         if (role === null) {
             console.log(message.member.user.username + " tried to remove the role ApexPlayers but failed somehow!");
@@ -123,7 +124,7 @@ client.on('message', message => {
         }
     }
 
-    if (message.content.toLowerCase() === '!rmrole:cs') {
+    if (lowerCaseMessage === '!rmrole:cs') {
         var role = message.guild.roles.find(role => role.name === "CS:GOPlayers");
         if (role === null) {
             console.log(message.member.user.username + " tried to remove the role CS:GOPlayers but failed somehow!");
@@ -142,7 +143,7 @@ client.on('message', message => {
         }
     }
 
-    if (message.content.toLowerCase() === '!rmrole:rl') {
+    if (lowerCaseMessage === '!rmrole:rl') {
         var role = message.guild.roles.find(role => role.name === "RocketLeague");
         if (role === null) {
             console.log(message.member.user.username + " tried to remove the role RocketLeague but failed somehow!");
@@ -161,7 +162,7 @@ client.on('message', message => {
         }
     }
 
-    if (message.content.toLowerCase() === '!rmrole:warzone') {
+    if (lowerCaseMessage === '!rmrole:warzone') {
         var role = message.guild.roles.find(role => role.name === "WarzonePlayers");
         if (role === null) {
             console.log(message.member.user.username + " tried to remove the role WarzonePlayer but failed somehow!");
@@ -180,7 +181,7 @@ client.on('message', message => {
         }
     }
 
-    if (message.content.toLowerCase() === '!rmrole:valorant') {
+    if (lowerCaseMessage === '!rmrole:valorant') {
         var role = message.guild.roles.find(role => role.name === "ValorantPlayers");
         if (role === null) {
             console.log(message.member.user.username + " tried to remove the role ValorantPlayer but failed somehow!");
@@ -199,7 +200,7 @@ client.on('message', message => {
         }
     }
 
-    if (message.content.toLowerCase() === '!rmrole:minecraft') {
+    if (lowerCaseMessage === '!rmrole:minecraft') {
         var role = message.guild.roles.find(role => role.name === "MinecraftPlayers");
         if (role === null) {
             console.log(message.member.user.username + " tried to remove the role MinecraftPlayer but failed somehow!");
@@ -219,7 +220,7 @@ client.on('message', message => {
     }
 
     // Display all available sound snippets
-    if (message.content.toLowerCase() === '!sounds') {
+    if (lowerCaseMessage === '!sounds') {
         message.channel.send('Try playing a snippet by typing "**/**_filename_" \nHere are the available sounds:\n').catch((e) => { console.log(e); });
         var sounds = [];
         // Iterate over snippets
@@ -242,14 +243,14 @@ client.on('message', message => {
         if (!message.guild) return;
         try {
             // Remove the / from the message and add the .mp3 ending
-            var msg = message.content.toLowerCase().concat('.mp3').slice(1);
-            var pathToFile = soundsFolder.concat(msg);
+            var concatMsg = lowerCaseMessage.concat('.mp3').slice(1);
+            var pathToFile = soundsFolder.concat(concatMsg);
             var vc = message.member.voiceChannel;
 
             // Iterate over snippets
             fs.readdir(soundsFolder, (err, files) => {
                 files.forEach(file => {
-                    if (file === msg) {
+                    if (file === concatMsg) {
                         vc.join().then(connection => {
                             const dispatcher = connection.playFile(pathToFile, { volume: 0.5 });
                             dispatcher.on('end', end => { vc.leave(); })
