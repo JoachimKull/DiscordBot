@@ -148,20 +148,6 @@ client.on('message', message => {
     }
 
 
-    // Display all available sound snippets
-    if (lowerCaseMessage === '!sounds') {
-        message.channel.send('Try playing a snippet by typing "**/**_filename_" \nHere are the available sounds:\n').catch((e) => { console.log(e); });
-        var sounds = [];
-        // Iterate over snippets
-        fs.readdir(soundsFolder, (err, files) => {
-            files.forEach(file => {
-                sounds.push('- ' + file.split(".", 1));
-            });
-            message.channel.send(sounds).catch((e) => { console.log(e); });
-            message.channel.send('_May I suggest you to try_ **/click**').catch((e) => { console.log(e); });
-        });
-    }
-
     // Routine for MP3 Snippets //
     // ------------------------- //
     // REMEMBER adding 1s of silence at the end of each file, because the bot is leaving the channel too early
@@ -190,6 +176,20 @@ client.on('message', message => {
         } catch (error) {
             console.log('Unknown input for sound snippets: ' + message);
         }
+    }
+
+    // Display all available sound snippets
+    if (lowerCaseMessage === '!sounds') {
+        message.channel.send('Try playing a snippet by typing "**/**_filename_" \nHere are the available sounds:\n').catch((e) => { console.log(e); });
+        var sounds = [];
+        // Iterate over snippets
+        fs.readdir(soundsFolder, (err, files) => {
+            files.forEach(file => {
+                sounds.push('- ' + file.split(".", 1));
+            });
+            message.channel.send(sounds).catch((e) => { console.log(e); });
+            message.channel.send('_May I suggest you to try_ **/click**').catch((e) => { console.log(e); });
+        });
     }
 });
 
