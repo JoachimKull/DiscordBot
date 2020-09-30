@@ -56,7 +56,7 @@ client.on('message', message => {
   var arrayOfRoles = { ApexPlayers: '!addRole:apex', ValorantPlayers: '!addRole:valorant', AmongUsPlayers: '!addRole:amongus', MinecraftPlayers: '!addRole:minecraft', 'CS:GOPlayers': '!addRole:cs', RocketLeague: '!addRole:rl', SpellBreakers: '!addRole:spell', WarzonePlayers: '!addRole:warzone' };
   if (lowerCaseMessage === '!roles') {
     // Print all existing roles
-    message.channel.send('These are the available roles: \n- **ApexPlayers** | !addRole:apex \n- **ValorantPlayers** | !addRole:valorant \n- **AmongUsPlayers** | !addRole:amongus \n- **MinecraftPlayers** | !addRole:minecraft \n- **CS:GOPlayers** | !addRole:cs \n- **RocketLeague** | !addRole:rl \n- **SpellBreakers** | !addRole:spell \n').catch((e) => { console.log(e); });
+    message.channel.send('These are the available roles: \n- **ApexPlayers** | !addRole:apex \n- **ValorantPlayers** | !addRole:valorant \n- **AmongUsPlayers** | !addRole:amongus \n- **MinecraftPlayers** | !addRole:minecraft \n- **CS:GOPlayers** | !addRole:cs \n- **RocketLeague** | !addRole:rl \n').catch((e) => { console.log(e); });
     //message.guild.roles.findAll
   }
 
