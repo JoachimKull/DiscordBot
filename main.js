@@ -76,7 +76,8 @@ client.on('message', message => {
 
         if (role === null) {
           console.log(message.member.user.username + ' tried to get a non existing role (' + roleName[1] + ') - atleast on this server');
-          message.channel.send('Hm...it seems that I know this role but this server does not...').catch((e) => { console.log(e); });
+          var adminRoleLink = guild.roles.find(channel => channel.name === 'Admin');
+          message.channel.send('Hm...it seems that I know this role but this server does not... ' + adminRoleLink + '-Team haaalp!').catch((e) => { console.log(e); });
           return;
         }
 
