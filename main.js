@@ -47,9 +47,9 @@ client.on('message', message => {
     }
 
     if (lowerCaseMessage === '!cmds' || lowerCaseMessage === '!help') {
-        var channelLink = message.member.guild.channels.find(channel => channel.name === 'bot-commands');
+        var channelLink = message.member.guild.channels.cache.find(channel => channel.name === 'bot-commands');
         // Print all existing commands
-        message.reply('Hey you! \nI only understand certain commands. Here is a list of them: \n-> "**!ping**" - Pong? \n-> "**!roles**" - shows a list of all available roles \n-> "**!sounds**" - shows a list of all soundsnippets \nGo ahead and try it yourself under the channel ' + channelLink + ' \n\n *Of course you can remove a role yourself using the following pattern:* "**!rmRole:apex**"').catch((e) => { console.log(e); });
+        message.reply('Hey you! \nI only understand certain commands. Here is a list of them: \n-> "**!ping**" - Pong? \n-> "**!roles**" - shows a list of all available roles \n-> "**!sounds**" - shows a list of all soundsnippets \nGo ahead and try it yourself under the channel <#' + channelLink + '> \n\n *Of course you can remove a role yourself using the following pattern:* "**!rmRole:apex**"').catch((e) => { console.log(e); });
     }
 
     // The keys in this map represent the roles defined on your discord server
@@ -220,10 +220,10 @@ client.on('guildMemberAdd', (member) => {
         .setTimestamp() // Sets a timestamp at the end of the embed
         ); */
 
-        var channelHow = guild.channels.find(channel => channel.name === 'how-to');
-        var channelBot = guild.channels.find(channel => channel.name === 'bot-commands');
-        var roleLink = guild.roles.find(channel => channel.name === 'Admin');
-        guild.systemChannel.send('Hello <@' + id + '>, nice to meet you! \nCheck out the Commands I understand with "!help". \nIf you want **Game-Specific-Roles** you can **add them yourself**. \nTo learn more about all this futuristic stuff checkout: ' + channelHow + ' \nAs well as the **pinned messages** in each of our textchannels, these provide you with all kinds of useful informations. \nGo ahead and **try it out** under the channel: ' + channelBot + '\nIf you need any help or if you have **suggestions for improvement** contact our ' + roleLink + '-Team. \n\nIn closing: When you enjoy your time here on the server, **feel free to invite your friends**!').catch((e) => { console.log(e); });
+        var channelHow = guild.channels.cache.find(channel => channel.name === 'how-to');
+        var channelBot = guild.channels.cache.find(channel => channel.name === 'bot-commands');
+        var adminLink = guild.roles.cache.find(role => role.name === 'Admin');
+        guild.systemChannel.send('Hello <@' + id + '>, nice to meet you! \nCheck out the Commands I understand with "**!help**". \nIf you want **Game-Specific-Roles** you can **add them yourself**. \nTo learn more about all this futuristic stuff **checkout**: <#' + channelHow + '> \nAs well as the **pinned messages** in each of our textchannels, these provide you with all kinds of useful informations. \nGo ahead and **try it out** under the channel: <#' + channelBot + '>\nIf you need any help or if you have **suggestions for improvement** contact our <@&' + adminLink + '>-Team. \n\nIn closing: When you enjoy your time here on the server, **feel free to invite your friends**!').catch((e) => { console.log(e); });
     }
 });
 
