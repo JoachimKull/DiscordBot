@@ -49,7 +49,7 @@ client.on('message', message => {
     if (lowerCaseMessage === '!cmds' || lowerCaseMessage === '!help') {
         var channelLink = message.member.guild.channels.find(channel => channel.name === 'bot-commands');
         // Print all existing commands
-        message.channel.send('Hey you! \nI only understand certain commands. Here is a list of them: \n-> "**!ping**" - Pong? \n-> "**!roles**" - shows a list of all available roles \n-> "**!sounds**" - shows a list of all soundsnippets \nGo ahead and try it yourself under the channel ' + channelLink + ' \n\n *Of course you can remove a role yourself using the following pattern:* "**!rmRole:apex**"').catch((e) => { console.log(e); });
+        message.reply('Hey you! \nI only understand certain commands. Here is a list of them: \n-> "**!ping**" - Pong? \n-> "**!roles**" - shows a list of all available roles \n-> "**!sounds**" - shows a list of all soundsnippets \nGo ahead and try it yourself under the channel ' + channelLink + ' \n\n *Of course you can remove a role yourself using the following pattern:* "**!rmRole:apex**"').catch((e) => { console.log(e); });
     }
 
     // The keys in this map represent the roles defined on your discord server
@@ -72,11 +72,11 @@ client.on('message', message => {
             // If the given role name matches an entry of the predefined role array it will further execute
             if (roleToAdd === arrayOfRoles[key].toLowerCase()) {
                 // Get role id from the discord guild
-                var role = message.guild.roles.find(role => role.name === key);
+                var role = message.guild.roles.cache.find(role => role.name === key);
 
                 if (role === null) {
                     console.log(message.member.user.username + ' tried to get a non existing role (' + roleName[1] + ') - atleast on this server');
-                    var adminRoleLink = guild.roles.find(channel => channel.name === 'Admin');
+                    var adminRoleLink = guild.roles.cache.find(channel => channel.name === 'Admin');
                     message.reply('Hm...it seems that I know this role but this server does not... ' + adminRoleLink + '-Team haaalp!').catch((e) => { console.log(e); });
                     return;
                 }
@@ -85,11 +85,11 @@ client.on('message', message => {
                 var strpd_role = role.toString().replace(/\D/g, "");
 
                 // Check if member has role
-                if (message.member.roles.has(strpd_role)) {
+                if (message.member.roles.cache.has(strpd_role)) {
                     console.log(message.member.user.username + ' already has the role: ' + role.name);
                     message.reply('NANI?!... you already have the role: ' + role.name).catch((e) => { console.log(e); });
                 } else {
-                    message.member.addRole(role);
+                    message.member.roles.add(role);
                     console.log(message.member.user.username + ' added himself the role: ' + role.name);
                     message.reply('Have fun with your new role ' + message.member.user.username + '! :)').catch((e) => { console.log(e); });
                 }
@@ -119,23 +119,24 @@ client.on('message', message => {
             // If the given role name matches an entry of the predefined role array it will further execute
             if (roleName[1] === arrayKeySplit[1].toLowerCase()) {
                 // Get role id from the discord guild
-                role = message.guild.roles.find(role => role.name === key);
+                role = message.guild.roles.cache.find(role => role.name === key);
             }
         }
         if (role === null) {
             console.log(message.member.user.username + ' tried to remove the role >' + roleName[1] + '< but failed somehow!');
-            message.channel.send('This server doesn\'t know this role...').catch((e) => { console.log(e); });
+            message.reply('This server doesn\'t know this role...').catch((e) => { console.log(e); });
             return;
         }
         var strpd_role = role.toString().replace(/\D/g, "");
+
         // Check if member has role
-        if (message.member.roles.has(strpd_role)) {
-            message.member.removeRole(role);
+        if (message.member.roles.cache.has(strpd_role)) {
+            message.member.roles.remove(role);
             console.log(message.member.user.username + ' removed himself the role: ' + role.name);
-            message.channel.send('Removed the role ' + role.name + ' from you.\n*...sad bot noises...*').catch((e) => { console.log(e); });
+            message.reply('I removed the role ' + role.name + ' from you.\n*...sad bot noises...*').catch((e) => { console.log(e); });
         } else {
             console.log(message.member.user.username + ' tried to remove a role he doesn\'t own: ' + role.name);
-            message.channel.send('You can\'t remove a role you don\'t own!').catch((e) => { console.log(e); });
+            message.reply('You can\'t remove a role you don\'t own!').catch((e) => { console.log(e); });
         }
     }
 
@@ -189,7 +190,7 @@ client.on('message', message => {
 
     // Display all available sound snippets
     if (lowerCaseMessage === '!sounds') {
-        message.channel.send('Try playing a snippet by typing "**/**_filename_" \nHere are the available sounds:\n').catch((e) => { console.log(e); });
+        message.reply('Try playing a snippet by typing "**/**_filename_" \nHere are the available sounds:\n').catch((e) => { console.log(e); });
         var sounds = [];
         // Iterate over snippets
         fs.readdir(soundsFolder, (err, files) => {
@@ -197,7 +198,7 @@ client.on('message', message => {
                 sounds.push('- ' + file.split(".", 1));
             });
             message.channel.send(sounds).catch((e) => { console.log(e); });
-            message.channel.send('_May I suggest you to try_ **/click**').catch((e) => { console.log(e); });
+            message.reply('_May I suggest you to try_ **/click**').catch((e) => { console.log(e); });
         });
     }
 });
