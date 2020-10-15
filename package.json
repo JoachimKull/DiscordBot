@@ -1,21 +1,21 @@
 {
-  "name": "legendbot",
-  "version": "1.1.0",
-  "description": "This Bot will will do various stuff on the FruitCommunity discord server.",
-  "main": "main.js",
-  "author": "Joachim Kull",
-  "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/JoachimKull/DiscordBot"
-  },
-  "dependencies": {
-    "@discordjs/opus": "^0.1.0",
-    "discord.io": "^2.5.3",
-    "ffmpeg-static": "^4.1.0",
-    "opusscript": "0.0.7"
-  },
-  "devDependencies": {
-    "discord.js": "^11.6.4"
-  }
+    "name": "legendbot",
+    "version": "2.0.0",
+    "description": "This Bot will will do various stuff on the DumpyFruit-Community discord server.",
+    "main": "main.js",
+    "author": "Joachim Kull",
+    "license": "MIT",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/JoachimKull/DiscordBot"
+    },
+    "dependencies": {
+        "@discordjs/opus": "^0.1.0",
+        "discord.io": "^2.5.3",
+        "discord.js": "^12.3.1",
+        "ffmpeg-static": "^4.2.7",
+        "nodemon": "^2.0.5",
+        "opusscript": "0.0.7"
+    },
+    "devDependencies": {}
 }
