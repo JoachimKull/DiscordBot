@@ -49,7 +49,7 @@ client.on('message', message => {
     if (lowerCaseMessage === '!cmds' || lowerCaseMessage === '!help') {
         var channelLink = message.member.guild.channels.cache.find(channel => channel.name === 'bot-commands');
         // Print all existing commands
-        message.reply('Hey you! \nI only understand certain commands. Here is a list of them: \n-> "**!ping**" - Pong? \n-> "**!roles**" - shows a list of all available roles \n-> "**!sounds**" - shows a list of all soundsnippets \nGo ahead and try it yourself under the channel <#' + channelLink + '> \n\n *Of course you can remove a role yourself using the following pattern:* "**!rmRole:apex**"').catch((e) => { console.log(e); });
+        message.reply('Hey you! \nI only understand certain commands. Here is a list of them: \n-> "**!roles**" - shows a list of all available roles \n-> "**!sounds**" - shows a list of all soundsnippets \nGo ahead and try it yourself under the channel <#' + channelLink + '> \n\n *Of course you can remove a role yourself using the following pattern:* "**!rmRole:apex**"').catch((e) => { console.log(e); });
     }
 
     // The keys in this map represent the roles defined on your discord server
