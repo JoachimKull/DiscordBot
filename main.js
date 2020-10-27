@@ -91,7 +91,7 @@ client.on('message', message => {
                 } else {
                     message.member.roles.add(role);
                     console.log(message.member.user.username + ' added himself the role: ' + role.name);
-                    message.reply('Have fun with your new role ' + message.member.user.username + '! :)').catch((e) => { console.log(e); });
+                    message.reply('Have fun with your new role! :)').catch((e) => { console.log(e); });
                 }
             }
         }
@@ -219,6 +219,7 @@ client.on('guildMemberAdd', (member) => {
         .addField("Members now", member.guild.memberCount) // Adds a field; First parameter is the title and the second is the value.
         .setTimestamp() // Sets a timestamp at the end of the embed
         ); */
+        console.log('The user: ' + name + 'joined the Server');
 
         var channelHow = guild.channels.cache.find(channel => channel.name === 'how-to');
         var channelBot = guild.channels.cache.find(channel => channel.name === 'bot-commands');
