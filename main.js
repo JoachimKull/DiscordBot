@@ -7,10 +7,10 @@
 var loginCreds = require('../Credentials/credentials.json');
 
 // Import the discord.js module
-const Discord = require('discord.js');
+const { Client, Intents } = require('discord.js');
 
-// Create an instance of a Discord client
-const client = new Discord.Client();
+// Get all intents and create an instance of a Discord client
+const client = new Client({ ws: { intents: Intents.ALL } });
 
 /**
  * The ready event is vital, it means that only _after_ this will your bot start reacting to information
@@ -219,7 +219,7 @@ client.on('guildMemberAdd', (member) => {
         .addField("Members now", member.guild.memberCount) // Adds a field; First parameter is the title and the second is the value.
         .setTimestamp() // Sets a timestamp at the end of the embed
         ); */
-        console.log('The user: ' + name + 'joined the Server');
+        console.log('The user: ' + name + ' joined the Server');
 
         var channelHow = guild.channels.cache.find(channel => channel.name === 'how-to');
         var channelBot = guild.channels.cache.find(channel => channel.name === 'bot-commands');
