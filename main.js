@@ -198,7 +198,7 @@ client.on('message', message => {
                 sounds.push('- ' + file.split(".", 1));
             });
             message.channel.send(sounds).catch((e) => { console.log(e); });
-            message.reply('_May I suggest you to try_ **/click**').catch((e) => { console.log(e); });
+            message.channel.send('_May I suggest you to try_ **/click**').catch((e) => { console.log(e); });
         });
     }
 });
