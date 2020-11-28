@@ -25,5 +25,5 @@ I'm selfhosting this bot on a Raspberry Pi 3b with [noip](https://www.noip.com/)
 
 - [ ] regex for auto answer if no known command was send (maybe a _startswith_ will do the job)
 - [ ] play with reactions
-- [ ] update to newest discordjs lib
 - [ ] let admins define new roles - therefore we need a file which contains the known roles
+- [ ] add restriction for channels in which bot commands can be send in as well as a info message when in wrong channel
