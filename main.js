@@ -47,7 +47,7 @@ client.on('message', message => {
     }
 
     if (lowerCaseMessage === '!cmds' || lowerCaseMessage === '!help') {
-        var channelLink = message.member.guild.channels.cache.find(channel => channel.name === 'bot-commands');
+        var channelLink = message.member.guild.channels.cache.find(channel => channel.name === '🤖bot-commands');
         // Print all existing commands
         message.reply('Hey you! \nI only understand certain commands. Here is a list of them: \n-> "**!roles**" - shows a list of all available roles \n-> "**!sounds**" - shows a list of all soundsnippets \nGo ahead and try it yourself under the channel <#' + channelLink + '> \n\n *Of course you can remove a role yourself using the following pattern:* "**!rmRole:apex**"').catch((e) => { console.log(e); });
     }
@@ -221,8 +221,8 @@ client.on('guildMemberAdd', (member) => {
         ); */
         console.log('The user: ' + name + ' joined the Server');
 
-        var channelHow = guild.channels.cache.find(channel => channel.name === 'how-to');
-        var channelBot = guild.channels.cache.find(channel => channel.name === 'bot-commands');
+        var channelHow = guild.channels.cache.find(channel => channel.name === '❔how-to');
+        var channelBot = guild.channels.cache.find(channel => channel.name === '🤖bot-commands');
         var adminLink = guild.roles.cache.find(role => role.name === 'Admin');
         guild.systemChannel.send('Hello <@' + id + '>, nice to meet you! \nIf you want **to communicate with the others** (writing in textchannels) **you will need a role**, you can add it yourself in the <#' + channelBot + '> channel with the command "!addrole:rolename". \nTo learn more about all this futuristic stuff and our rules **checkout**: <#' + channelHow + '>, as well as the **pinned messages** in each of our textchannels, those provide you with all kinds of useful information to navigate on our server. :) \nTo checkout all of our bot commands you can just type "**!help**". \nIf you need any further help or if you have suggestions for improvement contact our <@&' + adminLink + '>-Team.').catch((e) => { console.log(e); });
     }
