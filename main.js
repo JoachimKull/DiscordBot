@@ -207,7 +207,7 @@ client.on('message', message => {
 // Greet all new members
 client.on('guildMemberAdd', (member) => {
     var guild = member.guild;
-    var memberTag = member.user.tag;
+    //var memberTag = member.user.tag;
     var name = member.user.username;
     var id = member.user.id;
 
@@ -223,8 +223,9 @@ client.on('guildMemberAdd', (member) => {
 
         var channelHow = guild.channels.cache.find(channel => channel.name === '❔how-to');
         var channelBot = guild.channels.cache.find(channel => channel.name === '🤖bot-commands');
-        var adminLink = guild.roles.cache.find(role => role.name === 'Admin');
-        guild.systemChannel.send('Hello <@' + id + '>, nice to meet you! \nIf you want **to communicate with the others** (writing in textchannels) **you will need a role**, you can add it yourself in the <#' + channelBot + '> channel with the command "!addrole:rolename". \nTo learn more about all this futuristic stuff and our rules **checkout**: <#' + channelHow + '>, as well as the **pinned messages** in each of our textchannels, those provide you with all kinds of useful information to navigate on our server. :) \nTo checkout all of our bot commands you can just type "**!help**". \nIf you need any further help or if you have suggestions for improvement contact our <@&' + adminLink + '>-Team.').catch((e) => { console.log(e); });
+        //var adminLink = guild.roles.cache.find(role => role.name === 'Admin');
+        //guild.systemChannel.send('Hello <@' + id + '>, nice to meet you! \nIf you want **to communicate with the others** (writing in textchannels) **you will need a role**, you can add it yourself in the <#' + channelBot + '> channel with the command "!addrole:rolename". \nTo learn more about all this futuristic stuff and our rules **checkout**: <#' + channelHow + '>, as well as the **pinned messages** in each of our textchannels, those provide you with all kinds of useful information to navigate on our server. :) \nTo checkout all of our bot commands you can just type "**!help**". \nIf you need any further help or if you have suggestions for improvement contact our <@&' + adminLink + '>-Team.').catch((e) => { console.log(e); });
+        guild.systemChannel.send('Hello <@' + id + '>, nice to meet you! \nUsing a role on this server is **inevitable**, you can add it yourself in the <#' + channelBot + '> channel with the command "!addrole:rolename". \nPlease read our rules: <#' + channelHow + '>, as well as the **pinned messages** in each of our text channels. :) \nTo check out all of our bot commands you can just type "**!help**".').catch((e) => { console.log(e); });
     }
 });
 
