@@ -53,10 +53,10 @@ client.on('message', message => {
     }
 
     // The keys in this map represent the roles defined on your discord server
-    var arrayOfRoles = { ApexPlayers: '!addRole:apex', ValorantPlayers: '!addRole:valorant', AmongUsPlayers: '!addRole:amongus', MinecraftPlayers: '!addRole:minecraft', 'CS:GOPlayers': '!addRole:cs', RocketLeague: '!addRole:rl', SpellBreakers: '!addRole:spell', WarzonePlayers: '!addRole:warzone' };
+    var arrayOfRoles = { ApexPlayers: '!addRole:apex', ValorantPlayers: '!addRole:valorant', AmongUsPlayers: '!addRole:amongus', MinecraftPlayers: '!addRole:minecraft', 'CS:GOPlayers': '!addRole:cs', RocketLeague: '!addRole:rl', HuntShowdown: '!addRole:hunt', SpellBreakers: '!addRole:spell', WarzonePlayers: '!addRole:warzone' };
     if (lowerCaseMessage === '!roles') {
         // Print all existing roles
-        message.channel.send('These are the available roles: \n- **!addRole:apex** | ApexPlayers \n- **!addRole:valorant** | ValorantPlayers \n- **!addRole:amongus** | AmongUsPlayers \n- **!addRole:minecraft** | MinecraftPlayers \n- **!addRole:cs** | CS:GOPlayers \n- **!addRole:rl** | RocketLeague \n').catch((e) => { console.log(e); });
+        message.channel.send('These are the available roles: \n- **!addRole:apex** | ApexPlayers \n- **!addRole:valorant** | ValorantPlayers \n- **!addRole:amongus** | AmongUsPlayers \n- **!addRole:minecraft** | MinecraftPlayers \n- **!addRole:cs** | CS:GOPlayers \n- **!addRole:rl** | RocketLeague \n- **!addRole:hunt** | HuntShowdown \n').catch((e) => { console.log(e); });
         //message.guild.roles.findAll
     }
 
