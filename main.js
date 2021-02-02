@@ -57,9 +57,11 @@ client.on('message', message => {
         message.reply('Hey you! \nI only understand certain commands. Here is a list of them: \n-> "**!roles**" - shows a list of all available roles \n-> "**!sounds**" - shows a list of all soundsnippets \nGo ahead and try it yourself under the channel <#' + channelLink + '> \n\n *Of course you can remove a role yourself using the following pattern:* "**!rmRole:apex**"').catch((e) => { console.log(e); });
     }
 
+    // The keys in this map represent the roles defined on your discord server
+    var arrayOfRoles = { ApexPlayers: '!addRole:apex', ValorantPlayers: '!addRole:valorant', AmongUsPlayers: '!addRole:amongus', MinecraftPlayers: '!addRole:minecraft', 'CS:GOPlayers': '!addRole:cs', RocketLeague: '!addRole:rl', HuntShowdown: '!addRole:hunt', SpellBreakers: '!addRole:spell', WarzonePlayers: '!addRole:warzone' };
     if (lowerCaseMessage === '!roles') {
         // Print all existing roles
-        message.channel.send('These are the available roles: \n- **!addRole:apex** | ApexPlayers \n- **!addRole:valorant** | ValorantPlayers \n- **!addRole:amongus** | AmongUsPlayers \n- **!addRole:minecraft** | MinecraftPlayers \n- **!addRole:cs** | CS:GOPlayers \n- **!addRole:rl** | RocketLeague \n').catch((e) => { console.log(e); });
+        message.channel.send('These are the available roles: \n- **!addRole:apex** | ApexPlayers \n- **!addRole:valorant** | ValorantPlayers \n- **!addRole:amongus** | AmongUsPlayers \n- **!addRole:minecraft** | MinecraftPlayers \n- **!addRole:cs** | CS:GOPlayers \n- **!addRole:rl** | RocketLeague \n- **!addRole:hunt** | HuntShowdown \n').catch((e) => { console.log(e); });
         //message.guild.roles.findAll
     }
 
@@ -240,14 +242,12 @@ client.on('messageReactionAdd', async(reaction, user) => {
     }
 
     // When we receive a reaction we check if the reaction is partial or not
-    // TODO: Channel ID Anpassen und Emoji Namen bzw Emojis dem Server hinzufügen
-    constChannelName = '734850972479782986';
+    constChannelName = '722787215373238272';
     if (reaction.message.channel.id === constChannelName) {
         // console.log('Listening on (add) reactions in the correct channel');
     }
     try {
         await reaction.fetch();
-        // TODO: Für jede Rolle copy pasten
         if (reaction.emoji.name === 'apex') {
             console.log('Give reaction role: Apex');
             addReactionRole('!addrole:apex');
@@ -307,14 +307,12 @@ client.on('messageReactionRemove', async(reaction, user) => {
     }
 
     // When we receive a reaction we check if the reaction is partial or not
-    // TODO: Channel ID Anpassen und Emoji Namen bzw Emojis dem Server hinzufügen
-    constChannelName = '734850972479782986';
+    constChannelName = '722787215373238272';
     if (reaction.message.channel.id === constChannelName) {
         // console.log('Listening on (remove) reactions in the correct channel');
     }
     try {
         await reaction.fetch();
-        // TODO: Für jede Rolle copy pasten
         if (reaction.emoji.name === 'apex') {
             console.log('Remove reaction role: Apex');
             removingReactionRole('!rmrole:apex');
