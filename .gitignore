@@ -5,6 +5,7 @@ credentials.js
 # Misc
 *.html
 *.pdf
+*.vscode
 
 # Logs
 logs
