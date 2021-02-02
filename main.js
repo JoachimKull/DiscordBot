@@ -242,6 +242,7 @@ client.on('messageReactionAdd', async(reaction, user) => {
     }
 
     // When we receive a reaction we check if the reaction is partial or not
+    // Bot-Commands Channel
     constChannelName = '722787215373238272';
     if (reaction.message.channel.id === constChannelName) {
         // console.log('Listening on (add) reactions in the correct channel');
@@ -307,6 +308,7 @@ client.on('messageReactionRemove', async(reaction, user) => {
     }
 
     // When we receive a reaction we check if the reaction is partial or not
+    // Bot-Commands Channel
     constChannelName = '722787215373238272';
     if (reaction.message.channel.id === constChannelName) {
         // console.log('Listening on (remove) reactions in the correct channel');
