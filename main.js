@@ -25,7 +25,7 @@ client.on('ready', () => {
 });
 
 // The keys in this map represent the roles defined on your discord server
-var arrayOfRoles = { ApexPlayers: '!addRole:apex', ValorantPlayers: '!addRole:valorant', AmongUsPlayers: '!addRole:amongus', MinecraftPlayers: '!addRole:minecraft', 'CS:GOPlayers': '!addRole:cs', RocketLeague: '!addRole:rl', SpellBreakers: '!addRole:spell', WarzonePlayers: '!addRole:warzone' };
+var arrayOfRoles = { JustChatting: '!addRole:jc', ApexPlayers: '!addRole:apex', ValorantPlayers: '!addRole:valorant', AmongUsPlayers: '!addRole:amongus', MinecraftPlayers: '!addRole:minecraft', 'CS:GOPlayers': '!addRole:cs', RocketLeague: '!addRole:rl', HuntShowdown: '!addRole:hunt', SpellBreakers: '!addRole:spell', WarzonePlayers: '!addRole:warzone' };
 
 
 // Create an event listener for messages
@@ -57,11 +57,9 @@ client.on('message', message => {
         message.reply('Hey you! \nI only understand certain commands. Here is a list of them: \n-> "**!roles**" - shows a list of all available roles \n-> "**!sounds**" - shows a list of all soundsnippets \nGo ahead and try it yourself under the channel <#' + channelLink + '> \n\n *Of course you can remove a role yourself using the following pattern:* "**!rmRole:apex**"').catch((e) => { console.log(e); });
     }
 
-    // The keys in this map represent the roles defined on your discord server
-    var arrayOfRoles = { ApexPlayers: '!addRole:apex', ValorantPlayers: '!addRole:valorant', AmongUsPlayers: '!addRole:amongus', MinecraftPlayers: '!addRole:minecraft', 'CS:GOPlayers': '!addRole:cs', RocketLeague: '!addRole:rl', HuntShowdown: '!addRole:hunt', SpellBreakers: '!addRole:spell', WarzonePlayers: '!addRole:warzone' };
     if (lowerCaseMessage === '!roles') {
         // Print all existing roles
-        message.channel.send('These are the available roles: \n- **!addRole:apex** | ApexPlayers \n- **!addRole:valorant** | ValorantPlayers \n- **!addRole:amongus** | AmongUsPlayers \n- **!addRole:minecraft** | MinecraftPlayers \n- **!addRole:cs** | CS:GOPlayers \n- **!addRole:rl** | RocketLeague \n- **!addRole:hunt** | HuntShowdown \n').catch((e) => { console.log(e); });
+        message.channel.send('These are the available roles: \n **!addRole:jc** | JustChatting \n **!addRole:apex** | ApexPlayers \n **!addRole:valorant** | ValorantPlayers \n **!addRole:amongus** | AmongUsPlayers \n **!addRole:minecraft** | MinecraftPlayers \n **!addRole:cs** | CS:GOPlayers \n **!addRole:rl** | RocketLeague \n **!addRole:hunt** | HuntShowdown \n').catch((e) => { console.log(e); });
         //message.guild.roles.findAll
     }
 
@@ -207,6 +205,35 @@ client.on('message', message => {
             message.channel.send('_May I suggest you to try_ **/click**').catch((e) => { console.log(e); });
         });
     }
+
+    // Prepared message for role reactions
+    // TODO: Check for privileges - only admins should be able to trigger this message
+    if (lowerCaseMessage === '!react') {
+        if (message.member.hasPermission("ADMINISTRATOR")) {
+            console.log('The force is strong in this one!');
+
+            message.channel.send('For adding yourself a game specific role, simply click on the corresponding emoji \nWe have **Apex Legends** - *emoji here* \n**Apex Legends** - *emoji here* \n').then(sent => { // 'sent' is that message you just sent
+                let id = sent.id;
+                console.log(id);
+                // const emojiJC = message.guild.emojis.cache.find(emoji => emoji.name === 'justchatting');
+                const emojiApex = message.guild.emojis.cache.find(emoji => emoji.name === 'apex');
+                // const emojiCS = message.guild.emojis.cache.find(emoji => emoji.name === 'csgo');
+                // const emojiValorant = message.guild.emojis.cache.find(emoji => emoji.name === 'valorant');
+                // const emojiAmongUs = message.guild.emojis.cache.find(emoji => emoji.name === 'amongus');
+                // const emojiMinecraft = message.guild.emojis.cache.find(emoji => emoji.name === 'minecraft');
+                // const emojiRocketLeague = message.guild.emojis.cache.find(emoji => emoji.name === 'rocketleague');
+                // const emojiHunt = message.guild.emojis.cache.find(emoji => emoji.name === 'huntshowdown');
+                // message.react(emojiJC);
+                sent.react(emojiApex);
+                // message.react(emojiCS);
+                // message.react(emojiValorant);
+                // message.react(emojiAmongUs);
+                // message.react(emojiMinecraft);
+                // message.react(emojiRocketLeague);
+                // message.react(emojiHunt);
+            });
+        }
+    }
 });
 
 client.on('messageReactionAdd', async(reaction, user) => {
@@ -243,34 +270,41 @@ client.on('messageReactionAdd', async(reaction, user) => {
 
     // When we receive a reaction we check if the reaction is partial or not
     // Bot-Commands Channel
-    constChannelName = '722787215373238272';
+    //constChannelName = '722787215373238272';
+    constChannelName = '734850972479782986';
     if (reaction.message.channel.id === constChannelName) {
         // console.log('Listening on (add) reactions in the correct channel');
-    }
-    try {
-        await reaction.fetch();
-        if (reaction.emoji.name === 'apex') {
-            console.log('Give reaction role: Apex');
-            addReactionRole('!addrole:apex');
-        } else if (reaction.emoji.name === 'csgo') {
-            console.log('Give reaction role: CS:GO');
-            addReactionRole('!addrole:cs');
-        } else if (reaction.emoji.name === 'valorant') {
-            console.log('Give reaction role: Valorant');
-            addReactionRole('!addrole:valorant');
-        } else if (reaction.emoji.name === 'amongus') {
-            console.log('Give reaction role: Among Us');
-            addReactionRole('!addrole:amongus');
-        } else if (reaction.emoji.name === 'minecraft') {
-            console.log('Give reaction role: Minecraft');
-            addReactionRole('!addrole:minecraft');
-        } else if (reaction.emoji.name === 'rocketleague') {
-            console.log('Give reaction role: Rocket League');
-            addReactionRole('!addrole:rl');
+        try {
+            await reaction.fetch();
+            if (reaction.emoji.name === 'apex') {
+                console.log('Give reaction role: Apex');
+                addReactionRole('!addrole:apex');
+            } else if (reaction.emoji.name === 'justchatting') {
+                console.log('Remove reaction role: JustChatting');
+                removingReactionRole('!addrole:jc');
+            } else if (reaction.emoji.name === 'csgo') {
+                console.log('Give reaction role: CS:GO');
+                addReactionRole('!addrole:cs');
+            } else if (reaction.emoji.name === 'valorant') {
+                console.log('Give reaction role: Valorant');
+                addReactionRole('!addrole:valorant');
+            } else if (reaction.emoji.name === 'amongus') {
+                console.log('Give reaction role: Among Us');
+                addReactionRole('!addrole:amongus');
+            } else if (reaction.emoji.name === 'minecraft') {
+                console.log('Give reaction role: Minecraft');
+                addReactionRole('!addrole:minecraft');
+            } else if (reaction.emoji.name === 'rocketleague') {
+                console.log('Give reaction role: Rocket League');
+                addReactionRole('!addrole:rl');
+            } else if (reaction.emoji.name === 'huntshowdown') {
+                console.log('Give reaction role: Hunt Showdown');
+                addReactionRole('!addrole:hunt');
+            }
+        } catch (error) {
+            console.error('Something went wrong when fetching the message: ', error);
+            return;
         }
-    } catch (error) {
-        console.error('Something went wrong when fetching the message: ', error);
-        return;
     }
 });
 
@@ -309,35 +343,43 @@ client.on('messageReactionRemove', async(reaction, user) => {
 
     // When we receive a reaction we check if the reaction is partial or not
     // Bot-Commands Channel
-    constChannelName = '722787215373238272';
+    //constChannelName = '722787215373238272';
+    constChannelName = '734850972479782986';
     if (reaction.message.channel.id === constChannelName) {
         // console.log('Listening on (remove) reactions in the correct channel');
-    }
-    try {
-        await reaction.fetch();
-        if (reaction.emoji.name === 'apex') {
-            console.log('Remove reaction role: Apex');
-            removingReactionRole('!rmrole:apex');
-        } else if (reaction.emoji.name === 'csgo') {
-            console.log('Remove reaction role: CS:GO');
-            removingReactionRole('!addrole:cs');
-        } else if (reaction.emoji.name === 'valorant') {
-            console.log('Remove reaction role: Valorant');
-            removingReactionRole('!addrole:valorant');
-        } else if (reaction.emoji.name === 'amongus') {
-            console.log('Remove reaction role: Among Us');
-            removingReactionRole('!addrole:amongus');
-        } else if (reaction.emoji.name === 'minecraft') {
-            console.log('Remove reaction role: Minecraft');
-            removingReactionRole('!addrole:minecraft');
-        } else if (reaction.emoji.name === 'rocketleague') {
-            console.log('Remove reaction role: Rocket League');
-            removingReactionRole('!addrole:rl');
+        try {
+            await reaction.fetch();
+            if (reaction.emoji.name === 'apex') {
+                console.log('Remove reaction role: Apex');
+                removingReactionRole('!rmrole:apex');
+            } else if (reaction.emoji.name === 'justchatting') {
+                console.log('Remove reaction role: Just Chatting');
+                removingReactionRole('!addrole:jc');
+            } else if (reaction.emoji.name === 'csgo') {
+                console.log('Remove reaction role: CS:GO');
+                removingReactionRole('!addrole:cs');
+            } else if (reaction.emoji.name === 'valorant') {
+                console.log('Remove reaction role: Valorant');
+                removingReactionRole('!addrole:valorant');
+            } else if (reaction.emoji.name === 'amongus') {
+                console.log('Remove reaction role: Among Us');
+                removingReactionRole('!addrole:amongus');
+            } else if (reaction.emoji.name === 'minecraft') {
+                console.log('Remove reaction role: Minecraft');
+                removingReactionRole('!addrole:minecraft');
+            } else if (reaction.emoji.name === 'rocketleague') {
+                console.log('Remove reaction role: Rocket League');
+                removingReactionRole('!addrole:rl');
+            } else if (reaction.emoji.name === 'huntshowdown') {
+                console.log('Remove reaction role: Hunt Showdown');
+                removingReactionRole('!addrole:hunt');
+            }
+        } catch (error) {
+            console.error('Something went wrong when fetching the message: ', error);
+            return;
         }
-    } catch (error) {
-        console.error('Something went wrong when fetching the message: ', error);
-        return;
     }
+
 });
 
 // Greet all new members
