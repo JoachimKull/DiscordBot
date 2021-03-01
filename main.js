@@ -207,7 +207,7 @@ client.on('message', message => {
     }
 
     // Prepared message for role reactions
-    // TODO: Check for privileges - only admins should be able to trigger this message
+    // Check for privileges - only admins should be able to trigger this message
     if (lowerCaseMessage === '!react') {
         if (message.member.hasPermission("ADMINISTRATOR")) {
             console.log('The force is strong in this one!');
@@ -258,6 +258,7 @@ client.on('messageReactionAdd', async(reaction, user) => {
                 var strpd_role = role.toString().replace(/\D/g, "");
 
                 // Check if member has role
+                // TODO: This adds (also at remove) the role only from the message author
                 if (reaction.message.member.roles.cache.has(strpd_role)) {
                     console.log(reaction.message.member.user.username + ' already has the role: ' + role.name);
                 } else {
@@ -270,7 +271,7 @@ client.on('messageReactionAdd', async(reaction, user) => {
 
     // When we receive a reaction we check if the reaction is partial or not
     // Bot-Commands Channel
-    //constChannelName = '722787215373238272';
+    // TODO: constChannelName = '722787215373238272';
     constChannelName = '734850972479782986';
     if (reaction.message.channel.id === constChannelName) {
         // console.log('Listening on (add) reactions in the correct channel');
@@ -281,7 +282,7 @@ client.on('messageReactionAdd', async(reaction, user) => {
                 addReactionRole('!addrole:apex');
             } else if (reaction.emoji.name === 'justchatting') {
                 console.log('Remove reaction role: JustChatting');
-                removingReactionRole('!addrole:jc');
+                addReactionRole('!addrole:jc');
             } else if (reaction.emoji.name === 'csgo') {
                 console.log('Give reaction role: CS:GO');
                 addReactionRole('!addrole:cs');
@@ -343,7 +344,7 @@ client.on('messageReactionRemove', async(reaction, user) => {
 
     // When we receive a reaction we check if the reaction is partial or not
     // Bot-Commands Channel
-    //constChannelName = '722787215373238272';
+    // TODO: constChannelName = '722787215373238272';
     constChannelName = '734850972479782986';
     if (reaction.message.channel.id === constChannelName) {
         // console.log('Listening on (remove) reactions in the correct channel');
