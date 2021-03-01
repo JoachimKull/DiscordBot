@@ -214,7 +214,8 @@ client.on('message', message => {
 
             message.channel.send('For adding yourself a game specific role, simply click on the corresponding emoji \nWe have **Apex Legends** - *emoji here* \n**Apex Legends** - *emoji here* \n').then(sent => { // 'sent' is that message you just sent
                 let id = sent.id;
-                console.log(id);
+                // console.log(id);
+                // TODO: Cleanup
                 // const emojiJC = message.guild.emojis.cache.find(emoji => emoji.name === 'justchatting');
                 const emojiApex = message.guild.emojis.cache.find(emoji => emoji.name === 'apex');
                 // const emojiCS = message.guild.emojis.cache.find(emoji => emoji.name === 'csgo');
@@ -251,19 +252,12 @@ client.on('messageReactionAdd', async(reaction, user) => {
                 var role = reaction.message.guild.roles.cache.find(role => role.name === key);
 
                 if (role === null) {
-                    console.log(reaction.message.member.user.username + ' tried to get a non existing role (' + roleName[1] + ') - atleast on this server');
+                    console.log(reaction.message.member.user.username + ' tried to get a non existing role (' + roleName[1] + ') - at least on this server');
                     return;
-                }
-
-                var strpd_role = role.toString().replace(/\D/g, "");
-
-                // Check if member has role
-                // TODO: This adds (also at remove) the role only from the message author
-                if (reaction.message.member.roles.cache.has(strpd_role)) {
-                    console.log(reaction.message.member.user.username + ' already has the role: ' + role.name);
                 } else {
-                    reaction.message.member.roles.add(role);
-                    console.log(reaction.message.member.user.username + ' added himself the role: ' + role.name);
+                    const reactionMember = reaction.message.member.guild.members.cache.find((member) => member.id === user.id);
+                    reactionMember.roles.add(role);
+                    console.log(user.username + ' added himself the role: ' + role.name);
                 }
             }
         }
@@ -271,8 +265,8 @@ client.on('messageReactionAdd', async(reaction, user) => {
 
     // When we receive a reaction we check if the reaction is partial or not
     // Bot-Commands Channel
-    // TODO: constChannelName = '722787215373238272';
-    constChannelName = '734850972479782986';
+    // TODO: constChannelName = '722787215373238272'; // DumpyFruit
+    constChannelName = '734850972479782986'; // Testing
     if (reaction.message.channel.id === constChannelName) {
         // console.log('Listening on (add) reactions in the correct channel');
         try {
@@ -329,23 +323,17 @@ client.on('messageReactionRemove', async(reaction, user) => {
         if (role === null) {
             console.log(reaction.message.member.user.username + ' tried to remove the role >' + roleName[1] + '< but failed somehow!');
             return;
-        }
-
-        var strpd_role = role.toString().replace(/\D/g, "");
-
-        // Check if member has role
-        if (reaction.message.member.roles.cache.has(strpd_role)) {
-            reaction.message.member.roles.remove(role);
-            console.log(reaction.message.member.user.username + ' removed himself the role: ' + role.name);
         } else {
-            console.log(reaction.message.member.user.username + ' tried to remove a role he doesn\'t own: ' + role.name);
+            const reactionMember = reaction.message.member.guild.members.cache.find((member) => member.id === user.id);
+            reactionMember.roles.remove(role);
+            console.log(user.username + ' removed himself the role: ' + role.name);
         }
     }
 
     // When we receive a reaction we check if the reaction is partial or not
     // Bot-Commands Channel
-    // TODO: constChannelName = '722787215373238272';
-    constChannelName = '734850972479782986';
+    // TODO: constChannelName = '722787215373238272'; // DumpyFruit
+    constChannelName = '734850972479782986'; // Testing
     if (reaction.message.channel.id === constChannelName) {
         // console.log('Listening on (remove) reactions in the correct channel');
         try {

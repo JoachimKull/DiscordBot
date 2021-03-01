@@ -20,7 +20,6 @@ When you've done all that you just have to ``npm install`` all the packages and 
 
 I'm selfhosting this bot on a Raspberry Pi 3b with [noip](https://www.noip.com/) and [pm2](https://pm2.keymetrics.io/docs/usage/quick-start/) as they are fast to setup (just follow their instructions) and really easy to use. Noip is not mandatory but in case you want to run a little webpage to advertise your server it makes the process as easy as it can be.
 
-
 ### TODO
 
 - [ ] regex for auto answer if no known command was send (maybe a _startswith_ will do the job)
