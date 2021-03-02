@@ -23,7 +23,8 @@ I'm self hosting this bot on a Raspberry Pi 3b with [noip](https://www.noip.com/
 ### TODO
 
 - [ ] regex for auto answer if no known command was send (maybe a _startswith_ will do the job)
-- [ ] play with reactions - maybe send pm when roles were given
-  - [ ] add info in help command
+- [x] play with reactions - maybe send pm when roles were given
+  - [x] add info in help command
 - [ ] let admins define new roles - therefore we need a file which contains the known roles
-- [ ] add restriction for channels in which bot commands can be send in as well as a info message when in wrong channel
+- [x] add restriction for channels in which bot commands can be send in as well as a info message when in wrong channel
+- [ ] add german welcome message?
