@@ -30,17 +30,21 @@ var arrayOfRoles = { JustChatting: '!addRole:jc', ApexPlayers: '!addRole:apex', 
 
 // Create an event listener for messages
 client.on('message', message => {
-    const channelBotCommands = message.member.guild.channels.cache.find(channel => channel.name === '🤖bot-commands');
-    // If the origin of the message is the bot-commands channel or the message author is not our bot or the message author is an admin - do nothing
-    if (message.channel.id == channelBotCommands || message.author == '561275886192820224' || message.member.hasPermission("ADMINISTRATOR")) {
-
-
-    } else { // Remind the user to use the correct channel
-        message.reply('please use our <#' + channelBotCommands + '> channel to keep this one tidy.');
-        return;
-    }
 
     lowerCaseMessage = message.content.toLowerCase();
+
+    const channelBotCommands = message.member.guild.channels.cache.find(channel => channel.name === '🤖bot-commands');
+    // If the origin of the message is the bot-commands channel or the message author is not our bot or the message author is an admin - do nothing
+    if (lowerCaseMessage.startsWith('!')) {
+        if (message.channel.id == channelBotCommands || message.author == '561275886192820224' || message.member.hasPermission("ADMINISTRATOR")) {
+
+
+        } else { // Remind the user to use the correct channel
+            message.reply('please use our <#' + channelBotCommands + '> channel to keep this one tidy.');
+            return;
+        }
+
+    }
 
     // If the message is "ping"
     if (lowerCaseMessage === '!ping') {
