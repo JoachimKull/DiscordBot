@@ -25,7 +25,7 @@ client.on('ready', () => {
 });
 
 // The keys in this map represent the roles defined on your discord server
-var arrayOfRoles = { JustChatting: '!addRole:jc', ApexPlayers: '!addRole:apex', ValorantPlayers: '!addRole:valorant', AmongUsPlayers: '!addRole:amongus', MinecraftPlayers: '!addRole:minecraft', 'CS:GOPlayers': '!addRole:cs', RocketLeague: '!addRole:rl', HuntShowdown: '!addRole:hunt', SpellBreakers: '!addRole:spell', WarzonePlayers: '!addRole:warzone' };
+var arrayOfRoles = { JustChatting: '!addRole:jc', ApexPlayers: '!addRole:apex', ValorantPlayers: '!addRole:valorant', AmongUsPlayers: '!addRole:amongus', MinecraftPlayers: '!addRole:minecraft', 'CS:GOPlayers': '!addRole:cs', RocketLeague: '!addRole:rl', ValheimPlayers: '!addrole:valheim', HuntShowdown: '!addRole:hunt', SpellBreakers: '!addRole:spell', WarzonePlayers: '!addRole:warzone' };
 
 
 // Create an event listener for messages
@@ -61,7 +61,7 @@ client.on('message', message => {
 
     if (lowerCaseMessage === '!roles') {
         // Print all existing roles
-        message.channel.send('These are the available roles: \n **!addRole:jc** | JustChatting \n **!addRole:apex** | ApexPlayers \n **!addRole:valorant** | ValorantPlayers \n **!addRole:amongus** | AmongUsPlayers \n **!addRole:minecraft** | MinecraftPlayers \n **!addRole:cs** | CS:GOPlayers \n **!addRole:rl** | RocketLeague \n **!addRole:hunt** | HuntShowdown \n\n*Of course you can remove a role yourself using the following pattern:* "**!rmRole:apex**"').catch((e) => { console.log(e); });
+        message.channel.send('These are the available roles: \n **!addRole:jc** | JustChatting \n **!addRole:apex** | ApexPlayers \n **!addRole:valorant** | ValorantPlayers \n **!addRole:amongus** | AmongUsPlayers \n **!addRole:minecraft** | MinecraftPlayers \n **!addRole:cs** | CS:GOPlayers \n **!addRole:rl** | RocketLeague \n **!addRole:valheim** | Valheim \n\n*Of course you can remove a role yourself using the following pattern:* "**!rmRole:apex**"').catch((e) => { console.log(e); });
         //message.guild.roles.findAll
     }
 
@@ -221,7 +221,7 @@ client.on('message', message => {
             const emojiAmongUs = message.guild.emojis.cache.find(emoji => emoji.name === 'amongus');
             const emojiMinecraft = message.guild.emojis.cache.find(emoji => emoji.name === 'minecraft');
             const emojiRocketLeague = message.guild.emojis.cache.find(emoji => emoji.name === 'rocketleague');
-            const emojiHunt = message.guild.emojis.cache.find(emoji => emoji.name === 'huntshowdown');
+            const emojiValheim = message.guild.emojis.cache.find(emoji => emoji.name === 'valheim');
 
             message.channel.send('Um dir eine spielspezifische Rolle hinzuzufügen, reagiere einfach mit dem entsprechenden Emoji. \nFor adding yourself a game specific role, simply react with the corresponding emoji. \n').then(initMessage => { // 'sent' is that message you just sent
                 let id = initMessage.id;
@@ -233,7 +233,7 @@ client.on('message', message => {
                 initMessage.react(emojiAmongUs);
                 initMessage.react(emojiMinecraft);
                 initMessage.react(emojiRocketLeague);
-                initMessage.react(emojiHunt);
+                initMessage.react(emojiValheim);
             });
         }
     }
@@ -293,9 +293,9 @@ client.on('messageReactionAdd', async(reaction, user) => {
             } else if (reaction.emoji.name === 'rocketleague') {
                 console.log('Give reaction role: Rocket League');
                 addReactionRole('!addrole:rl');
-            } else if (reaction.emoji.name === 'huntshowdown') {
-                console.log('Give reaction role: Hunt Showdown');
-                addReactionRole('!addrole:hunt');
+            } else if (reaction.emoji.name === 'valheim') {
+                console.log('Give reaction role: Valheim');
+                addReactionRole('!addrole:valheim');
             }
         } catch (error) {
             console.error('Something went wrong when fetching the message: ', error);
@@ -359,9 +359,9 @@ client.on('messageReactionRemove', async(reaction, user) => {
             } else if (reaction.emoji.name === 'rocketleague') {
                 console.log('Remove reaction role: Rocket League');
                 removingReactionRole('!addrole:rl');
-            } else if (reaction.emoji.name === 'huntshowdown') {
-                console.log('Remove reaction role: Hunt Showdown');
-                removingReactionRole('!addrole:hunt');
+            } else if (reaction.emoji.name === 'valheim') {
+                console.log('Remove reaction role: Valheim');
+                removingReactionRole('!addrole:valheim');
             }
         } catch (error) {
             console.error('Something went wrong when fetching the message: ', error);
