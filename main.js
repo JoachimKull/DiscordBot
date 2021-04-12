@@ -34,7 +34,7 @@ client.on('message', message => {
     lowerCaseMessage = message.content.toLowerCase();
 
     try {
-        const channelBotCommands = message.member.guild.channels.cache.find(channel => channel.name === '🤖bot-commands');
+        var channelBotCommands = message.member.guild.channels.cache.find(channel => channel.name === '🤖bot-commands');
     } catch (error) {
         console.log('Error getting the bot-commands Channel: ' + error);
     }
@@ -42,8 +42,7 @@ client.on('message', message => {
     // If the origin of the message is the bot-commands channel or the message author is not our bot or the message author is an admin - do nothing
     if (lowerCaseMessage.startsWith('!')) {
         if (message.channel.id == channelBotCommands || message.author == '561275886192820224' || message.member.hasPermission("ADMINISTRATOR")) {
-
-
+            console.log('This one has massive powers!');
         } else { // Remind the user to use the correct channel
             message.reply('please use our <#' + channelBotCommands + '> channel to keep this one tidy.');
             return;
