@@ -33,7 +33,12 @@ client.on('message', message => {
 
     lowerCaseMessage = message.content.toLowerCase();
 
-    const channelBotCommands = message.member.guild.channels.cache.find(channel => channel.name === '🤖bot-commands');
+    try {
+        const channelBotCommands = message.member.guild.channels.cache.find(channel => channel.name === '🤖bot-commands');
+    } catch (error) {
+        console.log('Error getting the bot-commands Channel: ' + error);
+    }
+
     // If the origin of the message is the bot-commands channel or the message author is not our bot or the message author is an admin - do nothing
     if (lowerCaseMessage.startsWith('!')) {
         if (message.channel.id == channelBotCommands || message.author == '561275886192820224' || message.member.hasPermission("ADMINISTRATOR")) {
