@@ -33,10 +33,12 @@ client.on('message', message => {
 
     lowerCaseMessage = message.content.toLowerCase();
 
-    try {
-        var channelBotCommands = message.member.guild.channels.cache.find(channel => channel.name === '🤖bot-commands');
-    } catch (error) {
-        console.log('Error getting the bot-commands Channel: ' + error);
+    for (let i = 0; i <= 3; i++) {
+        try {
+            var channelBotCommands = message.member.guild.channels.cache.find(channel => channel.name === '🤖bot-commands');
+        } catch (error) {
+            console.log('Error getting the bot-commands Channel: ' + error);
+        }
     }
 
     // If the origin of the message is the bot-commands channel or the message author is not our bot or the message author is an admin - do nothing
@@ -184,7 +186,7 @@ client.on('message', message => {
                                 const dispatcher = connection.play(pathToFile, { volume: 0.5, });
                                 dispatcher.on('finish', () => {
                                     vc.leave();
-                                    console.log('Finished playing: ' + concatMsg);
+                                    // console.log('Finished playing: ' + concatMsg);
                                 });
                             });
                         } else {
@@ -277,28 +279,20 @@ client.on('messageReactionAdd', async(reaction, user) => {
         try {
             await reaction.fetch();
             if (reaction.emoji.name === 'apex') {
-                console.log('Give reaction role: Apex');
                 addReactionRole('!addrole:apex');
             } else if (reaction.emoji.name === 'justchatting') {
-                console.log('Give reaction role: JustChatting');
                 addReactionRole('!addrole:jc');
             } else if (reaction.emoji.name === 'csgo') {
-                console.log('Give reaction role: CS:GO');
                 addReactionRole('!addrole:cs');
             } else if (reaction.emoji.name === 'valorant') {
-                console.log('Give reaction role: Valorant');
                 addReactionRole('!addrole:valorant');
             } else if (reaction.emoji.name === 'amongus') {
-                console.log('Give reaction role: Among Us');
                 addReactionRole('!addrole:amongus');
             } else if (reaction.emoji.name === 'minecraft') {
-                console.log('Give reaction role: Minecraft');
                 addReactionRole('!addrole:minecraft');
             } else if (reaction.emoji.name === 'rocketleague') {
-                console.log('Give reaction role: Rocket League');
                 addReactionRole('!addrole:rl');
             } else if (reaction.emoji.name === 'valheim') {
-                console.log('Give reaction role: Valheim');
                 addReactionRole('!addrole:valheim');
             }
         } catch (error) {
@@ -343,28 +337,20 @@ client.on('messageReactionRemove', async(reaction, user) => {
         try {
             await reaction.fetch();
             if (reaction.emoji.name === 'apex') {
-                console.log('Remove reaction role: Apex');
                 removingReactionRole('!rmrole:apex');
             } else if (reaction.emoji.name === 'justchatting') {
-                console.log('Remove reaction role: Just Chatting');
                 removingReactionRole('!addrole:jc');
             } else if (reaction.emoji.name === 'csgo') {
-                console.log('Remove reaction role: CS:GO');
                 removingReactionRole('!addrole:cs');
             } else if (reaction.emoji.name === 'valorant') {
-                console.log('Remove reaction role: Valorant');
                 removingReactionRole('!addrole:valorant');
             } else if (reaction.emoji.name === 'amongus') {
-                console.log('Remove reaction role: Among Us');
                 removingReactionRole('!addrole:amongus');
             } else if (reaction.emoji.name === 'minecraft') {
-                console.log('Remove reaction role: Minecraft');
                 removingReactionRole('!addrole:minecraft');
             } else if (reaction.emoji.name === 'rocketleague') {
-                console.log('Remove reaction role: Rocket League');
                 removingReactionRole('!addrole:rl');
             } else if (reaction.emoji.name === 'valheim') {
-                console.log('Remove reaction role: Valheim');
                 removingReactionRole('!addrole:valheim');
             }
         } catch (error) {
@@ -404,10 +390,11 @@ client.on('guildMemberAdd', (member) => {
 
 // Notify about leaving members
 client.on('guildMemberRemove', (member) => {
-    var name = member.user.username;
+    var user = member.user.username;
+    var userName = member.user.username;
     const adminChat = member.guild.channels.cache.find(channel => channel.name === 'admin-chat');
-    console.log('The user: ' + name + ' left the Server');
-    adminChat.send('The user: ' + name + ' left the Server');
+    console.log('The user: ' + user + 'with the name: ' + userName + ' left the Server');
+    adminChat.send('The user: ' + user + 'with the name: ' + userName + ' left the Server');
 });
 
 // Log our bot in by using the token from https://discordapp.com/developers/applications/me
