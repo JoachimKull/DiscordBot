@@ -33,12 +33,12 @@ client.on('message', message => {
 
     lowerCaseMessage = message.content.toLowerCase();
 
-    for (let i = 0; i <= 3; i++) {
-        try {
-            var channelBotCommands = message.member.guild.channels.cache.find(channel => channel.name === '🤖bot-commands');
-        } catch (error) {
-            console.log('Error getting the bot-commands Channel: ' + error);
-        }
+    try {
+        var channelBotCommands = message.member.guild.channels.cache.find(channel => channel.name === '🤖bot-commands');
+    } catch (error) {
+        console.log('Error getting the bot-commands Channel: ' + error);
+        console.log('Setting the channel ID manually');
+        var channelBotCommands = '689909990160334910'
     }
 
     // If the origin of the message is the bot-commands channel or the message author is not our bot or the message author is an admin - do nothing
@@ -390,11 +390,11 @@ client.on('guildMemberAdd', (member) => {
 
 // Notify about leaving members
 client.on('guildMemberRemove', (member) => {
-    var user = member.user.username;
+    var user = member.user;
     var userName = member.user.username;
     const adminChat = member.guild.channels.cache.find(channel => channel.name === 'admin-chat');
-    console.log('The user: ' + user + 'with the name: ' + userName + ' left the Server');
-    adminChat.send('The user: ' + user + 'with the name: ' + userName + ' left the Server');
+    console.log('The user: ' + user + ' with the name: ' + userName + ' left the Server');
+    adminChat.send('The user: ' + user + ' with the name: ' + userName + ' left the Server');
 });
 
 // Log our bot in by using the token from https://discordapp.com/developers/applications/me
