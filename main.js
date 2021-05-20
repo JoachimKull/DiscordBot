@@ -18,10 +18,21 @@ const client = new Client({ partials: ['MESSAGE', 'CHANNEL', 'REACTION'] }, { ws
  * received from Discord
  */
 client.on('ready', () => {
-    var date = new Date().toLocaleString();
-    console.log('LegendBot is ready! - ' + date);
+    var date = new Date();
+    console.log('LegendBot is ready! - ' + date.toLocaleString());
     // Set a game activity for the bot
     client.user.setActivity("LegendBot | !help");
+
+    var list = client.guilds.cache.get('554337259315265538');
+    var today = date.getTime();
+    var lastTwoWeeks = (today - 1209600000);
+    list.members.cache.forEach(member => {
+        // console.log('User: ' + member.user.username + ' Joined at: ' + member.joinedAt.getTime());
+        // TODO: How to do it only once a week?
+        if (member.joinedAt.getTime() >= lastTwoWeeks) {
+            console.log(member.user.username);
+        }
+    });
 });
 
 // The keys in this map represent the roles defined on your discord server
