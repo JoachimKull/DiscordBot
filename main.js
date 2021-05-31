@@ -18,8 +18,9 @@ const client = new Client({ partials: ['MESSAGE', 'CHANNEL', 'REACTION'] }, { ws
  * received from Discord
  */
 client.on('ready', () => {
-    var date = new Date().toLocaleString();
-    console.log('LegendBot is ready! - ' + date);
+    var date = new Date();
+    console.log('LegendBot is ready! - ' + date.toLocaleString());
+
     // Set a game activity for the bot
     client.user.setActivity("LegendBot | !help");
 });
@@ -49,7 +50,30 @@ client.on('message', message => {
             message.reply('please use our <#' + channelBotCommands + '> channel to keep this one tidy.');
             return;
         }
+    }
 
+    // Returns a list of new members of the last two weeks
+    if (lowerCaseMessage === '!newbies') {
+        if (message.member.hasPermission("ADMINISTRATOR")) {
+            console.log('Admin looked for newbs!');
+
+            var list = client.guilds.cache.get('554337259315265538');
+
+            var date = new Date();
+            var today = date.getTime();
+            var lastTwoWeeks = (today - 1209600000);
+            list.members.cache.forEach(member => {
+                // console.log('User: ' + member.user.username + ' Joined at: ' + member.joinedAt.getTime());
+
+                if (member.joinedAt.getTime() >= lastTwoWeeks) {
+                    console.log(member.user.username);
+                    message.channel.send('New user/s: ' + member.user.username).catch((e) => { console.log(e); });
+                }
+            });
+        } else { // Remind the user to use the correct channel
+            message.reply('This command is for admins only - sorry :*');
+            return;
+        }
     }
 
     // If the message is "ping"
