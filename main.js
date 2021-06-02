@@ -18,29 +18,63 @@ const client = new Client({ partials: ['MESSAGE', 'CHANNEL', 'REACTION'] }, { ws
  * received from Discord
  */
 client.on('ready', () => {
-    var date = new Date().toLocaleString();
-    console.log('LegendBot is ready! - ' + date);
+    var date = new Date();
+    console.log('LegendBot is ready! - ' + date.toLocaleString());
+
     // Set a game activity for the bot
     client.user.setActivity("LegendBot | !help");
 });
 
 // The keys in this map represent the roles defined on your discord server
-var arrayOfRoles = { JustChatting: '!addRole:jc', ApexPlayers: '!addRole:apex', ValorantPlayers: '!addRole:valorant', AmongUsPlayers: '!addRole:amongus', MinecraftPlayers: '!addRole:minecraft', 'CS:GOPlayers': '!addRole:cs', RocketLeague: '!addRole:rl', HuntShowdown: '!addRole:hunt', SpellBreakers: '!addRole:spell', WarzonePlayers: '!addRole:warzone' };
+var arrayOfRoles = { JustChatting: '!addRole:jc', ApexPlayers: '!addRole:apex', ValorantPlayers: '!addRole:valorant', AmongUsPlayers: '!addRole:amongus', MinecraftPlayers: '!addRole:minecraft', 'CS:GOPlayers': '!addRole:cs', RocketLeague: '!addRole:rl', ValheimPlayers: '!addrole:valheim', HuntShowdown: '!addRole:hunt', SpellBreakers: '!addRole:spell', WarzonePlayers: '!addRole:warzone' };
 
 
 // Create an event listener for messages
 client.on('message', message => {
-    const channelBotCommands = message.member.guild.channels.cache.find(channel => channel.name === '🤖bot-commands');
-    // If the origin of the message is the bot-commands channel or the message author is not our bot or the message author is an admin - do nothing
-    if (message.channel.id == channelBotCommands || message.author == '561275886192820224' || message.member.hasPermission("ADMINISTRATOR")) {
-
-
-    } else { // Remind the user to use the correct channel
-        message.reply('please use our <#' + channelBotCommands + '> channel to keep this one tidy.');
-        return;
-    }
 
     lowerCaseMessage = message.content.toLowerCase();
+
+    try {
+        var channelBotCommands = message.member.guild.channels.cache.find(channel => channel.name === '🤖bot-commands');
+    } catch (error) {
+        console.log('Error getting the bot-commands Channel: ' + error);
+        console.log('Setting the channel ID manually');
+        var channelBotCommands = '689909990160334910'
+    }
+
+    // If the origin of the message is the bot-commands channel or the message author is not our bot or the message author is an admin - do nothing
+    if (lowerCaseMessage.startsWith('!')) {
+        if (message.channel.id == channelBotCommands || message.author == '561275886192820224' || message.member.hasPermission("ADMINISTRATOR")) {
+            console.log('This one has massive powers!');
+        } else { // Remind the user to use the correct channel
+            message.reply('please use our <#' + channelBotCommands + '> channel to keep this one tidy.');
+            return;
+        }
+    }
+
+    // Returns a list of new members of the last two weeks
+    if (lowerCaseMessage === '!newbies') {
+        if (message.member.hasPermission("ADMINISTRATOR")) {
+            console.log('Admin looked for newbs!');
+
+            var list = client.guilds.cache.get('554337259315265538');
+
+            var date = new Date();
+            var today = date.getTime();
+            var lastTwoWeeks = (today - 1209600000);
+            list.members.cache.forEach(member => {
+                // console.log('User: ' + member.user.username + ' Joined at: ' + member.joinedAt.getTime());
+
+                if (member.joinedAt.getTime() >= lastTwoWeeks) {
+                    console.log(member.user.username);
+                    message.channel.send('New user/s: ' + member.user.username).catch((e) => { console.log(e); });
+                }
+            });
+        } else { // Remind the user to use the correct channel
+            message.reply('This command is for admins only - sorry :*');
+            return;
+        }
+    }
 
     // If the message is "ping"
     if (lowerCaseMessage === '!ping') {
@@ -52,13 +86,12 @@ client.on('message', message => {
     if (lowerCaseMessage === '!cmds' || lowerCaseMessage === '!help') {
         var channelLink = message.member.guild.channels.cache.find(channel => channel.name === '🤖bot-commands');
         // Print all existing commands
-        // message.reply('Hey you! \nI only understand certain commands. Here is a list of them: \n-> "**!roles**" - shows a list of all available roles \n-> "**!sounds**" - shows a list of all soundsnippets \nGo ahead and try it yourself under the channel <#' + channelLink + '> \n\n *Of course you can remove a role yourself using the following pattern:* "**!rmRole:apex**"').catch((e) => { console.log(e); });
-        message.reply('Hey you! \nI only understand certain commands. Here is a list of them: \n-> "**!sounds**" - shows a list of all soundsnippets \n-> "**!roles**" - shows a list of all available roles \nGo ahead and try it yourself under the channel <#' + channelLink + '> \n\n *Of course you can remove a role yourself using the following pattern:* "**!rmRole:apex**"').catch((e) => { console.log(e); });
+        message.reply('Hey you! \nI only understand certain commands. Here is a list of them: \n-> "**!roles**" - shows a list of all available roles \n-> "**!sounds**" - shows a list of all soundsnippets \nGo ahead and try it yourself under the channel <#' + channelLink + '>').catch((e) => { console.log(e); });
     }
 
     if (lowerCaseMessage === '!roles') {
         // Print all existing roles
-        message.channel.send('These are the available roles: \n **!addRole:jc** | JustChatting \n **!addRole:apex** | ApexPlayers \n **!addRole:valorant** | ValorantPlayers \n **!addRole:amongus** | AmongUsPlayers \n **!addRole:minecraft** | MinecraftPlayers \n **!addRole:cs** | CS:GOPlayers \n **!addRole:rl** | RocketLeague \n **!addRole:hunt** | HuntShowdown \n').catch((e) => { console.log(e); });
+        message.channel.send('These are the available roles: \n **!addRole:jc** | JustChatting \n **!addRole:apex** | ApexPlayers \n **!addRole:valorant** | ValorantPlayers \n **!addRole:amongus** | AmongUsPlayers \n **!addRole:minecraft** | MinecraftPlayers \n **!addRole:cs** | CS:GOPlayers \n **!addRole:rl** | RocketLeague \n **!addRole:valheim** | Valheim \n\n*Of course you can remove a role yourself using the following pattern:* "**!rmRole:apex**"').catch((e) => { console.log(e); });
         //message.guild.roles.findAll
     }
 
@@ -177,7 +210,7 @@ client.on('message', message => {
                                 const dispatcher = connection.play(pathToFile, { volume: 0.5, });
                                 dispatcher.on('finish', () => {
                                     vc.leave();
-                                    console.log('Finished playing: ' + concatMsg);
+                                    // console.log('Finished playing: ' + concatMsg);
                                 });
                             });
                         } else {
@@ -218,9 +251,9 @@ client.on('message', message => {
             const emojiAmongUs = message.guild.emojis.cache.find(emoji => emoji.name === 'amongus');
             const emojiMinecraft = message.guild.emojis.cache.find(emoji => emoji.name === 'minecraft');
             const emojiRocketLeague = message.guild.emojis.cache.find(emoji => emoji.name === 'rocketleague');
-            const emojiHunt = message.guild.emojis.cache.find(emoji => emoji.name === 'huntshowdown');
+            const emojiValheim = message.guild.emojis.cache.find(emoji => emoji.name === 'valheim');
 
-            message.channel.send('Um dir eine spielspezifische Rolle hinzuzufügen, reagiere einfach mit dem entsprechenden Emoji. \nFor adding yourself a game specific role, simply react with the corresponding emoji. \n').then(initMessage => { // 'sent' is that message you just sent
+            message.channel.send('**Um dir eine spielspezifische Rolle hinzuzufügen, reagiere einfach mit dem entsprechenden Emoji.** \n**For adding yourself a game specific role, simply react with the corresponding emoji.** \n').then(initMessage => {
                 let id = initMessage.id;
                 // console.log(id);
                 initMessage.react(emojiJC);
@@ -230,7 +263,7 @@ client.on('message', message => {
                 initMessage.react(emojiAmongUs);
                 initMessage.react(emojiMinecraft);
                 initMessage.react(emojiRocketLeague);
-                initMessage.react(emojiHunt);
+                initMessage.react(emojiValheim);
             });
         }
     }
@@ -270,29 +303,21 @@ client.on('messageReactionAdd', async(reaction, user) => {
         try {
             await reaction.fetch();
             if (reaction.emoji.name === 'apex') {
-                console.log('Give reaction role: Apex');
                 addReactionRole('!addrole:apex');
             } else if (reaction.emoji.name === 'justchatting') {
-                console.log('Give reaction role: JustChatting');
                 addReactionRole('!addrole:jc');
             } else if (reaction.emoji.name === 'csgo') {
-                console.log('Give reaction role: CS:GO');
                 addReactionRole('!addrole:cs');
             } else if (reaction.emoji.name === 'valorant') {
-                console.log('Give reaction role: Valorant');
                 addReactionRole('!addrole:valorant');
             } else if (reaction.emoji.name === 'amongus') {
-                console.log('Give reaction role: Among Us');
                 addReactionRole('!addrole:amongus');
             } else if (reaction.emoji.name === 'minecraft') {
-                console.log('Give reaction role: Minecraft');
                 addReactionRole('!addrole:minecraft');
             } else if (reaction.emoji.name === 'rocketleague') {
-                console.log('Give reaction role: Rocket League');
                 addReactionRole('!addrole:rl');
-            } else if (reaction.emoji.name === 'huntshowdown') {
-                console.log('Give reaction role: Hunt Showdown');
-                addReactionRole('!addrole:hunt');
+            } else if (reaction.emoji.name === 'valheim') {
+                addReactionRole('!addrole:valheim');
             }
         } catch (error) {
             console.error('Something went wrong when fetching the message: ', error);
@@ -336,29 +361,21 @@ client.on('messageReactionRemove', async(reaction, user) => {
         try {
             await reaction.fetch();
             if (reaction.emoji.name === 'apex') {
-                console.log('Remove reaction role: Apex');
                 removingReactionRole('!rmrole:apex');
             } else if (reaction.emoji.name === 'justchatting') {
-                console.log('Remove reaction role: Just Chatting');
                 removingReactionRole('!addrole:jc');
             } else if (reaction.emoji.name === 'csgo') {
-                console.log('Remove reaction role: CS:GO');
                 removingReactionRole('!addrole:cs');
             } else if (reaction.emoji.name === 'valorant') {
-                console.log('Remove reaction role: Valorant');
                 removingReactionRole('!addrole:valorant');
             } else if (reaction.emoji.name === 'amongus') {
-                console.log('Remove reaction role: Among Us');
                 removingReactionRole('!addrole:amongus');
             } else if (reaction.emoji.name === 'minecraft') {
-                console.log('Remove reaction role: Minecraft');
                 removingReactionRole('!addrole:minecraft');
             } else if (reaction.emoji.name === 'rocketleague') {
-                console.log('Remove reaction role: Rocket League');
                 removingReactionRole('!addrole:rl');
-            } else if (reaction.emoji.name === 'huntshowdown') {
-                console.log('Remove reaction role: Hunt Showdown');
-                removingReactionRole('!addrole:hunt');
+            } else if (reaction.emoji.name === 'valheim') {
+                removingReactionRole('!addrole:valheim');
             }
         } catch (error) {
             console.error('Something went wrong when fetching the message: ', error);
@@ -387,10 +404,21 @@ client.on('guildMemberAdd', (member) => {
 
         const channelHow = guild.channels.cache.find(channel => channel.name === '❔how-to');
         //var adminLink = guild.roles.cache.find(role => role.name === 'Admin');
-        const welcomeMessage = 'Hello <@' + id + '>, nice to meet you! \nUsing a role on this server is **inevitable**, you can add it yourself in <#' + channelHow + '> by reacting on the specific emoji. Only with the role the specific Channels are visible. \nPlease read our rules and for additional information checkout the **pinned messages** in each of our text channels. :) \n';
+        const welcomeMessageGer = 'Hallo <@' + id + '>, schön dich kennenzulernen! \nDie Verwendung einer Rolle auf diesem Server ist **unumgänglich**. Du kannst dir selbst eine Rolle unter <#' + channelHow + '> aussuchen, indem du auf das jeweilige Emoji reagierst. \n**Nur mit der Rolle** sind die jeweiligen **Channels sichtbar**. \nBitte lies dir unsere Regeln durch und für weitere Informationen die **gepinnten Nachrichten** in jedem unserer Textchannels :) \n';
+        const welcomeMessageEng = 'Hello <@' + id + '>, nice to meet you! \nUsing a role on this server is **inevitable**, you can add it yourself in <#' + channelHow + '> by reacting on the specific emoji. Only with the role the specific Channels are visible. \nPlease read our rules and for additional information checkout the **pinned messages** in each of our text channels. :) \n';
 
-        guild.systemChannel.send(welcomeMessage).catch((e) => { console.log(e); });
+        guild.systemChannel.send(welcomeMessageGer + "\n" + welcomeMessageEng).catch((e) => { console.log(e); });
+        //guild.systemChannel.send(welcomeMessageEng).catch((e) => { console.log(e); });
     }
+});
+
+// Notify about leaving members
+client.on('guildMemberRemove', (member) => {
+    var user = member.user;
+    var userName = member.user.username;
+    const adminChat = member.guild.channels.cache.find(channel => channel.name === 'admin-chat');
+    console.log('The user: ' + user + ' with the name: ' + userName + ' left the Server');
+    adminChat.send('The user: ' + user + ' with the name: ' + userName + ' left the Server');
 });
 
 // Log our bot in by using the token from https://discordapp.com/developers/applications/me
