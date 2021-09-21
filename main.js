@@ -64,10 +64,13 @@ client.on('message', message => {
             var lastTwoWeeks = (today - 1209600000);
             list.members.cache.forEach(member => {
                 // console.log('User: ' + member.user.username + ' Joined at: ' + member.joinedAt.getTime());
-
-                if (member.joinedAt.getTime() >= lastTwoWeeks) {
-                    console.log(member.user.username);
-                    message.channel.send('New user/s: ' + member.user.username).catch((e) => { console.log(e); });
+                try {
+                    if (member.joinedAt.getTime() >= lastTwoWeeks) {
+                        console.log(member.user.username);
+                        message.channel.send('New user/s: ' + member.user.username).catch((e) => { console.log(e); });
+                    }
+                } catch (error) {
+                    console.log('getTime failed - in !newbies command!');
                 }
             });
         } else { // Remind the user to use the correct channel
@@ -420,11 +423,12 @@ client.on('guildMemberAdd', (member) => {
 
 // Notify about leaving members
 client.on('guildMemberRemove', (member) => {
-    var user = member.user;
+    var user = member.id;
+    var userID = member.user;
     var userName = member.user.username;
     const adminChat = member.guild.channels.cache.find(channel => channel.name === 'admin-chat');
-    console.log('The user: ' + user + ' with the name: ' + userName + ' left the Server');
-    adminChat.send('The user: ' + user + ' with the name: ' + userName + ' left the Server');
+    console.log('The user: ' + user + ' with the name: ' + userName + ' and ID: ' + userID + ' left the Server');
+    adminChat.send('The user: ' + user + ' with the name: ' + userName + ' and ID: ' + userID + ' left the Server');
 });
 
 // Log our bot in by using the token from https://discordapp.com/developers/applications/me
