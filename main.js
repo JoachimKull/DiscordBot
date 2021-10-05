@@ -423,12 +423,12 @@ client.on('guildMemberAdd', (member) => {
 
 // Notify about leaving members
 client.on('guildMemberRemove', (member) => {
-    var user = member.id;
-    var userID = member.user;
+    var userID = member.id;
     var userName = member.user.username;
+    var userTag = message.member.user.tag;
     const adminChat = member.guild.channels.cache.find(channel => channel.name === 'admin-chat');
-    console.log('The user: ' + user + ' with the name: ' + userName + ' and ID: ' + userID + ' left the Server');
-    adminChat.send('The user: ' + user + ' with the name: ' + userName + ' and ID: ' + userID + ' left the Server');
+    console.log('The user: ' + userName + ' with ID: ' + userID + ' left the Server');
+    adminChat.send('The user: ' + userName + ' with ID: ' + userID + ' and Tag: ' + userTag + ' left the Server');
 });
 
 // Log our bot in by using the token from https://discordapp.com/developers/applications/me
