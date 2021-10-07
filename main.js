@@ -425,10 +425,10 @@ client.on('guildMemberAdd', (member) => {
 client.on('guildMemberRemove', (member) => {
     var userID = member.id;
     var userName = member.user.username;
-    var userTag = message.member.user.tag;
+    // var userTag = message.member.user.tag; currently not working
     const adminChat = member.guild.channels.cache.find(channel => channel.name === 'admin-chat');
     console.log('The user: ' + userName + ' with ID: ' + userID + ' left the Server');
-    adminChat.send('The user: ' + userName + ' with ID: ' + userID + ' and Tag: ' + userTag + ' left the Server');
+    adminChat.send('The user: ' + userName + ' with ID: ' + userID + ' left the Server');
 });
 
 // Log our bot in by using the token from https://discordapp.com/developers/applications/me
