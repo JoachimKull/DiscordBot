@@ -4,7 +4,7 @@ This repo contains a Discord bot which greets new users with a personal message 
 
 For the easier use the 'discord.js' library is used.
 
-*Note: This Code is somehow poorly written because of code duplication (and maybe general flaws with JavaScript as it isn´t my strongest programming language). My main focus was to create a functioning bot for my own Discord Server.*
+*Note: This Code is somehow poorly written because of code duplication (and general flaws with JavaScript as it isn´t my strongest programming language). My main focus was to create a functioning bot for my own Discord Server.*
 
 ## Installation
 
@@ -22,9 +22,8 @@ I'm self hosting this bot on a Raspberry Pi 3b with [noip](https://www.noip.com/
 
 ### TODO
 
-- [ ] regex for auto answer if no known command was send (maybe a _startswith_ will do the job)
-- [x] play with reactions - maybe send pm when roles were given
-  - [x] add info in help command
-- [ ] let admins define new roles - therefore we need a file which contains the known roles
-- [x] add restriction for channels in which bot commands can be send in as well as a info message when in wrong channel
-- [ ] add german welcome message?
+- [ ] Creater and add a UML diagram or something to give an easier overview of all the functionalities
+- [ ] Refactor/rewrite the code base so that it is modular and easier to refactor in the future
+- [ ] Make the code asynchronous
+- [ ] Regex for auto answer if no known command was send (maybe a *startswith* will do the job)
+- [ ] Let admins define new roles - therefore we need a file or database which contains the known roles together with the permissions vector (maybe this vector can be retrieved from discord)
