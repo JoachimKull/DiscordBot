@@ -24,6 +24,13 @@ I'm self hosting this bot on a Raspberry Pi 3b with [noip](https://www.noip.com/
 
 - [ ] Creater and add a UML diagram or something to give an easier overview of all the functionalities
 - [ ] Refactor/rewrite the code base so that it is modular and easier to refactor in the future
+  - [ ] Remove legacy code
+  - [ ] Getting user info/ids for message, channel, guild
+  - [ ] Message transformation to lowercase handled in one place
+  - [ ] Reaction role add/remove as well as the known role array
+  - [ ] Sound snippets
+  - [ ] Welcome message
 - [ ] Make the code asynchronous
 - [ ] Regex for auto answer if no known command was send (maybe a *startswith* will do the job)
 - [ ] Let admins define new roles - therefore we need a file or database which contains the known roles together with the permissions vector (maybe this vector can be retrieved from discord)
+- [ ] Rebranding to DumpyFruit Bot?
