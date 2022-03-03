@@ -1,6 +1,6 @@
 {
     "name": "legendbot",
-    "version": "2.0.0",
+    "version": "3.0.0",
     "description": "This Bot will will do various stuff on the DumpyFruit-Community discord server.",
     "main": "main.js",
     "author": "Joachim Kull",
