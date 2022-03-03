@@ -4,7 +4,8 @@
  */
 
 // load your credentials stored in a separate file
-var loginCreds = require('../Credentials/credentials.json');
+// var loginCreds = require('../Credentials/credentials.json');
+var loginCreds = require('../Credentials/DF-TestBot_credentials.json');
 
 // Import the discord.js module
 const { Client, Intents } = require('discord.js');
