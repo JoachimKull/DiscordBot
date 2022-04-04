@@ -13,8 +13,10 @@ const { Client, Intents } = require('discord.js');
 // Import our modules
 const getGuildChannelIDfromChannelName = require('./modules/channelID');
 const isPrivileged = require('./modules/checkPrivileges');
-const listSoundSnippets = require('./modules/sounds');
-const playSnippet = require('./modules/sounds');
+// const listSoundSnippets = require('./modules/sounds');
+// const playSnippet = require('./modules/sounds');
+const { listSoundSnippets, playSnippet } = require('./modules/sounds');
+const setupReactionMessage = require('./modules/reactions');
 
 // Defines
 const soundsFolder = './SoundSnippets/';
@@ -68,7 +70,19 @@ client.on('message', userMessage => {
 
     // Play the sound snippet if it has found one
     if (userMessage.content.startsWith('/')) {
-        playSnippet(lowercasemsg, fs, soundsFolder)
+        playSnippet(lowercasemsg, fs, soundsFolder);
+    }
+
+    // Prepared message for role reactions
+    // Check for privileges - only admins should be able to trigger this message
+    if (lowercasemsg === '!reactionsinit') {
+        var channelHowTo = getGuildChannelIDfromChannelName(userMessage, '❔how-to');
+        if (!isPrivileged(userMessage, channelHowTo)) {
+            console.log("Kleiner Schlinger!");
+            userMessage.reply('This command is not meant to be used by you');
+        } else {
+            setupReactionMessage(userMessage);
+        }
     }
 });
 

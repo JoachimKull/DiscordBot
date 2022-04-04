@@ -4,7 +4,7 @@
  * @param {*} fs represents the filesystem
  * @param {*} soundsFolder path to the folder with the snippets
  */
-function listSoundSnippets(message, fs, soundsFolder) {
+exports.listSoundSnippets = function listSoundSnippets(message, fs, soundsFolder) {
     message.reply('Try playing a snippet by typing "**/**_filename_" \nHere are the available sounds:\n').catch((e) => { console.log(e); });
     var sounds = [];
     // Iterate over snippets
@@ -16,7 +16,6 @@ function listSoundSnippets(message, fs, soundsFolder) {
         message.channel.send('_May I suggest you to try_ **/click**').catch((e) => { console.log(e); });
     });
 }
-module.exports = listSoundSnippets;
 
 /**
  * Plays the selected snippet in a voice channel
@@ -25,9 +24,12 @@ module.exports = listSoundSnippets;
  * @param {*} soundsFolder path to the folder with the snippets
  * @returns a message if the user is not in a voice channel
  */
-function playSnippet(message, fs, soundsFolder) {
+exports.playSnippet = function playSnippet(message, fs, soundsFolder) {
     // Voice only works in guilds
-    if (!message.guild) return;
+    if (!message.guild) {
+        return;
+    }
+
     try {
         // Remove the / from the message and add the .mp3 ending
         var concatMsg = lowerCaseMessage.concat('.mp3').slice(1);
@@ -57,4 +59,3 @@ function playSnippet(message, fs, soundsFolder) {
         console.log('Unknown input for sound snippet: ' + message.content);
     }
 }
-module.exports = playSnippet;
