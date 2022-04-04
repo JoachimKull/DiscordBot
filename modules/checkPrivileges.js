@@ -5,6 +5,7 @@
  * @returns true if everything the user either is 1. in the correct channel / 2. admin / 3. the bot itself - false in any other case
  */
 function isPrivileged(message, channelID) {
+    // message.author is the ID of the Bot because the channel reminder shouldn't be triggered for it
     if (message.channel.id == channelID || message.author == '561275886192820224' || message.member.hasPermission("ADMINISTRATOR")) {
         console.log('This one has massive powers!');
         return true;
