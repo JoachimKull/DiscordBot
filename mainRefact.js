@@ -13,9 +13,8 @@ const { Client, Intents } = require('discord.js');
 // Import our modules
 const getGuildChannelIDfromChannelName = require('./modules/channelID');
 const isPrivileged = require('./modules/checkPrivileges');
-// const listSoundSnippets = require('./modules/sounds');
-// const playSnippet = require('./modules/sounds');
 const { listSoundSnippets, playSnippet } = require('./modules/sounds');
+const { welcomeMessage, alertGuildMemberLeave } = require('./modules/guildMemberLeave');
 const setupReactionMessage = require('./modules/reactions');
 
 // Defines
@@ -84,6 +83,17 @@ client.on('message', userMessage => {
             setupReactionMessage(userMessage);
         }
     }
+});
+
+// Greet all new members
+client.on('guildMemberAdd', (member) => {
+    welcomeMessage(member);
+});
+
+// Notify about leaving members
+client.on('guildMemberRemove', (member) => {
+    const notificationChannel = 'admin-chat';
+    alertGuildMemberLeave(member, notificationChannel);
 });
 
 // Log our bot in by using the token from https://discordapp.com/developers/applications/me
