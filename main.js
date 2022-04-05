@@ -26,7 +26,7 @@ client.on('ready', () => {
 });
 
 // The keys in this map represent the roles defined on your discord server
-var arrayOfRoles = { JustChatting: '!addRole:jc', ApexPlayers: '!addRole:apex', ValorantPlayers: '!addRole:valorant', AmongUsPlayers: '!addRole:amongus', MinecraftPlayers: '!addRole:minecraft', 'CS:GOPlayers': '!addRole:cs', RocketLeague: '!addRole:rl', ValheimPlayers: '!addrole:valheim', NewWorldPlayers: '!addRole:newworld', HuntShowdown: '!addRole:hunt', SpellBreakers: '!addRole:spell', WarzonePlayers: '!addRole:warzone' };
+var arrayOfRoles = { JustChatting: '!addRole:jc', ApexPlayers: '!addRole:apex', ValorantPlayers: '!addRole:valorant', AmongUsPlayers: '!addRole:amongus', MinecraftPlayers: '!addRole:minecraft', 'CS:GOPlayers': '!addRole:cs', RocketLeague: '!addRole:rl', ValheimPlayers: '!addrole:valheim', NewWorldPlayers: '!addRole:newworld', AoE_Players: '!addRole:aoe', HuntShowdown: '!addRole:hunt', SpellBreakers: '!addRole:spell', WarzonePlayers: '!addRole:warzone' };
 
 
 // Create an event listener for messages
@@ -256,8 +256,9 @@ client.on('message', message => {
             const emojiRocketLeague = message.guild.emojis.cache.find(emoji => emoji.name === 'rocketleague');
             const emojiValheim = message.guild.emojis.cache.find(emoji => emoji.name === 'valheim');
             const emojiNewWorld = message.guild.emojis.cache.find(emoji => emoji.name === 'newWorld');
+            const emojiAoE = message.guild.emojis.cache.find(emoji => emoji.name === 'aoe');
 
-            message.channel.send('**Um dir eine spielspezifische Rolle hinzuzufügen, reagiere einfach mit dem entsprechenden Emoji.** \n**For adding yourself a game specific role, simply react with the corresponding emoji.** \n').then(initMessage => {
+            message.channel.send('**Um dir eine spiel spezifische Rolle hinzuzufügen, reagiere einfach mit dem entsprechenden Emoji.** \n**For adding yourself a game specific role, simply react with the corresponding emoji.** \n').then(initMessage => {
                 let id = initMessage.id;
                 // console.log(id);
                 initMessage.react(emojiJC);
@@ -269,6 +270,7 @@ client.on('message', message => {
                 initMessage.react(emojiRocketLeague);
                 initMessage.react(emojiValheim);
                 initMessage.react(emojiNewWorld);
+                initMessage.react(emojiAoE);
             });
         }
     }
@@ -325,6 +327,8 @@ client.on('messageReactionAdd', async(reaction, user) => {
                 addReactionRole('!addrole:valheim');
             } else if (reaction.emoji.name === 'newWorld') {
                 addReactionRole('!addrole:newworld');
+            } else if (reaction.emoji.name === 'aoe') {
+                addReactionRole('!addrole:aoe');
             }
         } catch (error) {
             console.error('Something went wrong when fetching the message: ', error);
@@ -370,21 +374,23 @@ client.on('messageReactionRemove', async(reaction, user) => {
             if (reaction.emoji.name === 'apex') {
                 removingReactionRole('!rmrole:apex');
             } else if (reaction.emoji.name === 'justchatting') {
-                removingReactionRole('!addrole:jc');
+                removingReactionRole('!rmrole:jc');
             } else if (reaction.emoji.name === 'csgo') {
-                removingReactionRole('!addrole:cs');
+                removingReactionRole('!rmrole:cs');
             } else if (reaction.emoji.name === 'valorant') {
-                removingReactionRole('!addrole:valorant');
+                removingReactionRole('!rmrole:valorant');
             } else if (reaction.emoji.name === 'amongus') {
-                removingReactionRole('!addrole:amongus');
+                removingReactionRole('!rmrole:amongus');
             } else if (reaction.emoji.name === 'minecraft') {
-                removingReactionRole('!addrole:minecraft');
+                removingReactionRole('!rmrole:minecraft');
             } else if (reaction.emoji.name === 'rocketleague') {
-                removingReactionRole('!addrole:rl');
+                removingReactionRole('!rmrole:rl');
             } else if (reaction.emoji.name === 'valheim') {
-                removingReactionRole('!addrole:valheim');
+                removingReactionRole('!rmrole:valheim');
             } else if (reaction.emoji.name === 'newWorld') {
-                removingReactionRole('!addrole:newworld');
+                removingReactionRole('!rmrole:newworld');
+            } else if (reaction.emoji.name === 'aoe') {
+                removingReactionRole('!rmrole:aoe');
             }
         } catch (error) {
             console.error('Something went wrong when fetching the message: ', error);
