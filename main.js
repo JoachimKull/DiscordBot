@@ -52,6 +52,15 @@ client.on('message', message => {
         }
     }
 
+    if (lowerCaseMessage.startsWith('/')) {
+        if (message.channel.id == channelBotCommands || message.author == '561275886192820224' || message.member.hasPermission("ADMINISTRATOR")) {
+            console.log('This one has massive powers!');
+        } else { // Remind the user to use the correct channel
+            message.reply('please use our <#' + channelBotCommands + '> channel to keep this one tidy.');
+            return;
+        }
+    }
+
     // Returns a list of new members of the last two weeks
     if (lowerCaseMessage === '!newbies') {
         if (message.member.hasPermission("ADMINISTRATOR")) {
