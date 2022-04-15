@@ -46,7 +46,7 @@ client.on('message', message => {
     // If the origin of the message is the bot-commands channel or the message author is not our bot or the message author is an admin - do nothing
     if (lowerCaseMessage.startsWith('!')) {
         if (message.channel.id == channelBotCommands || message.author == '561275886192820224' || message.member.hasPermission("ADMINISTRATOR")) {
-            console.log('This one has massive powers!');
+            console.log('Exclamation Mark: This one has massive powers!');
         } else { // Remind the user to use the correct channel
             message.reply('please use our <#' + channelBotCommands + '> channel to keep this one tidy.');
             return;
@@ -56,7 +56,7 @@ client.on('message', message => {
     // Returns a list of new members of the last two weeks
     if (lowerCaseMessage === '!newbies') {
         if (message.member.hasPermission("ADMINISTRATOR")) {
-            console.log('Admin looked for newbs!');
+            console.log('Newbies: Admin looked for newbs!');
 
             var list = client.guilds.cache.get('554337259315265538');
 
@@ -246,7 +246,7 @@ client.on('message', message => {
     // Check for privileges - only admins should be able to trigger this message
     if (lowerCaseMessage === '!react') {
         if (message.member.hasPermission("ADMINISTRATOR")) {
-            console.log('The force is strong in this one!');
+            console.log('Reaction: The force is strong in this one!');
 
             const emojiJC = message.guild.emojis.cache.find(emoji => emoji.name === 'justchatting');
             const emojiApex = message.guild.emojis.cache.find(emoji => emoji.name === 'apex');
@@ -257,6 +257,7 @@ client.on('message', message => {
             const emojiRocketLeague = message.guild.emojis.cache.find(emoji => emoji.name === 'rocketleague');
             const emojiValheim = message.guild.emojis.cache.find(emoji => emoji.name === 'valheim');
             const emojiNewWorld = message.guild.emojis.cache.find(emoji => emoji.name === 'newWorld');
+            const emojiAoE = message.guild.emojis.cache.find(emoji => emoji.name === 'aoe');
 
             message.channel.send('**Um dir eine spielspezifische Rolle hinzuzufügen, reagiere einfach mit dem entsprechenden Emoji.** \n**For adding yourself a game specific role, simply react with the corresponding emoji.** \n').then(initMessage => {
                 let id = initMessage.id;
@@ -270,6 +271,7 @@ client.on('message', message => {
                 initMessage.react(emojiRocketLeague);
                 initMessage.react(emojiValheim);
                 initMessage.react(emojiNewWorld);
+                initMessage.react(emojiAoE);
             });
         }
     }
