@@ -77,8 +77,8 @@ client.on('message', userMessage => {
     if (lowercasemsg === '!reactionsinit') {
         var channelHowTo = getGuildChannelIDfromChannelName(userMessage, '❔how-to');
         if (!isPrivileged(userMessage, channelHowTo)) {
-            console.log("Kleiner Schlinger!");
-            userMessage.reply('This command is not meant to be used by you');
+            console.log("Unpriv users tried react init");
+            userMessage.reply('This command is not meant to be used by you - Kleiner Schlingel!');
         } else {
             setupReactionMessage(userMessage);
         }
