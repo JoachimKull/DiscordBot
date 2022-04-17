@@ -83,6 +83,54 @@ client.on('message', userMessage => {
             setupReactionMessage(userMessage);
         }
     }
+
+    // TODO: Async everything(?)
+    client.on('messageReactionAdd', async(reaction, user) => {
+        // TODO: Check for the How-To Channel
+        const channelHow = reaction.message.guild.channels.cache.find(channel => channel.name === '❔how-to');
+
+        // Function for getting reaction roles //
+        // -------------------------- //
+        function addReactionRole(roleToAdd) {
+            var role = null;
+            // If the given role name matches an entry of the predefined role array it will further execute
+            //TODO: Get the roles array from the guild
+            // var role = reaction.message.guild.roles.cache.find(role => role.name === key);
+            // var reactionMember = reaction.message.member.guild.members.cache.find((member) => member.id === user.id);
+            // reactionMember.roles.add(role);
+            // console.log(user.username + ' added himself the role: ' + role.name);
+        }
+
+        if (reaction.message.channel.id === channelHow.id) {
+            // console.log('Listening on (add) reactions in the correct channel');
+            try {
+                await reaction.fetch();
+                //TODO: hasRole Func (if !hasRole) - Maybe the emotes need a 1:1 mapping of the real role names
+                if (reaction.emoji.name === 'apex') {
+                    addReactionRole('!addrole:apex');
+                } else if (reaction.emoji.name === 'justchatting') {
+                    addReactionRole('!addrole:jc');
+                } else if (reaction.emoji.name === 'csgo') {
+                    addReactionRole('!addrole:cs');
+                } else if (reaction.emoji.name === 'valorant') {
+                    addReactionRole('!addrole:valorant');
+                } else if (reaction.emoji.name === 'amongus') {
+                    addReactionRole('!addrole:amongus');
+                } else if (reaction.emoji.name === 'minecraft') {
+                    addReactionRole('!addrole:minecraft');
+                } else if (reaction.emoji.name === 'rocketleague') {
+                    addReactionRole('!addrole:rl');
+                } else if (reaction.emoji.name === 'valheim') {
+                    addReactionRole('!addrole:valheim');
+                } else if (reaction.emoji.name === 'newWorld') {
+                    addReactionRole('!addrole:newworld');
+                }
+            } catch (error) {
+                console.error('Something went wrong when fetching the message: ', error);
+                return;
+            }
+        }
+    });
 });
 
 // Greet all new members
