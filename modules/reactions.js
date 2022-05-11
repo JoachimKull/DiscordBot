@@ -3,7 +3,7 @@
  * Check for privileges - only admins should be able to trigger this message
  * @param {*} message is used to get all the needed information e.g. channel id in which it was sent in
  */
-function setupReactionMessage(message) {
+exports.setupReactionMessage = function setupReactionMessage(message) {
     const emojiJC = message.guild.emojis.cache.find(emoji => emoji.name === 'justchatting');
     const emojiApex = message.guild.emojis.cache.find(emoji => emoji.name === 'apex');
     const emojiCS = message.guild.emojis.cache.find(emoji => emoji.name === 'csgo');
@@ -28,4 +28,3 @@ function setupReactionMessage(message) {
         initMessage.react(emojiNewWorld);
     });
 }
-module.exports = setupReactionMessage;

@@ -14,8 +14,9 @@ const { Client, Intents } = require('discord.js');
 const getGuildChannelIDfromChannelName = require('./modules/channelID');
 const isPrivileged = require('./modules/checkPrivileges');
 const { listSoundSnippets, playSnippet } = require('./modules/sounds');
-const { welcomeMessage, alertGuildMemberLeave } = require('./modules/guildMemberLeave');
-const setupReactionMessage = require('./modules/reactions');
+const { welcomeMessage, alertGuildMemberLeave } = require('./modules/guildMemberJoinOrLeave');
+const { setupReactionMessage } = require('./modules/reactions');
+const { addRole, hasRole } = require('./modules/roleManagement');
 
 // Defines
 const soundsFolder = './SoundSnippets/';
@@ -86,28 +87,29 @@ client.on('message', userMessage => {
 
     // TODO: Async everything(?)
     client.on('messageReactionAdd', async(reaction, user) => {
-        // TODO: Check for the How-To Channel
+
+        // TODO: Debug this!
+        console.log("HERE!");
+        // Get the reaction member
+        var reactionMember = reaction.message.member.guild.members.cache.find((member) => member.id === user.id);
+
+        //TODO: Get the roles array from the guild
+
+        // Check for the How-To Channel
         const channelHow = reaction.message.guild.channels.cache.find(channel => channel.name === '❔how-to');
-
-        // Function for getting reaction roles //
-        // -------------------------- //
-        function addReactionRole(roleToAdd) {
-            var role = null;
-            // If the given role name matches an entry of the predefined role array it will further execute
-            //TODO: Get the roles array from the guild
-            // var role = reaction.message.guild.roles.cache.find(role => role.name === key);
-            // var reactionMember = reaction.message.member.guild.members.cache.find((member) => member.id === user.id);
-            // reactionMember.roles.add(role);
-            // console.log(user.username + ' added himself the role: ' + role.name);
-        }
-
-        if (reaction.message.channel.id === channelHow.id) {
+        if (channelHow.id === 0) {
+            console.log('Reaction: Error getting the how-to Channel: ' + error);
+        } else if (reaction.message.channel.id === channelHow.id) {
             // console.log('Listening on (add) reactions in the correct channel');
             try {
                 await reaction.fetch();
-                //TODO: hasRole Func (if !hasRole) - Maybe the emotes need a 1:1 mapping of the real role names
                 if (reaction.emoji.name === 'apex') {
-                    addReactionRole('!addrole:apex');
+                    // If the user already has the role, remove it. Otherwise add it.
+                    if (!hasRole(reactionMember, "ApexPlayers")) {
+                        addRole(reactionMember, "ApexPlayers")
+                    } else {
+                        //TODO: Remove role
+                    }
                 } else if (reaction.emoji.name === 'justchatting') {
                     addReactionRole('!addrole:jc');
                 } else if (reaction.emoji.name === 'csgo') {
@@ -126,7 +128,7 @@ client.on('message', userMessage => {
                     addReactionRole('!addrole:newworld');
                 }
             } catch (error) {
-                console.error('Something went wrong when fetching the message: ', error);
+                console.error('Something went wrong when fetching the reaction: ', error);
                 return;
             }
         }
