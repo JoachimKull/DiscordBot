@@ -10,7 +10,7 @@
         "url": "https://github.com/JoachimKull/DiscordBot"
     },
     "dependencies": {
-        "@discordjs/opus": "^0.1.0",
+        "@discordjs/opus": "^0.8.0",
         "discord.io": "^2.5.3",
         "discord.js": "^12.3.1",
         "ffmpeg-static": "^4.4.0",
