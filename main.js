@@ -26,7 +26,7 @@ client.on('ready', () => {
 });
 
 // The keys in this map represent the roles defined on your discord server
-var arrayOfRoles = { JustChatting: '!addRole:jc', ApexPlayers: '!addRole:apex', ValorantPlayers: '!addRole:valorant', AmongUsPlayers: '!addRole:amongus', MinecraftPlayers: '!addRole:minecraft', 'CS:GOPlayers': '!addRole:cs', RocketLeague: '!addRole:rl', ValheimPlayers: '!addrole:valheim', NewWorldPlayers: '!addRole:newworld', AoE_Players: '!addRole:aoe', OverwatchPlayers: '!addRole:ow', HuntShowdown: '!addRole:hunt', SpellBreakers: '!addRole:spell', WarzonePlayers: '!addRole:warzone' };
+var arrayOfRoles = { JustChatting: '!addRole:jc', ApexPlayers: '!addRole:apex', ValorantPlayers: '!addRole:valorant', AmongUsPlayers: '!addRole:amongus', MinecraftPlayers: '!addRole:minecraft', 'CS:GOPlayers': '!addRole:cs', RocketLeague: '!addRole:rl', ValheimPlayers: '!addrole:valheim', NewWorldPlayers: '!addRole:newworld', AoE_Players: '!addRole:aoe', OverwatchPlayers: '!addRole:ow', HuntPlayers: '!addRole:hunt', Dota2Players: '!addRole:dota', SpellBreakers: '!addRole:spell', WarzonePlayers: '!addRole:warzone' };
 
 
 // Create an event listener for messages
@@ -267,6 +267,8 @@ client.on('message', message => {
             const emojiNewWorld = message.guild.emojis.cache.find(emoji => emoji.name === 'newWorld');
             const emojiAoE = message.guild.emojis.cache.find(emoji => emoji.name === 'aoe');
             const emojiOW = message.guild.emojis.cache.find(emoji => emoji.name === 'ow');
+            const emojiHunt = message.guild.emojis.cache.find(emoji => emoji.name === 'huntshowdown');
+            const emojiDota = message.guild.emojis.cache.find(emoji => emoji.name === 'dota');
 
             message.channel.send('**Um dir eine spiel spezifische Rolle hinzuzufügen, reagiere einfach mit dem entsprechenden Emoji.** \n**For adding yourself a game specific role, simply react with the corresponding emoji.** \n').then(initMessage => {
                 let id = initMessage.id;
@@ -282,6 +284,8 @@ client.on('message', message => {
                 initMessage.react(emojiNewWorld);
                 initMessage.react(emojiAoE);
                 initMessage.react(emojiOW);
+                initMessage.react(emojiHunt);
+                initMessage.react(emojiDota);
             });
         }
     }
@@ -342,6 +346,10 @@ client.on('messageReactionAdd', async(reaction, user) => {
                 addReactionRole('!addrole:aoe');
             } else if (reaction.emoji.name === 'ow') {
                 addReactionRole('!addrole:ow');
+            } else if (reaction.emoji.name === 'huntshowdown') {
+                addReactionRole('!addrole:hunt');
+            } else if (reaction.emoji.name === 'dota') {
+                addReactionRole('!addrole:dota');
             }
         } catch (error) {
             console.error('Something went wrong when fetching the message: ', error);
@@ -405,7 +413,11 @@ client.on('messageReactionRemove', async(reaction, user) => {
             } else if (reaction.emoji.name === 'aoe') {
                 removingReactionRole('!rmrole:aoe');
             } else if (reaction.emoji.name === 'ow') {
-                removingReactionRole('!addrole:ow');
+                removingReactionRole('!rmrole:ow');
+            } else if (reaction.emoji.name === 'huntshowdown') {
+                removingReactionRole('!rmrole:hunt');
+            } else if (reaction.emoji.name === 'dota') {
+                removingReactionRole('!rmrole:dota');
             }
         } catch (error) {
             console.error('Something went wrong when fetching the message: ', error);
@@ -435,7 +447,7 @@ client.on('guildMemberAdd', (member) => {
         const channelHow = guild.channels.cache.find(channel => channel.name === '❔how-to');
         //var adminLink = guild.roles.cache.find(role => role.name === 'Admin');
         const welcomeMessageGer = 'Hallo <@' + id + '>, schön dich kennenzulernen! \nDie Verwendung einer Rolle auf diesem Server ist **unumgänglich**. Du kannst dir selbst eine Rolle unter <#' + channelHow + '> aussuchen, indem du auf das jeweilige Emoji reagierst. \n**Nur mit der Rolle** sind die jeweiligen **Channels sichtbar**. \nBitte lies dir unsere Regeln durch und für weitere Informationen die **gepinnten Nachrichten** in jedem unserer Textchannels :) \n';
-        const welcomeMessageEng = 'Hello <@' + id + '>, nice to meet you! \nUsing a role on this server is **inevitable**, you can add it yourself in <#' + channelHow + '> by reacting on the specific emoji. Only with the role the specific Channels are visible. \nPlease read our rules and for additional information checkout the **pinned messages** in each of our text channels. :) \n';
+        //const welcomeMessageEng = 'Hello <@' + id + '>, nice to meet you! \nUsing a role on this server is **inevitable**, you can add it yourself in <#' + channelHow + '> by reacting on the specific emoji. Only with the role the specific Channels are visible. \nPlease read our rules and for additional information checkout the **pinned messages** in each of our text channels. :) \n';
 
         guild.systemChannel.send(welcomeMessageGer + "\n" + welcomeMessageEng).catch((e) => { console.log(e); });
         //guild.systemChannel.send(welcomeMessageEng).catch((e) => { console.log(e); });
