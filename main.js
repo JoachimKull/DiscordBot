@@ -449,8 +449,8 @@ client.on('guildMemberAdd', (member) => {
         const welcomeMessageGer = 'Hallo <@' + id + '>, schön dich kennenzulernen! \nDie Verwendung einer Rolle auf diesem Server ist **unumgänglich**. Du kannst dir selbst eine Rolle unter <#' + channelHow + '> aussuchen, indem du auf das jeweilige Emoji reagierst. \n**Nur mit der Rolle** sind die jeweiligen **Channels sichtbar**. \nBitte lies dir unsere Regeln durch und für weitere Informationen die **gepinnten Nachrichten** in jedem unserer Textchannels :) \n';
         //const welcomeMessageEng = 'Hello <@' + id + '>, nice to meet you! \nUsing a role on this server is **inevitable**, you can add it yourself in <#' + channelHow + '> by reacting on the specific emoji. Only with the role the specific Channels are visible. \nPlease read our rules and for additional information checkout the **pinned messages** in each of our text channels. :) \n';
 
-        guild.systemChannel.send(welcomeMessageGer + "\n" + welcomeMessageEng).catch((e) => { console.log(e); });
-        //guild.systemChannel.send(welcomeMessageEng).catch((e) => { console.log(e); });
+        guild.systemChannel.send(welcomeMessageGer + "\n").catch((e) => { console.log(e); });
+        // guild.systemChannel.send(welcomeMessageGer + "\n" + welcomeMessageEng).catch((e) => { console.log(e); });
     }
 });
 
