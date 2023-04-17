@@ -7,7 +7,7 @@
 var loginCreds = require('../Credentials/credentials.json');
 
 // Import the discord.js module
-const { Client, GatewayIntentBits } = require('discord.js');
+const { Client, Events, GatewayIntentBits, Partials } = require('discord.js');
 
 const { joinVoiceChannel, createAudioPlayer, createAudioResource } = require('@discordjs/voice');
 
@@ -34,6 +34,7 @@ const client = new Client({
         GatewayIntentBits.GuildWebhooks,
         GatewayIntentBits.GuildInvites,
     ],
+    partials: [Partials.Message, Partials.Channel, Partials.Reaction],
 });
 
 /**
@@ -328,31 +329,36 @@ client.on("messageCreate", async message => {
             const emojiHunt = message.guild.emojis.cache.find(emoji => emoji.name === 'huntshowdown');
             const emojiDota = message.guild.emojis.cache.find(emoji => emoji.name === 'dota');
 
-            message.channel.send({ content: '**Um dir eine spiel spezifische Rolle hinzuzufügen, reagiere einfach mit dem entsprechenden Emoji.** \n**For adding yourself a game specific role, simply react with the corresponding emoji.** \n' }).then(initMessage => {
-                let id = initMessage.id;
-                // console.log(id);
-                initMessage.react(emojiJC);
-                initMessage.react(emojiApex);
-                initMessage.react(emojiCS);
-                initMessage.react(emojiValorant);
-                initMessage.react(emojiAmongUs);
-                initMessage.react(emojiMinecraft);
-                initMessage.react(emojiRocketLeague);
-                initMessage.react(emojiValheim);
-                initMessage.react(emojiNewWorld);
-                initMessage.react(emojiAoE);
-                initMessage.react(emojiOW);
-                initMessage.react(emojiHunt);
-                initMessage.react(emojiDota);
-            });
+            try {
+                message.channel.send({ content: '**Um dir eine spiel spezifische Rolle hinzuzufügen, reagiere einfach mit dem entsprechenden Emoji.** \n**For adding yourself a game specific role, simply react with the corresponding emoji.** \n' }).then(initMessage => {
+                    initMessage.react(emojiJC);
+                    initMessage.react(emojiApex);
+                    initMessage.react(emojiCS);
+                    initMessage.react(emojiValorant);
+                    initMessage.react(emojiAmongUs);
+                    initMessage.react(emojiMinecraft);
+                    initMessage.react(emojiRocketLeague);
+                    initMessage.react(emojiValheim);
+                    initMessage.react(emojiNewWorld);
+                    initMessage.react(emojiAoE);
+                    initMessage.react(emojiOW);
+                    initMessage.react(emojiHunt);
+                    initMessage.react(emojiDota);
+                });
+            } catch (error) {
+                console.log(`Error occurred while reacting to message: ${error}`);
+                message.channel.send('There was an error reacting with emojis!');
+            }
+        } else {
+            message.channel.send('You do not have permissions to use this command!');
         }
     }
 });
 
-client.on('messageReactionAdd', async(reaction, user) => {
+client.on(Events.MessageReactionAdd, async (reaction, user) => {
     // Function for getting reaction roles //
     // -------------------------- //
-    function addReactionRole(roleToAdd) {
+    function addReactionRole(roleToAdd, reaction, user) {
         // Filter the rolename of the whole !addrole request out
         var roleName = roleToAdd.split(':', 2);
         var role = null;
@@ -364,50 +370,54 @@ client.on('messageReactionAdd', async(reaction, user) => {
                 var role = reaction.message.guild.roles.cache.find(role => role.name === key);
 
                 if (role === null) {
-                    console.log(reaction.message.member.user.username + ' tried to get a non existing role (' + roleName[1] + ') - at least on this server');
+                    console.log(reaction.message.guild.members.cache.get(user.id).displayName + ' tried to get a non existing role (' + roleName[1] + ') - at least on this server');
                     return;
                 } else {
-                    var reactionMember = reaction.message.member.guild.members.cache.find((member) => member.id === user.id);
-                    reactionMember.roles.add(role);
-                    console.log(user.username + ' added himself the role: ' + role.name);
+                    var reactionMember = reaction.message.guild.members.cache.get(user.id);
+                    if (user.id === '561275886192820224') {
+                        console.log(user.username + ' is excluded from getting the role: ' + role);
+                    } else {
+                        reactionMember.roles.add(role);
+                        console.log(user.username + ' added himself the role: ' + role.name);
+                    }
                 }
             }
         }
     }
 
     // When we receive a reaction we check if the reaction is partial or not
-    // How-To Channel Channel
+    // How-To Channel
     const channelHow = reaction.message.guild.channels.cache.find(channel => channel.name === '❔how-to');
     if (reaction.message.channel.id === channelHow.id) {
         // console.log('Listening on (add) reactions in the correct channel');
         try {
             await reaction.fetch();
             if (reaction.emoji.name === 'apex') {
-                addReactionRole('!addrole:apex');
+                addReactionRole('!addrole:apex', reaction, user);
             } else if (reaction.emoji.name === 'justchatting') {
-                addReactionRole('!addrole:jc');
+                addReactionRole('!addrole:jc', reaction, user);
             } else if (reaction.emoji.name === 'csgo') {
-                addReactionRole('!addrole:cs');
+                addReactionRole('!addrole:cs', reaction, user);
             } else if (reaction.emoji.name === 'valorant') {
-                addReactionRole('!addrole:valorant');
+                addReactionRole('!addrole:valorant', reaction, user);
             } else if (reaction.emoji.name === 'amongus') {
-                addReactionRole('!addrole:amongus');
+                addReactionRole('!addrole:amongus', reaction, user);
             } else if (reaction.emoji.name === 'minecraft') {
-                addReactionRole('!addrole:minecraft');
+                addReactionRole('!addrole:minecraft', reaction, user);
             } else if (reaction.emoji.name === 'rocketleague') {
-                addReactionRole('!addrole:rl');
+                addReactionRole('!addrole:rl', reaction, user);
             } else if (reaction.emoji.name === 'valheim') {
-                addReactionRole('!addrole:valheim');
+                addReactionRole('!addrole:valheim', reaction, user);
             } else if (reaction.emoji.name === 'newWorld') {
-                addReactionRole('!addrole:newworld');
+                addReactionRole('!addrole:newworld', reaction, user);
             } else if (reaction.emoji.name === 'aoe') {
-                addReactionRole('!addrole:aoe');
+                addReactionRole('!addrole:aoe', reaction, user);
             } else if (reaction.emoji.name === 'ow') {
-                addReactionRole('!addrole:ow');
+                addReactionRole('!addrole:ow', reaction, user);
             } else if (reaction.emoji.name === 'huntshowdown') {
-                addReactionRole('!addrole:hunt');
+                addReactionRole('!addrole:hunt', reaction, user);
             } else if (reaction.emoji.name === 'dota') {
-                addReactionRole('!addrole:dota');
+                addReactionRole('!addrole:dota', reaction, user);
             }
         } catch (error) {
             console.error('Something went wrong when fetching the message: ', error);
@@ -416,28 +426,28 @@ client.on('messageReactionAdd', async(reaction, user) => {
     }
 });
 
-client.on('messageReactionRemove', async(reaction, user) => {
-    // Function for removing reaction roles //
-    // -------------------------- //
-    function removingReactionRole(roleToRemove) {
-        // Filter the rolename of the whole !rmrole request out
-        var roleName = roleToRemove.split(':', 2);
-        var role = null;
-        // Cycle through the predefined role array
-        for (var key in arrayOfRoles) {
-            // When removing a role we can also use our predefined role array. But this time we need to split the vlaue field and check for accordance.
-            var arrayKeySplit = arrayOfRoles[key].split(':', 2);
-            // If the given role name matches an entry of the predefined role array it will further execute
-            if (roleName[1] === arrayKeySplit[1].toLowerCase()) {
+client.on(Events.MessageReactionRemove, async (reaction, user) => {
+        // Function for removing reaction roles //
+        // -------------------------- //
+    function removingReactionRole(roleToRemove, reaction, user) {
+            // Filter the rolename of the whole !rmrole request out
+        const roleName = roleToRemove.split(':', 2)[1].toLowerCase();
+        let role = null;
+            // Cycle through the predefined role array
+        for (const [key, value] of Object.entries(arrayOfRoles)) {
+              // When removing a role we can also use our predefined role array. But this time we need to split the vlaue field and check for accordance.
+            const arrayKeySplit = value.split(':', 2);
+              // If the given role name matches an entry of the predefined role array it will further execute
+            if (roleName === arrayKeySplit[1].toLowerCase()) {
                 // Get role id from the discord guild
                 role = reaction.message.guild.roles.cache.find(role => role.name === key);
             }
         }
         if (role === null) {
-            console.log(reaction.message.member.user.username + ' tried to remove the role >' + roleName[1] + '< but failed somehow!');
+            console.log(reaction.message.guild.members.cache.get(user.id).displayName + ' tried to remove the role >' + roleName + '< but failed somehow!');
             return;
         } else {
-            var reactionMember = reaction.message.member.guild.members.cache.find((member) => member.id === user.id);
+            const reactionMember = reaction.message.guild.members.cache.get(user.id);
             reactionMember.roles.remove(role);
             console.log(user.username + ' removed himself the role: ' + role.name);
         }
@@ -446,43 +456,42 @@ client.on('messageReactionRemove', async(reaction, user) => {
     // When we receive a reaction we check if the reaction is partial or not
     // How-To Channel
     const channelHow = reaction.message.guild.channels.cache.find(channel => channel.name === '❔how-to');
-    if (reaction.message.channel.id === channelHow.id) {
+    if (reaction.message.channelId === channelHow.id) {
         // console.log('Listening on (remove) reactions in the correct channel');
         try {
             await reaction.fetch();
             if (reaction.emoji.name === 'apex') {
-                removingReactionRole('!rmrole:apex');
+                removingReactionRole('!rmrole:apex', reaction, user);
             } else if (reaction.emoji.name === 'justchatting') {
-                removingReactionRole('!rmrole:jc');
+                removingReactionRole('!rmrole:jc', reaction, user);
             } else if (reaction.emoji.name === 'csgo') {
-                removingReactionRole('!rmrole:cs');
+                removingReactionRole('!rmrole:cs', reaction, user);
             } else if (reaction.emoji.name === 'valorant') {
-                removingReactionRole('!rmrole:valorant');
+                removingReactionRole('!rmrole:valorant', reaction, user);
             } else if (reaction.emoji.name === 'amongus') {
-                removingReactionRole('!rmrole:amongus');
+                removingReactionRole('!rmrole:amongus', reaction, user);
             } else if (reaction.emoji.name === 'minecraft') {
-                removingReactionRole('!rmrole:minecraft');
+                removingReactionRole('!rmrole:minecraft', reaction, user);
             } else if (reaction.emoji.name === 'rocketleague') {
-                removingReactionRole('!rmrole:rl');
+                removingReactionRole('!rmrole:rl', reaction, user);
             } else if (reaction.emoji.name === 'valheim') {
-                removingReactionRole('!rmrole:valheim');
+                removingReactionRole('!rmrole:valheim', reaction, user);
             } else if (reaction.emoji.name === 'newWorld') {
-                removingReactionRole('!rmrole:newworld');
+                removingReactionRole('!rmrole:newworld', reaction, user);
             } else if (reaction.emoji.name === 'aoe') {
-                removingReactionRole('!rmrole:aoe');
+                removingReactionRole('!rmrole:aoe', reaction, user);
             } else if (reaction.emoji.name === 'ow') {
-                removingReactionRole('!rmrole:ow');
+                removingReactionRole('!rmrole:ow', reaction, user);
             } else if (reaction.emoji.name === 'huntshowdown') {
-                removingReactionRole('!rmrole:hunt');
+                removingReactionRole('!rmrole:hunt', reaction, user);
             } else if (reaction.emoji.name === 'dota') {
-                removingReactionRole('!rmrole:dota');
+                removingReactionRole('!rmrole:dota', reaction, user);
             }
         } catch (error) {
             console.error('Something went wrong when fetching the message: ', error);
             return;
         }
     }
-
 });
 
 // Greet all new members
