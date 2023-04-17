@@ -7,11 +7,34 @@
 var loginCreds = require('../Credentials/credentials.json');
 
 // Import the discord.js module
-const { Client, Intents } = require('discord.js');
+const { Client, GatewayIntentBits } = require('discord.js');
+
+const { joinVoiceChannel, createAudioPlayer, createAudioResource } = require('@discordjs/voice');
 
 // Get all intents and create an instance of a Discord client
-//const client = new Client({ ws: { intents: Intents.ALL } });
-const client = new Client({ partials: ['MESSAGE', 'CHANNEL', 'REACTION'] }, { ws: { intents: Intents.ALL } });
+//const client = new Client({ ws: { intents: GatewayIntentBits.ALL } });
+const client = new Client({
+    intents: [
+        GatewayIntentBits.Guilds,
+        GatewayIntentBits.GuildMessages,
+        GatewayIntentBits.MessageContent,
+        GatewayIntentBits.GuildMembers,
+        GatewayIntentBits.GuildEmojisAndStickers,
+        GatewayIntentBits.GuildMessageReactions,
+        GatewayIntentBits.GuildMessageTyping,
+        GatewayIntentBits.AutoModerationConfiguration,
+        GatewayIntentBits.AutoModerationExecution,
+        GatewayIntentBits.DirectMessageReactions,
+        GatewayIntentBits.DirectMessageTyping,
+        GatewayIntentBits.DirectMessages,
+        GatewayIntentBits.GuildModeration,
+        GatewayIntentBits.GuildPresences,
+        GatewayIntentBits.GuildScheduledEvents,
+        GatewayIntentBits.GuildVoiceStates,
+        GatewayIntentBits.GuildWebhooks,
+        GatewayIntentBits.GuildInvites,
+    ],
+});
 
 /**
  * The ready event is vital, it means that only _after_ this will your bot start reacting to information
@@ -30,9 +53,9 @@ var arrayOfRoles = { JustChatting: '!addRole:jc', ApexPlayers: '!addRole:apex', 
 
 
 // Create an event listener for messages
-client.on('message', message => {
+client.on("messageCreate", async message => {
 
-    lowerCaseMessage = message.content.toLowerCase();
+    lowerCaseMessage = message.cleanContent.toLowerCase();
 
     try {
         var channelBotCommands = message.member.guild.channels.cache.find(channel => channel.name === '🤖bot-commands');
@@ -44,26 +67,26 @@ client.on('message', message => {
 
     // If the origin of the message is the bot-commands channel or the message author is not our bot or the message author is an admin - do nothing
     if (lowerCaseMessage.startsWith('!')) {
-        if (message.channel.id == channelBotCommands || message.author == '561275886192820224' || message.member.hasPermission("ADMINISTRATOR")) {
+        if (message.channel.id == channelBotCommands || message.author == '561275886192820224' || message.member.permissions.has("ADMINISTRATOR")) {
             console.log('This one has massive powers!');
         } else { // Remind the user to use the correct channel
-            message.reply('please use our <#' + channelBotCommands + '> channel to keep this one tidy.');
+            message.reply({ content: 'please use our <#' + channelBotCommands + '> channel to keep this one tidy.' });
             return;
         }
     }
 
     if (lowerCaseMessage.startsWith('/')) {
-        if (message.channel.id == channelBotCommands || message.author == '561275886192820224' || message.member.hasPermission("ADMINISTRATOR")) {
+        if (message.channel.id == channelBotCommands || message.author == '561275886192820224' || message.member.permissions.has("ADMINISTRATOR")) {
             console.log('This one has massive powers!');
         } else { // Remind the user to use the correct channel
-            message.reply('please use our <#' + channelBotCommands + '> channel to keep this one tidy.');
+            message.reply({ content: 'please use our <#' + channelBotCommands + '> channel to keep this one tidy.' });
             return;
         }
     }
 
     // Returns a list of new members of the last two weeks
     if (lowerCaseMessage === '!newbies') {
-        if (message.member.hasPermission("ADMINISTRATOR")) {
+        if (message.member.permissions.has("ADMINISTRATOR")) {
             console.log('Admin looked for newbs!');
 
             var list = client.guilds.cache.get('554337259315265538');
@@ -76,14 +99,14 @@ client.on('message', message => {
                 try {
                     if (member.joinedAt.getTime() >= lastTwoWeeks) {
                         console.log(member.user.username);
-                        message.channel.send('New user/s: ' + member.user.username).catch((e) => { console.log(e); });
+                        message.channel.send({ content: 'New user/s: ' + member.user.username }).catch((e) => { console.log(e); });
                     }
                 } catch (error) {
                     console.log('getTime failed - in !newbies command!');
                 }
             });
         } else { // Remind the user to use the correct channel
-            message.reply('This command is for admins only - sorry :*');
+            message.reply({ content: 'This command is for admins only - sorry :*' });
             return;
         }
     }
@@ -91,19 +114,19 @@ client.on('message', message => {
     // If the message is "ping"
     if (lowerCaseMessage === '!ping') {
         // Send "pong" to the same channel
-        message.channel.send('Pong!').catch((e) => { console.log(e); });
+        message.channel.send({ content: 'Pong!' }).catch((e) => { console.log(e); });
         console.log('Ping from: ' + message.member.user.username);
     }
 
     if (lowerCaseMessage === '!cmds' || lowerCaseMessage === '!help') {
         var channelLink = message.member.guild.channels.cache.find(channel => channel.name === '🤖bot-commands');
         // Print all existing commands
-        message.reply('Hey you! \nI only understand certain commands. Here is a list of them: \n-> "**!roles**" - shows a list of all available roles \n-> "**!sounds**" - shows a list of all soundsnippets \nGo ahead and try it yourself under the channel <#' + channelLink + '>').catch((e) => { console.log(e); });
+        message.reply({ content: 'Hey you! \nI only understand certain commands. Here is a list of them: \n-> "**!roles**" - shows a list of all available roles \n-> "**!sounds**" - shows a list of all soundsnippets \nGo ahead and try it yourself under the channel <#' + channelLink + '>' }).catch((e) => { console.log(e); });
     }
 
     if (lowerCaseMessage === '!roles') {
         // Print all existing roles
-        message.channel.send('These are the available roles: \n **!addRole:jc** | JustChatting \n **!addRole:apex** | ApexPlayers \n **!addRole:valorant** | ValorantPlayers \n **!addRole:amongus** | AmongUsPlayers \n **!addRole:minecraft** | MinecraftPlayers \n **!addRole:cs** | CS:GOPlayers \n **!addRole:rl** | RocketLeague \n **!addRole:valheim** | Valheim \n\n*Of course you can remove a role yourself using the following pattern:* "**!rmRole:apex**"').catch((e) => { console.log(e); });
+        message.channel.send({ content: 'These are the available roles: \n **!addRole:jc** | JustChatting \n **!addRole:apex** | ApexPlayers \n **!addRole:valorant** | ValorantPlayers \n **!addRole:amongus** | AmongUsPlayers \n **!addRole:minecraft** | MinecraftPlayers \n **!addRole:cs** | CS:GOPlayers \n **!addRole:rl** | RocketLeague \n **!addRole:valheim** | Valheim \n\n*Of course you can remove a role yourself using the following pattern:* "**!rmRole:apex**"' }).catch((e) => { console.log(e); });
         //message.guild.roles.findAll
     }
 
@@ -124,21 +147,21 @@ client.on('message', message => {
                 if (role === null) {
                     console.log(message.member.user.username + ' tried to get a non existing role (' + roleName[1] + ') - atleast on this server');
                     var adminRoleLink = guild.roles.cache.find(channel => channel.name === 'Admin');
-                    message.reply('Hm...it seems that I know this role but this server does not... ' + adminRoleLink + '-Team haaalp!').catch((e) => { console.log(e); });
+                    message.reply({ content: 'Hm...it seems that I know this role but this server does not... ' + adminRoleLink + '-Team haaalp!' }).catch((e) => { console.log(e); });
                     return;
                 }
 
-                message.channel.send('You requested the role: ' + role.name + '...').catch((e) => { console.log(e); });
+                message.channel.send({ content: 'You requested the role: ' + role.name + '...' }).catch((e) => { console.log(e); });
                 var strpd_role = role.toString().replace(/\D/g, "");
 
                 // Check if member has role
                 if (message.member.roles.cache.has(strpd_role)) {
                     console.log(message.member.user.username + ' already has the role: ' + role.name);
-                    message.reply('NANI?!... you already have the role: ' + role.name).catch((e) => { console.log(e); });
+                    message.reply({ content: 'NANI?!... you already have the role: ' + role.name }).catch((e) => { console.log(e); });
                 } else {
                     message.member.roles.add(role);
                     console.log(message.member.user.username + ' added himself the role: ' + role.name);
-                    message.reply('Have fun with your new role! :)').catch((e) => { console.log(e); });
+                    message.reply({ content: 'Have fun with your new role! :)' }).catch((e) => { console.log(e); });
                 }
             }
         }
@@ -172,7 +195,7 @@ client.on('message', message => {
         }
         if (role === null) {
             console.log(message.member.user.username + ' tried to remove the role >' + roleName[1] + '< but failed somehow!');
-            message.reply('This server doesn\'t know this role...').catch((e) => { console.log(e); });
+            message.reply({ content: 'This server doesn\'t know this role...' }).catch((e) => { console.log(e); });
             return;
         }
         var strpd_role = role.toString().replace(/\D/g, "");
@@ -181,10 +204,10 @@ client.on('message', message => {
         if (message.member.roles.cache.has(strpd_role)) {
             message.member.roles.remove(role);
             console.log(message.member.user.username + ' removed himself the role: ' + role.name);
-            message.reply('I removed the role ' + role.name + ' from you.\n*...sad bot noises...*').catch((e) => { console.log(e); });
+            message.reply({ content: 'I removed the role ' + role.name + ' from you.\n*...sad bot noises...*' }).catch((e) => { console.log(e); });
         } else {
             console.log(message.member.user.username + ' tried to remove a role he doesn\'t own: ' + role.name);
-            message.reply('You can\'t remove a role you don\'t own!').catch((e) => { console.log(e); });
+            message.reply({ content: 'You can\'t remove a role you don\'t own!' }).catch((e) => { console.log(e); });
         }
     }
 
@@ -203,57 +226,92 @@ client.on('message', message => {
     // REMEMBER adding 1s of silence at the end of each file, because the bot is leaving the channel too early
     const soundsFolder = './SoundSnippets/';
     const fs = require('fs');
-    if (message.content.startsWith('/')) {
+    // Listen for messages
+    if (message.cleanContent.startsWith('/')) {
         // Voice only works in guilds
         if (!message.guild) return;
+
         try {
+            // Check if the user is in a voice channel
+            var vc = message.member.voice.channel;
+            if (!vc) {
+                message.reply('You need to be in a voice channel to use this command.');
+                return;
+            }
+
+            // Join the user's voice channel
+            const connection = joinVoiceChannel({
+                channelId: message.member.voice.channelId,
+                guildId: message.guild.id,
+                adapterCreator: message.guild.voiceAdapterCreator
+            });
+
+            // Listen for errors
+            connection.on('error', error => {
+                console.error(error);
+            });
+
             // Remove the / from the message and add the .mp3 ending
             var concatMsg = lowerCaseMessage.concat('.mp3').slice(1);
             var pathToFile = soundsFolder.concat(concatMsg);
-            var vc = message.member.voice.channel;
 
             // Iterate over snippets
-            fs.readdir(soundsFolder, (err, files) => {
-                files.forEach(file => {
-                    if (file === concatMsg) {
-                        // Only try to join the sender's voice channel if they are in one themselves
-                        if (vc) {
-                            vc.join().then(connection => {
-                                const dispatcher = connection.play(pathToFile, { volume: 0.5, });
-                                dispatcher.on('finish', () => {
-                                    vc.leave();
-                                    // console.log('Finished playing: ' + concatMsg);
-                                });
-                            });
-                        } else {
-                            message.reply('You need to join a voice channel first!');
-                        }
-                    }
-                });
-            });
+            const files = await fs.promises.readdir(soundsFolder);
+            for await (const file of files) {
+                if (file === concatMsg) {
+                    // Listen for the ready event
+                    connection.on('ready', () => {
+                        console.log(`Joined ${message.member.voice.channel.name} voice channel!`);
+
+                        // Create a new audio player
+                        const player = createAudioPlayer();
+                        // Create a new audio resource from the file
+                        const resource = createAudioResource(pathToFile);
+                        // Play the audio resource
+                        player.play(resource);
+                        // Subscribe the audio player to the connection
+                        connection.subscribe(player);
+
+                        // Listen for errors on the player
+                        player.on('error', error => {
+                            console.error(error);
+                        });
+
+                        player.on('stateChange', (oldState, newState) => {
+                            console.log(`State change: ${oldState.status} => ${newState.status}`);
+                            if (newState.status === 'idle') {
+                                console.log('Audio playback finished.');
+                                setTimeout(() => {
+                                    connection.destroy();
+                                }, 2000);
+                            }
+                        });
+                    });
+                }
+            }
         } catch (error) {
-            console.log('Unknown input for sound snippets: ' + message);
+            console.log('Unknown input for sound snippets: ' + message.cleanContent);
         }
     }
 
     // Display all available sound snippets
     if (lowerCaseMessage === '!sounds') {
-        message.reply('Try playing a snippet by typing "**/**_filename_" \nHere are the available sounds:\n').catch((e) => { console.log(e); });
+        message.reply({ content: 'Try playing a snippet by typing "**/**_filename_" \nHere are the available sounds:\n' }).catch((e) => { console.log(e); });
         var sounds = [];
         // Iterate over snippets
         fs.readdir(soundsFolder, (err, files) => {
             files.forEach(file => {
                 sounds.push('- ' + file.split(".", 1));
             });
-            message.channel.send(sounds).catch((e) => { console.log(e); });
-            message.channel.send('_May I suggest you to try_ **/click**').catch((e) => { console.log(e); });
+            message.channel.send({ embeds: [sounds] }).catch((e) => { console.log(e); });
+            message.channel.send({ content: '_May I suggest you to try_ **/click**' }).catch((e) => { console.log(e); });
         });
     }
 
     // Prepared message for role reactions
     // Check for privileges - only admins should be able to trigger this message
     if (lowerCaseMessage === '!react') {
-        if (message.member.hasPermission("ADMINISTRATOR")) {
+        if (message.member.permissions.has("ADMINISTRATOR")) {
             console.log('The force is strong in this one!');
 
             const emojiJC = message.guild.emojis.cache.find(emoji => emoji.name === 'justchatting');
@@ -270,7 +328,7 @@ client.on('message', message => {
             const emojiHunt = message.guild.emojis.cache.find(emoji => emoji.name === 'huntshowdown');
             const emojiDota = message.guild.emojis.cache.find(emoji => emoji.name === 'dota');
 
-            message.channel.send('**Um dir eine spiel spezifische Rolle hinzuzufügen, reagiere einfach mit dem entsprechenden Emoji.** \n**For adding yourself a game specific role, simply react with the corresponding emoji.** \n').then(initMessage => {
+            message.channel.send({ content: '**Um dir eine spiel spezifische Rolle hinzuzufügen, reagiere einfach mit dem entsprechenden Emoji.** \n**For adding yourself a game specific role, simply react with the corresponding emoji.** \n' }).then(initMessage => {
                 let id = initMessage.id;
                 // console.log(id);
                 initMessage.react(emojiJC);
@@ -435,11 +493,11 @@ client.on('guildMemberAdd', (member) => {
     var id = member.user.id;
 
     if (guild.systemChannel) {
-        /* guild.systemChannel.send(new Discord.RichEmbed() // Creating instance of Discord.RichEmbed
+        /* guild.systemChannel.send({ embeds: [new Discord.RichEmbed(] }) // Creating instance of Discord.RichEmbed
         .setTitle("A new user joined") // Calling method setTitle on constructor.
         .setDescription(memberTag + " has joined the guild") // Setting embed description
         .setThumbnail(member.user.displayAvatarURL) // The image on the top right; method requires an url, not a path to file!
-        .addField("Members now", member.guild.memberCount) // Adds a field; First parameter is the title and the second is the value.
+        .addFields("Members now", member.guild.memberCount) // Adds a field; First parameter is the title and the second is the value.
         .setTimestamp() // Sets a timestamp at the end of the embed
         ); */
         console.log('The user: ' + name + ' joined the Server');
@@ -449,8 +507,8 @@ client.on('guildMemberAdd', (member) => {
         const welcomeMessageGer = 'Hallo <@' + id + '>, schön dich kennenzulernen! \nDie Verwendung einer Rolle auf diesem Server ist **unumgänglich**. Du kannst dir selbst eine Rolle unter <#' + channelHow + '> aussuchen, indem du auf das jeweilige Emoji reagierst. \n**Nur mit der Rolle** sind die jeweiligen **Channels sichtbar**. \nBitte lies dir unsere Regeln durch und für weitere Informationen die **gepinnten Nachrichten** in jedem unserer Textchannels :) \n';
         //const welcomeMessageEng = 'Hello <@' + id + '>, nice to meet you! \nUsing a role on this server is **inevitable**, you can add it yourself in <#' + channelHow + '> by reacting on the specific emoji. Only with the role the specific Channels are visible. \nPlease read our rules and for additional information checkout the **pinned messages** in each of our text channels. :) \n';
 
-        guild.systemChannel.send(welcomeMessageGer + "\n").catch((e) => { console.log(e); });
-        // guild.systemChannel.send(welcomeMessageGer + "\n" + welcomeMessageEng).catch((e) => { console.log(e); });
+        guild.systemChannel.send({ content: welcomeMessageGer + "\n" }).catch((e) => { console.log(e); });
+        // guild.systemChannel.send({ content: welcomeMessageGer + "\n" + welcomeMessageEng).catch((e) => { console.log(e); } });
     }
 });
 
@@ -461,7 +519,7 @@ client.on('guildMemberRemove', (member) => {
     // var userTag = message.member.user.tag; currently not working
     const adminChat = member.guild.channels.cache.find(channel => channel.name === 'admin-chat');
     console.log('The user: ' + userName + ' with ID: ' + userID + ' left the Server');
-    adminChat.send('The user: ' + userName + ' with ID: ' + userID + ' left the Server');
+    adminChat.send({ content: 'The user: ' + userName + ' with ID: ' + userID + ' left the Server' });
 });
 
 // Log our bot in by using the token from https://discordapp.com/developers/applications/me
