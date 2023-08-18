@@ -297,15 +297,30 @@ client.on("messageCreate", async message => {
 
     // Display all available sound snippets
     if (lowerCaseMessage === '!sounds') {
-        message.reply({ content: 'Try playing a snippet by typing "**/**_filename_" \nHere are the available sounds:\n' }).catch((e) => { console.log(e); });
         var sounds = [];
         // Iterate over snippets
         fs.readdir(soundsFolder, (err, files) => {
+            if (err) {
+                console.error(err);
+                return;
+            }
+
             files.forEach(file => {
-                sounds.push('- ' + file.split(".", 1));
+                sounds.push('- ' + file.split(".")[0]); // Corrected this line to split properly
             });
-            message.channel.send({ embeds: [sounds] }).catch((e) => { console.log(e); });
-            message.channel.send({ content: '_May I suggest you to try_ **/click**' }).catch((e) => { console.log(e); });
+
+            const embed = {
+                title: 'Available Sounds',
+                description: 'Try playing a snippet by typing /**_filename_** \nHere are the available sounds:\n' + sounds.join('\n'),
+            };
+
+            message.reply({ embeds: [embed] })
+                .then(() => {
+                    message.channel.send('_May I suggest you to try_ /**click**');
+                })
+                .catch((e) => {
+                    console.error(e);
+                });
         });
     }
 
