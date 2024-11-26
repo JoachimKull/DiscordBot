@@ -15,7 +15,7 @@
         "discord.io": "^2.5.3",
         "discord.js": "^14.9.0",
         "ffmpeg-static": "^4.4.0",
-        "nodemon": "^2.0.22",
+        "nodemon": "^3.1.7",
         "opusscript": "0.0.7"
     }
 }
