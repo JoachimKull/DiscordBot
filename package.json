@@ -1,21 +1,31 @@
 {
-    "name": "legendbot",
-    "version": "2.0.0",
-    "description": "This Bot will will do various stuff on the DumpyFruit-Community discord server.",
-    "main": "main.js",
-    "author": "Joachim Kull",
-    "license": "MIT",
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/JoachimKull/DiscordBot"
-    },
-    "dependencies": {
-        "@discordjs/opus": "^0.8.0",
-        "@discordjs/voice": "^0.16.0",
-        "discord.io": "^2.5.3",
-        "discord.js": "^14.9.0",
-        "ffmpeg-static": "^4.4.0",
-        "nodemon": "^3.1.7",
-        "opusscript": "0.0.7"
-    }
+  "name": "legendbot",
+  "version": "2.0.0",
+  "description": "This Bot will will do various stuff on the DumpyFruit-Community discord server.",
+  "main": "main.js",
+  "author": "Joachim Kull",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/JoachimKull/DiscordBot"
+  },
+  "dependencies": {
+    "@discordjs/opus": "^0.10.0",
+    "@discordjs/voice": "^0.18.0",
+    "discord.js": "^14.21.0",
+    "ffmpeg-static": "^5.2.0",
+    "nodemon": "^3.1.10",
+    "opusscript": "^0.1.1"
+  },
+  "scripts": {
+    "start": "node main.js",
+    "lint": "eslint .",
+    "test": "npm run lint && jest"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.33.0",
+    "eslint": "^9.33.0",
+    "globals": "^16.3.0",
+    "jest": "^30.0.5"
+  }
 }
